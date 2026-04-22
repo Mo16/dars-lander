@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       await resend.emails.send({
         from: process.env.RESEND_FROM ?? "Dars <onboarding@resend.dev>",
         to: email,
-        subject: "You're on the Dars waitlist",
+        subject: "You're on the Dars waitlist ✨",
         html: buildConfirmationEmail(),
       });
     } catch (e) {
