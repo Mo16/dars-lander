@@ -160,10 +160,11 @@ export default function HomePage() {
           </a>
 
           <div className="hidden md:flex gap-9 items-center text-[15px] text-ink-soft font-medium">
+            <a href="#about" className="hover:text-ink transition-colors">About</a>
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
-            <a href="#how" className="hover:text-ink transition-colors">How it works</a>
-            <a href="#reviews" className="hover:text-ink transition-colors">Students</a>
-            <a href="#waitlist" className="hover:text-ink transition-colors">Waitlist</a>
+            <a href="#institutes" className="hover:text-ink transition-colors">Institutes</a>
+            <a href="#halaqas" className="hover:text-ink transition-colors">Halaqas</a>
+            <a href="#reviews" className="hover:text-ink transition-colors">Reviews</a>
           </div>
 
           <a
@@ -422,7 +423,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== SCREEN CAROUSEL ===== */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
+      <section id="about" className="relative py-20 md:py-28 overflow-hidden">
         {/* faded circle backdrop */}
         <div
           aria-hidden
@@ -584,7 +585,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
       </section>
 
       {/* ===== CLASSES & INSTITUTES (tab slider) ===== */}
-      <section id="how" className="bg-cream-200 py-20 md:py-28">
+      <section id="institutes" className="bg-cream-200 py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-2 bg-card border border-border px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wider text-coral-500 uppercase shadow-soft">
@@ -604,8 +605,8 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
           </div>
 
           {/* pill tabs */}
-          <div className="mt-10 flex justify-center">
-            <div className="inline-flex gap-1 p-1.5 rounded-full bg-card border border-border shadow-soft">
+          <div className="mt-10 px-4 sm:flex sm:justify-center sm:px-0">
+            <div className="flex w-full gap-0.5 p-1 rounded-full bg-card border border-border shadow-soft sm:inline-flex sm:w-auto sm:gap-1 sm:p-1.5">
               {ROLE_TABS.map((t) => {
                 const isActive = roleTab === t.id;
                 const isSoon = t.id !== "students";
@@ -614,15 +615,15 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                     key={t.id}
                     onClick={() => setRoleTab(t.id)}
                     type="button"
-                    className={`inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 rounded-full text-[14px] sm:text-[15px] font-medium transition-colors ${isActive
+                    className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-7 py-2 sm:py-2.5 rounded-full text-[13px] sm:text-[15px] font-medium transition-colors ${isActive
                         ? "bg-coral-500 text-white shadow-soft"
                         : "text-ink-soft hover:text-ink"
                       }`}
                   >
-                    {t.label}
+                    <span className="truncate">{t.label}</span>
                     {isSoon && (
                       <span
-                        className={`text-[9px] sm:text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded-full transition-colors ${isActive
+                        className={`text-[8px] sm:text-[10px] font-semibold tracking-wider uppercase px-1 sm:px-1.5 py-0.5 rounded-full transition-colors shrink-0 ${isActive
                             ? "bg-white/25 text-white"
                             : "bg-coral-100 text-coral-500"
                           }`}
@@ -715,7 +716,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
       </section>
 
       {/* ===== HALAQAS — group revision ===== */}
-      <section className="py-20 md:py-28">
+      <section id="halaqas" className="py-20 md:py-28">
         <div className=" mx-auto px-6">
           <div className="relative rounded-[24px] md:rounded-[32px] p-2.5 md:p-4">
             <div className="relative grid md:grid-cols-2 gap-2.5 md:gap-4 md:min-h-[620px]">
@@ -826,7 +827,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
       {/* ===== FINAL CTA ===== */}
       <section id="waitlist" className="pb-20 md:pb-28 px-4 sm:px-6">
         <div className=" mx-auto">
-          <div className="relative rounded-[28px] md:rounded-[36px] bg-gradient-to-br from-ink via-ink-soft to-ink text-cream-100 px-6 py-12 sm:px-10 sm:py-16 md:p-16 overflow-hidden">
+          <div className="relative rounded-[28px] md:rounded-[36px] bg-coral-500 text-white px-6 py-12 sm:px-10 sm:py-16 md:p-16 overflow-hidden">
             {/* concentric circle pattern behind phones */}
             <div
               aria-hidden
@@ -835,7 +836,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               {[320, 460, 600, 740, 820].map((size) => (
                 <div
                   key={size}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream-100/[0.06]"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.12]"
                   style={{ width: size, height: size }}
                 />
               ))}
@@ -847,7 +848,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               {[180, 260, 340, 380].map((size) => (
                 <div
                   key={size}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream-100/[0.06]"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.12]"
                   style={{ width: size, height: size }}
                 />
               ))}
@@ -859,7 +860,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               className="absolute -top-32 -right-32 w-[400px] h-[400px] pointer-events-none"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(236,97,68,0.28), transparent 60%)",
+                  "radial-gradient(circle, rgba(255,227,214,0.35), transparent 65%)",
               }}
             />
             <div
@@ -867,22 +868,22 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               className="absolute -bottom-32 -left-32 w-[320px] h-[320px] pointer-events-none"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(212,169,67,0.15), transparent 60%)",
+                  "radial-gradient(circle, rgba(26,24,20,0.18), transparent 65%)",
               }}
             />
 
             <div className="relative grid md:grid-cols-[1fr_1.05fr] gap-10 md:gap-8 items-center">
               <div>
-                <span className="text-[11px] sm:text-[12px] font-semibold tracking-wider text-coral-400 uppercase">
+                <span className="text-[11px] sm:text-[12px] font-semibold tracking-wider text-coral-100 uppercase">
                   ◆ Launching 2026
                 </span>
                 <h2 className="mt-3 font-display text-[34px] sm:text-[44px] md:text-[60px] leading-[1.02] tracking-tight text-balance">
                   Be first through{" "}
-                  <em className="italic text-coral-400 font-normal">
+                  <em className="italic text-coral-100 font-normal">
                     the door.
                   </em>
                 </h2>
-                <p className="mt-4 text-[14.5px] sm:text-[15px] text-cream-100/70 leading-relaxed max-w-[44ch]">
+                <p className="mt-4 text-[14.5px] sm:text-[15px] text-white/85 leading-relaxed max-w-[44ch]">
                   Early access, founder pricing for life, and a direct line to
                   shape the app. Join 2,400+ students already on the list.
                 </p>
@@ -891,7 +892,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                   <WaitlistForm variant="dark" />
                 </div>
 
-                <p className="mt-4 text-[12px] text-cream-100/50">
+                <p className="mt-4 text-[12px] text-white/65">
                   Free during beta · No spam, just launch updates.
                 </p>
               </div>
@@ -927,13 +928,13 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-wrap justify-between items-center gap-5">
             <a href="#" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center">
-                <span className="font-display italic text-[16px] leading-none">d</span>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
+                <span className="font-display italic text-[22px] leading-none">d</span>
               </div>
-              <span className="font-display text-[20px] leading-none">Dars</span>
+              <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
             </a>
 
-            <div className="flex gap-7 text-[13.5px] text-ink-muted">
+            <div className="flex gap-9 text-[15px] font-normal text-ink-soft">
               <a href="#features" className="hover:text-ink transition-colors">Features</a>
               <a href="#how" className="hover:text-ink transition-colors">How it works</a>
               <a href="#" className="hover:text-ink transition-colors">Privacy</a>

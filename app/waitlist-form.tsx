@@ -72,7 +72,7 @@ export default function WaitlistForm({ variant = "light" }: Props) {
   const btnTheme = success
     ? "bg-sage-500 text-white"
     : isDark
-      ? "bg-coral-500 hover:bg-coral-400 text-white"
+      ? "bg-ink hover:bg-ink-soft text-white"
       : "bg-coral-500 hover:bg-coral-600 text-white";
   const btnSize = success
     ? "flex-1 w-full px-4 sm:px-5"
