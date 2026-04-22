@@ -16,10 +16,9 @@ export function Phone({
 }) {
   return (
     <div
-      className={`relative w-[300px] aspect-[300/620] bg-[#0F0F10] rounded-[44px] p-3 ring-[1.5px] ring-[#2a2a2c] ${shadow ? "shadow-phone" : ""} ${className}`}
+      className={`relative w-[300px] aspect-[300/620] bg-[#0F0F10] rounded-[44px] p-3   ${shadow ? "shadow-phone" : ""} ${className}`}
     >
       {/* notch */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[110px] h-[30px] bg-[#0F0F10] rounded-[20px] z-20" />
       <div className="w-full h-full bg-cream-100 rounded-[34px] overflow-hidden relative flex flex-col">
         {!bare && <StatusBar />}
         {children}

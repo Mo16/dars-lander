@@ -49,31 +49,35 @@ export default function WaitlistForm({ variant = "light" }: Props) {
   const isDark = variant === "dark";
 
   const wrapBase =
-    "relative flex gap-1.5 p-1.5 rounded-full max-w-md w-full transition-all duration-500 ease-out";
+    "relative flex p-1.5 rounded-full max-w-md w-full transition-all duration-500 ease-out";
   const wrapLight = "bg-card border border-border shadow-card mx-auto";
   const wrapDark = "bg-white/10 border border-white/15 backdrop-blur-sm";
-  const wrapCls = `${wrapBase} ${isDark ? wrapDark : wrapLight} ${
+  const wrapGap = success ? "gap-0" : "gap-1.5";
+  const wrapCls = `${wrapBase} ${wrapGap} ${isDark ? wrapDark : wrapLight} ${
     success ? "ring-2 ring-sage-500/40" : ""
   } ${errored ? "animate-shake" : ""}`;
 
   const inputBase =
-    "flex-1 min-w-0 bg-transparent px-3 sm:px-4 py-2.5 sm:py-3 text-[14px] sm:text-[15px] focus:outline-none transition-all duration-500 ease-out";
+    "min-w-0 bg-transparent py-2.5 sm:py-3 text-[14px] sm:text-[15px] focus:outline-none transition-all duration-500 ease-out";
   const inputTheme = isDark
     ? "text-white placeholder:text-white/50"
     : "text-ink placeholder:text-ink-subtle";
-  const inputSuccess = success
-    ? "opacity-0 -translate-x-2 pointer-events-none select-none"
-    : "opacity-100 translate-x-0";
-  const inputCls = `${inputBase} ${inputTheme} ${inputSuccess}`;
+  const inputSize = success
+    ? "flex-none w-0 px-0 opacity-0 pointer-events-none select-none"
+    : "flex-1 px-3 sm:px-4 opacity-100";
+  const inputCls = `${inputBase} ${inputTheme} ${inputSize}`;
 
   const btnBase =
-    "relative overflow-hidden px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-[13px] sm:text-sm font-medium whitespace-nowrap shrink-0 inline-flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-500 ease-out disabled:cursor-not-allowed";
+    "relative overflow-hidden py-2.5 sm:py-3 rounded-full text-[13px] sm:text-sm font-medium whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-500 ease-out disabled:cursor-not-allowed";
   const btnTheme = success
     ? "bg-sage-500 text-white"
     : isDark
       ? "bg-coral-500 hover:bg-coral-400 text-white"
       : "bg-coral-500 hover:bg-coral-600 text-white";
-  const btnCls = `${btnBase} ${btnTheme} ${submitting ? "opacity-90" : ""}`;
+  const btnSize = success
+    ? "flex-1 w-full px-4 sm:px-5"
+    : "shrink-0 px-4 sm:px-5";
+  const btnCls = `${btnBase} ${btnTheme} ${btnSize} ${submitting ? "opacity-90" : ""}`;
 
   return (
     <form onSubmit={onSubmit} className={wrapCls} noValidate aria-live="polite">

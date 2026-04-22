@@ -149,17 +149,17 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-cream-100 text-ink overflow-x-clip">
-      {/* ===== NAV ===== */}
-      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-cream-100/75 border-b border-border/50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
-              <span className="font-display italic text-[20px] leading-none">d</span>
+      {/* ===== NAV (floating pill) ===== */}
+      <nav className="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+        <div className="pointer-events-auto w-full max-w-5xl bg-card/90 backdrop-blur-xl border border-border rounded-full shadow-card pl-5 pr-3 py-3 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-2.5 shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
+              <span className="font-display italic text-[22px] leading-none">d</span>
             </div>
-            <span className="font-display text-[24px] leading-none">Dars</span>
+            <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
           </a>
 
-          <div className="hidden md:flex gap-8 items-center text-[14px] text-ink-soft">
+          <div className="hidden md:flex gap-9 items-center text-[15px] text-ink-soft font-medium">
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
             <a href="#how" className="hover:text-ink transition-colors">How it works</a>
             <a href="#reviews" className="hover:text-ink transition-colors">Students</a>
@@ -168,16 +168,16 @@ export default function HomePage() {
 
           <a
             href="#waitlist"
-            className="bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[13px] font-medium inline-flex items-center gap-2 hover:bg-ink-soft transition-colors"
+            className="bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[14px] font-medium inline-flex items-center gap-2 hover:bg-ink-soft transition-colors shrink-0 shadow-soft"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_8px_theme(colors.coral.400)]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
             Join waitlist
           </a>
         </div>
       </nav>
 
       {/* ===== HERO ===== */}
-      <section className="relative pt-16 md:pt-20 pb-10 text-center">
+      <section className="relative pt-36 md:pt-44 pb-10 text-center">
         {/* ambient gradient */}
         <div
           aria-hidden
@@ -204,7 +204,7 @@ export default function HomePage() {
 
           <p className="mt-6 text-[16px] md:text-lg text-ink-soft max-w-[54ch] mx-auto leading-relaxed text-pretty">
             Re-read your books. Drill flashcards. Compete with your halaqah. Sit
-            mock exams. One app, mapped to your exact syllabus — from Ajrumiyyah
+            mock exams. One app, mapped to your exact syllabus, from Nahw
             to Bukhari.
           </p>
 
@@ -436,7 +436,7 @@ export default function HomePage() {
         <div className="relative  mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
             <span className="text-[11px] font-semibold tracking-wider text-coral-500 uppercase">
-              ◆ Every screen
+              ◆ For the serious student
             </span>
             <h2 className="mt-3 font-display text-[36px] md:text-[56px] leading-[1.02] tracking-tight text-balance">
               Everything you need {" "}
@@ -548,14 +548,14 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
             <div className="grid md:grid-cols-3 gap-4">
               <BentoCard
                 bg="bg-cream-200"
-                title="Every chapter, pre-distilled"
-                desc="Keypoints, notes and bite-sized summaries written for every chapter of every kitab. Revise smart — not by re-reading the whole book."
+                title="Every chapter, ready to revise"
+                desc="Keypoints, notes and bite-sized summaries written for every chapter of every kitab. Revise smart, not by re-reading the whole book."
                 visual={<ReadingPreview />}
               />
               <BentoCard
                 bg="bg-sage-100"
                 title="Revise with flashcards"
-                desc="Drill every hadith, mas'ala and naḥw rule as flashcards — auto-generated from the chapters you've studied, ready to revise in 10 minutes a day."
+                desc="Drill every hadith, mas'ala and naḥw rule as flashcards, auto-generated from the chapters you've studied, ready to revise in 10 minutes a day."
                 visual={<FlashcardsPreview />}
               />
               <BentoCard
@@ -569,13 +569,13 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               <BentoCard
                 bg="bg-cream-300"
                 title="Revise with your classmates"
-                desc="Join your class inside the app. Quiz each other, revise together, and keep track of who's ahead — the whole halaqah pulling each other through the syllabus."
+                desc="Join your class inside the app. Quiz each other, revise together, and keep track of who's ahead, the whole halaqah pulling each other through the syllabus."
                 visual={<HalaqahPreview />}
               />
               <BentoCard
                 bg="bg-coral-100"
                 title="Build your own mocks"
-                desc="Make your own exams and quizzes from any chapter or book — then share them with your halaqah to revise together."
+                desc="Make your own exams and quizzes from any chapter or book, then share them with your halaqah to revise together."
                 visual={<MockExamPreview />}
               />
             </div>
@@ -597,7 +597,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               </em>
             </h2>
             <p className="mt-5 text-lg text-ink-soft leading-relaxed max-w-[58ch] mx-auto">
-              Dars isn&apos;t just for students anymore. Teachers run their own
+              Dars isn&apos;t just for students. Teachers run their own
               halaqah inside the app, and whole institutes bring every class,
               teacher and student under one roof.
             </p>
@@ -606,19 +606,33 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
           {/* pill tabs */}
           <div className="mt-10 flex justify-center">
             <div className="inline-flex gap-1 p-1.5 rounded-full bg-card border border-border shadow-soft">
-              {ROLE_TABS.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setRoleTab(t.id)}
-                  type="button"
-                  className={`px-7 sm:px-10 py-2.5 rounded-full text-[14px] sm:text-[15px] font-medium transition-colors ${roleTab === t.id
-                      ? "bg-coral-500 text-white shadow-soft"
-                      : "text-ink-soft hover:text-ink"
-                    }`}
-                >
-                  {t.label}
-                </button>
-              ))}
+              {ROLE_TABS.map((t) => {
+                const isActive = roleTab === t.id;
+                const isSoon = t.id !== "students";
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setRoleTab(t.id)}
+                    type="button"
+                    className={`inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 rounded-full text-[14px] sm:text-[15px] font-medium transition-colors ${isActive
+                        ? "bg-coral-500 text-white shadow-soft"
+                        : "text-ink-soft hover:text-ink"
+                      }`}
+                  >
+                    {t.label}
+                    {isSoon && (
+                      <span
+                        className={`text-[9px] sm:text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded-full transition-colors ${isActive
+                            ? "bg-white/25 text-white"
+                            : "bg-coral-100 text-coral-500"
+                          }`}
+                      >
+                        Soon
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -632,9 +646,17 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                   <div
                     className={`relative z-10 p-5 sm:p-8 md:p-10 rounded-[18px] md:rounded-[26px] flex flex-col justify-between gap-5 md:gap-10 order-2 md:order-1 transition-colors duration-300 ${active.bg}`}
                   >
-                    <span className="inline-flex w-fit items-center gap-2 bg-card/70 backdrop-blur-sm border border-border/70 px-3 py-1.5 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider text-coral-500 uppercase shadow-soft">
-                      ◆ {active.eyebrow}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex w-fit items-center gap-2 bg-card/70 backdrop-blur-sm border border-border/70 px-3 py-1.5 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider text-coral-500 uppercase shadow-soft">
+                        ◆ {active.eyebrow}
+                      </span>
+                      {active.id !== "students" && (
+                        <span className="inline-flex items-center gap-1.5 bg-ink/90 text-white px-3 py-1.5 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider uppercase shadow-soft">
+                          <span className="w-1.5 h-1.5 rounded-full bg-coral-400 animate-pulse" />
+                          Coming soon
+                        </span>
+                      )}
+                    </div>
                     <div>
                       <p className="text-ink font-display text-[18px] sm:text-[24px] md:text-[28px] leading-[1.25] text-pretty max-w-[28ch]">
                         {active.caption}
@@ -920,7 +942,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
 
             <div className="flex gap-2">
               <a
-                href="#"
+                href="https://instagram.com/dars.app"
                 aria-label="Instagram"
                 className="w-9 h-9 rounded-full bg-ink text-cream-100 grid place-items-center hover:bg-ink-soft transition-colors"
               >
@@ -930,18 +952,18 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                 </svg>
               </a>
               <a
-                href="#"
-                aria-label="X"
+                href="https://tiktok.com/@dars.app"
+                aria-label="TikTok"
                 className="w-9 h-9 rounded-full bg-ink text-cream-100 grid place-items-center hover:bg-ink-soft transition-colors"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z" />
                 </svg>
               </a>
             </div>
           </div>
           <div className="mt-5 text-[11.5px] text-ink-muted">
-            © 2026 Dars. All rights reserved. Built with ihsan for Alimiyyah students.
+            © 2026 Dars. All rights reserved. Built with ihsan for Alimiyyah students. Made by <a href="https://aurelo.uk" className="underline hover:text-ink transition-colors">Aurelo Web Studio</a>.
           </div>
         </div>
       </footer>
