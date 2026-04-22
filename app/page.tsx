@@ -825,7 +825,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
 
       {/* ===== FINAL CTA ===== */}
       <section id="waitlist" className="pb-20 md:pb-28 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           <div className="relative rounded-[28px] md:rounded-[36px] bg-gradient-to-br from-ink via-ink-soft to-ink text-cream-100 px-6 py-12 sm:px-10 sm:py-16 md:p-16 overflow-hidden">
             {/* concentric circle pattern behind phones */}
             <div
