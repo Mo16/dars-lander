@@ -1,60 +1,76 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { buildConfirmationEmail } from "./waitlist-email";
 
 type Props = {
   variant?: "light" | "dark";
 };
 
-type FormValues = {
-  email: string;
-  botcheck?: boolean;
-};
-
+// Per web3forms docs: JS fetch MUST use Content-Type: application/json and
+// MUST NOT include a `redirect` field (the 301 response breaks CORS).
+// https://docs.web3forms.com/how-to-guides/cors-error
 export default function WaitlistForm({ variant = "light" }: Props) {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { isSubmitting, errors },
-  } = useForm<FormValues>();
+  const [email, setEmail] = useState("");
+  const [botcheck, setBotcheck] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errored, setErrored] = useState(false);
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (submitting || success) return;
+
     setErrored(false);
+
+    if (process.env.NEXT_PUBLIC_WAITLIST_MOCK === "1") {
+      setSubmitting(true);
+      await new Promise((r) => setTimeout(r, 1200));
+      setSubmitting(false);
+      setSuccess(true);
+      setEmail("");
+      return;
+    }
+
     const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
     if (!accessKey) {
       setErrored(true);
       return;
     }
 
-    // Use FormData to avoid CORS preflight (Content-Type: application/json
-    // triggers preflight, which web3forms rejects in some configurations).
-    const body = new FormData();
-    body.append("access_key", accessKey);
-    body.append("from_name", "Dars Landing");
-    body.append("subject", "New Dars waitlist signup");
-    body.append("email", values.email);
-    if (values.botcheck) body.append("botcheck", String(values.botcheck));
-
+    setSubmitting(true);
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          from_name: "Dars Landing",
+          subject: "New Dars waitlist signup",
+          email,
+          botcheck,
+          autoresponse: {
+            from_name: "Dars",
+            subject: "You're on the Dars waitlist",
+            message: buildConfirmationEmail(),
+          },
+        }),
       });
       const data = await res.json();
       if (!data?.success) throw new Error(data?.message ?? "Failed");
       setSuccess(true);
-      reset();
+      setEmail("");
     } catch {
       setErrored(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const isDark = variant === "dark";
-  const hasEmailError = !!errors.email;
 
   const wrapBase =
     "relative flex gap-1.5 p-1.5 rounded-full max-w-md w-full transition-all duration-500 ease-out";
@@ -62,7 +78,7 @@ export default function WaitlistForm({ variant = "light" }: Props) {
   const wrapDark = "bg-white/10 border border-white/15 backdrop-blur-sm";
   const wrapCls = `${wrapBase} ${isDark ? wrapDark : wrapLight} ${
     success ? "ring-2 ring-sage-500/40" : ""
-  } ${errored || hasEmailError ? "animate-shake" : ""}`;
+  } ${errored ? "animate-shake" : ""}`;
 
   const inputBase =
     "flex-1 min-w-0 bg-transparent px-3 sm:px-4 py-2.5 sm:py-3 text-[14px] sm:text-[15px] focus:outline-none transition-all duration-500 ease-out";
@@ -81,60 +97,58 @@ export default function WaitlistForm({ variant = "light" }: Props) {
     : isDark
       ? "bg-coral-500 hover:bg-coral-400 text-white"
       : "bg-coral-500 hover:bg-coral-600 text-white";
-  const btnCls = `${btnBase} ${btnTheme} ${
-    isSubmitting ? "opacity-90" : ""
-  }`;
+  const btnCls = `${btnBase} ${btnTheme} ${submitting ? "opacity-90" : ""}`;
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={wrapCls}
-      noValidate
-      aria-live="polite"
-    >
-      {/* honeypot for bot protection */}
+    <form onSubmit={onSubmit} className={wrapCls} noValidate aria-live="polite">
+      {/* honeypot */}
       <input
         type="checkbox"
+        name="botcheck"
         className="hidden"
         style={{ display: "none" }}
         tabIndex={-1}
         autoComplete="off"
-        {...register("botcheck")}
+        checked={botcheck}
+        onChange={(e) => setBotcheck(e.target.checked)}
       />
 
       <input
-        type="text"
-        inputMode="email"
+        type="email"
+        name="email"
         placeholder="your@email.com"
-        disabled={isSubmitting || success}
+        required
+        disabled={submitting || success}
         autoComplete="off"
         data-1p-ignore="true"
         data-lpignore="true"
         data-bwignore="true"
         data-form-type="other"
-        aria-invalid={hasEmailError || errored ? "true" : "false"}
+        aria-invalid={errored ? "true" : "false"}
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          if (errored) setErrored(false);
+        }}
         className={inputCls}
-        {...register("email", {
-          required: true,
-          pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-          onChange: () => {
-            if (errored) setErrored(false);
-          },
-        })}
       />
 
       <button
         type="submit"
-        disabled={isSubmitting || success}
+        disabled={submitting || success}
         className={btnCls}
         aria-label={
-          success ? "Signed up successfully" : isSubmitting ? "Submitting" : "Join waitlist"
+          success
+            ? "Signed up successfully"
+            : submitting
+              ? "Submitting"
+              : "Join waitlist"
         }
       >
-        {/* Idle state */}
+        {/* Idle */}
         <span
           className={`inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
-            !isSubmitting && !success
+            !submitting && !success
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-3 absolute pointer-events-none"
           }`}
@@ -148,16 +162,15 @@ export default function WaitlistForm({ variant = "light" }: Props) {
             stroke="currentColor"
             strokeWidth="2.5"
             strokeLinecap="round"
-            className="transition-transform duration-300 group-hover:translate-x-0.5"
           >
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
         </span>
 
-        {/* Loading state */}
+        {/* Loading */}
         <span
           className={`inline-flex items-center gap-2 transition-all duration-300 ${
-            isSubmitting && !success
+            submitting && !success
               ? "opacity-100 scale-100"
               : "opacity-0 scale-75 absolute pointer-events-none"
           }`}
@@ -188,7 +201,7 @@ export default function WaitlistForm({ variant = "light" }: Props) {
           <span className="tracking-wide">Joining…</span>
         </span>
 
-        {/* Success state */}
+        {/* Success */}
         <span
           className={`inline-flex items-center gap-1.5 sm:gap-2 ${
             success
@@ -226,3 +239,4 @@ export default function WaitlistForm({ variant = "light" }: Props) {
     </form>
   );
 }
+

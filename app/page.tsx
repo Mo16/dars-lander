@@ -804,77 +804,94 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
       {/* ===== FINAL CTA ===== */}
       <section id="waitlist" className="pb-20 md:pb-28 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="relative rounded-[28px] md:rounded-[36px] bg-coral-100 text-ink px-6 pt-12 pb-0 sm:px-10 sm:pt-16 md:pl-16 md:pt-20 md:pr-10 md:pb-0 overflow-hidden">
+          <div className="relative rounded-[28px] md:rounded-[36px] bg-gradient-to-br from-ink via-ink-soft to-ink text-cream-100 px-6 py-12 sm:px-10 sm:py-16 md:p-16 overflow-hidden">
             {/* concentric circle pattern behind phones */}
             <div
               aria-hidden
-              className="absolute right-[-120px] md:right-[-60px] bottom-[-120px] w-[620px] h-[620px] md:w-[820px] md:h-[820px] pointer-events-none"
+              className="absolute right-[-180px] top-1/2 -translate-y-1/2 w-[820px] h-[820px] pointer-events-none hidden md:block"
             >
               {[320, 460, 600, 740, 820].map((size) => (
                 <div
                   key={size}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-coral-500/[0.14]"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream-100/[0.06]"
+                  style={{ width: size, height: size }}
+                />
+              ))}
+            </div>
+            <div
+              aria-hidden
+              className="absolute right-[-40%] top-1/2 -translate-y-1/2 w-[380px] h-[380px] pointer-events-none md:hidden"
+            >
+              {[180, 260, 340, 380].map((size) => (
+                <div
+                  key={size}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream-100/[0.06]"
                   style={{ width: size, height: size }}
                 />
               ))}
             </div>
 
-            {/* soft ambient wash */}
+            {/* ambient glow */}
             <div
               aria-hidden
-              className="absolute -top-40 -left-40 w-[480px] h-[480px] pointer-events-none"
+              className="absolute -top-32 -right-32 w-[400px] h-[400px] pointer-events-none"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,255,255,0.55), transparent 60%)",
+                  "radial-gradient(circle, rgba(236,97,68,0.28), transparent 60%)",
+              }}
+            />
+            <div
+              aria-hidden
+              className="absolute -bottom-32 -left-32 w-[320px] h-[320px] pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(212,169,67,0.15), transparent 60%)",
               }}
             />
 
-            <div className="relative grid md:grid-cols-[1fr_1.1fr] gap-10 md:gap-6 items-end">
-              {/* LEFT: copy + form */}
-              <div className="pb-12 md:pb-20">
-                <span className="text-[11px] sm:text-[12px] font-semibold tracking-wider text-coral-500 uppercase">
+            <div className="relative grid md:grid-cols-[1fr_1.05fr] gap-10 md:gap-8 items-center">
+              <div>
+                <span className="text-[11px] sm:text-[12px] font-semibold tracking-wider text-coral-400 uppercase">
                   ◆ Launching 2026
                 </span>
-                <h2 className="mt-3 font-display text-[34px] sm:text-[44px] md:text-[60px] leading-[1.02] tracking-tight text-balance text-ink">
+                <h2 className="mt-3 font-display text-[34px] sm:text-[44px] md:text-[60px] leading-[1.02] tracking-tight text-balance">
                   Be first through{" "}
-                  <em className="italic text-coral-500 font-normal">
+                  <em className="italic text-coral-400 font-normal">
                     the door.
                   </em>
                 </h2>
-                <p className="mt-4 text-[14.5px] sm:text-[15px] text-ink-soft leading-relaxed max-w-[44ch]">
+                <p className="mt-4 text-[14.5px] sm:text-[15px] text-cream-100/70 leading-relaxed max-w-[44ch]">
                   Early access, founder pricing for life, and a direct line to
                   shape the app. Join 2,400+ students already on the list.
                 </p>
 
                 <div className="mt-7">
-                  <WaitlistForm variant="light" />
+                  <WaitlistForm variant="dark" />
                 </div>
 
-                <p className="mt-4 text-[12px] text-ink-muted">
+                <p className="mt-4 text-[12px] text-cream-100/50">
                   Free during beta · No spam, just launch updates.
                 </p>
               </div>
 
-              {/* RIGHT: two tilted phones, bottoms cut off by the card edge */}
-              <div className="relative h-[320px] sm:h-[420px] md:h-[560px]">
-                <div className="absolute inset-x-0 bottom-[-60px] sm:bottom-[-90px] md:bottom-[-120px] flex items-end justify-center md:justify-end">
-                  <div className="relative scale-[0.58] sm:scale-[0.75] md:scale-[0.95] origin-bottom">
-                    {/* Back phone (tilted further left, peeking behind) */}
-                    <div className="absolute right-[130px] bottom-[-40px] rotate-[-10deg]">
-                      <Phone shadow bare>
-                        <img
-                          src="/assets/img/flashcard.png"
-                          alt=""
-                          className="w-full h-full object-cover object-top"
-                        />
-                      </Phone>
-                    </div>
-                    {/* Front phone */}
-                    <div className="relative rotate-[6deg] translate-y-6">
-                      <Phone shadow>
-                        <SocialScreen />
-                      </Phone>
-                    </div>
+              {/* Two tilted phones */}
+              <div className="relative h-[360px] sm:h-[440px] md:h-[540px] flex items-center justify-center md:justify-end">
+                <div className="relative scale-[0.55] sm:scale-[0.7] md:scale-[0.85] origin-center">
+                  {/* Back phone (tilted further) */}
+                  <div className="absolute -left-[180px] top-10 rotate-[-10deg] opacity-90">
+                    <Phone shadow bare>
+                      <img
+                        src="/assets/img/flashcard.png"
+                        alt=""
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </Phone>
+                  </div>
+                  {/* Front phone */}
+                  <div className="relative rotate-[6deg]">
+                    <Phone shadow>
+                      <SocialScreen />
+                    </Phone>
                   </div>
                 </div>
               </div>
