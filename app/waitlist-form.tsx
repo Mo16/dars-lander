@@ -1,15 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { buildConfirmationEmail } from "./waitlist-email";
 
 type Props = {
   variant?: "light" | "dark";
 };
 
-// Per web3forms docs: JS fetch MUST use Content-Type: application/json and
-// MUST NOT include a `redirect` field (the 301 response breaks CORS).
-// https://docs.web3forms.com/how-to-guides/cors-error
 export default function WaitlistForm({ variant = "light" }: Props) {
   const [email, setEmail] = useState("");
   const [botcheck, setBotcheck] = useState(false);
@@ -32,35 +28,15 @@ export default function WaitlistForm({ variant = "light" }: Props) {
       return;
     }
 
-    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-    if (!accessKey) {
-      setErrored(true);
-      return;
-    }
-
     setSubmitting(true);
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/waitlist", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: accessKey,
-          from_name: "Dars Landing",
-          subject: "New Dars waitlist signup",
-          email,
-          botcheck,
-          autoresponse: {
-            from_name: "Dars",
-            subject: "You're on the Dars waitlist",
-            message: buildConfirmationEmail(),
-          },
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, botcheck }),
       });
-      const data = await res.json();
-      if (!data?.success) throw new Error(data?.message ?? "Failed");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok) throw new Error(data?.error ?? "Failed");
       setSuccess(true);
       setEmail("");
     } catch {
