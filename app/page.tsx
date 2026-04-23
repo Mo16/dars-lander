@@ -148,13 +148,13 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-cream-100 text-ink overflow-x-clip">
+    <main className="min-h-screen bg-[#fffcf6] text-ink overflow-x-clip">
       {/* ===== NAV (floating pill) ===== */}
       <nav className="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
         <div className="pointer-events-auto w-full max-w-5xl bg-card/90 backdrop-blur-xl border border-border rounded-full shadow-card pl-5 pr-3 py-3 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2.5 shrink-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
-              <span className="font-display italic text-[22px] leading-none">d</span>
+              <span className="font-display font-bold  text-[32px] leading-none">د</span>
             </div>
             <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
           </a>
@@ -195,7 +195,7 @@ export default function HomePage() {
             Join the waitlist
           </span>
 
-          <h1 className="font-display font-light text-[40px] md:text-[72px] lg:text-[84px] leading-[1.02] tracking-tight mt-5 text-balance">
+          <h1 className="font-display font-light text-[51px] md:text-[72px] lg:text-[84px] leading-[1.02] tracking-tight mt-5 text-balance">
             The revision app for{" "}
             <br />
             <em className="text-coral-500 font-light italic ">
@@ -203,7 +203,7 @@ export default function HomePage() {
             </em>
           </h1>
 
-          <p className="mt-6 text-[16px] md:text-lg text-ink-soft max-w-[54ch] mx-auto leading-relaxed text-pretty">
+          <p className="mt-6 text-md md:text-lg text-ink-soft max-w-[54ch] mx-auto leading-relaxed text-pretty">
             Re-read your books. Drill flashcards. Compete with your halaqah. Sit
             mock exams. One app, mapped to your exact syllabus, from Nahw
             to Bukhari.
@@ -929,7 +929,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
           <div className="flex flex-wrap justify-between items-center gap-5">
             <a href="#" className="flex items-center gap-2.5">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
-                <span className="font-display italic text-[22px] leading-none">d</span>
+                <span className="font-display font-bold text-[32px] leading-none">د</span>
               </div>
               <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
             </a>

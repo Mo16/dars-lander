@@ -12,7 +12,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Dars — The revision app for Alimiyyah students",
+  title: "The first revision app for Alimiyyah students | Dars",
   description:
     "Re-read your books. Drill flashcards. Compete with your halaqah. Sit mock exams. One app, mapped to your exact syllabus.",
   metadataBase: new URL("https://dars.app"),
