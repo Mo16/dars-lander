@@ -93,7 +93,7 @@ export function buildConfirmationEmail() {
         <!-- brand -->
         <tr>
           <td style="padding: 0 4px 28px;">
-            <span class="dm-bg-coral dm-text-white" style="display:inline-block; width:30px; height:30px; background:${coral}; border-radius:8px; vertical-align:middle; text-align:center; line-height:30px; color:#ffffff; font-family:${serif}; font-style:italic; font-size:18px; font-weight:400;">d</span>
+            <img src="https://dars.app/assets/img/logo.png" width="30" height="30" alt="Dars" style="display:inline-block; width:30px; height:30px; border-radius:8px; vertical-align:middle; border:0; outline:none; text-decoration:none;" />
             <span class="dm-text-ink" style="vertical-align:middle; margin-left:10px; font-family:${sans}; font-size:18px; font-weight:600; letter-spacing:-0.01em; color:${ink};">Dars</span>
           </td>
         </tr>

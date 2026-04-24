@@ -153,9 +153,13 @@ export default function HomePage() {
       <nav className="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
         <div className="pointer-events-auto w-full max-w-5xl bg-card/90 backdrop-blur-xl border border-border rounded-full shadow-card pl-5 pr-3 py-3 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
-              <span className="font-display font-bold  text-[32px] leading-none">د</span>
-            </div>
+            <img
+              src="/assets/img/logo.png"
+              alt="Dars logo"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-xl shadow-soft object-cover"
+            />
             <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
           </a>
 
@@ -261,7 +265,7 @@ export default function HomePage() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20">
                   <Phone shadow={false} bare>
                     <img
-                      src="/assets/img/halaqas.png"
+                      src="/assets/img/dash mockup.png"
                       alt="Dars app dashboard"
                       className="w-full h-full object-cover object-top"
                     />
@@ -278,7 +282,7 @@ export default function HomePage() {
                 >
                   <Phone bare shadow={false}>
                     <img
-                      src="/assets/img/flashcard.png"
+                      src="/assets/img/quiz.png"
                       alt=""
                       className="w-full h-full object-cover object-top"
                     />
@@ -295,7 +299,7 @@ export default function HomePage() {
                 >
                   <Phone bare shadow={false}>
                     <img
-                      src="/assets/img/revise.png"
+                      src="/assets/img/ai.png"
                       alt=""
                       className="w-full h-full object-cover object-top"
                     />
@@ -459,7 +463,7 @@ export default function HomePage() {
               <div className="relative z-20">
                 <Phone shadow={false} bare>
                   <img
-                    src="/assets/img/halaqas.png"
+                    src="/assets/img/flashcard.png"
                     alt=""
                     className="w-full h-full object-cover object-top"
                   />
@@ -473,7 +477,7 @@ export default function HomePage() {
               >
                 <Screen bare>
                   <img
-                    src="/assets/img/marketplace.png"
+                    src="/assets/img/ai.png"
                     alt=""
                     className="w-full h-full object-cover object-top"
                   />
@@ -487,7 +491,7 @@ export default function HomePage() {
               >
                 <Screen bare>
                   <img
-                    src="/assets/img/flashcard.png"
+                    src="/assets/img/book revise page.png"
                     alt=""
                     className="w-full h-full object-cover object-top"
                   />
@@ -575,9 +579,9 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               />
               <BentoCard
                 bg="bg-coral-100"
-                title="Build your own mocks"
-                desc="Make your own exams and quizzes from any chapter or book, then share them with your halaqah to revise together."
-                visual={<MockExamPreview />}
+                title="Ask Abdullah, your AI ustadh"
+                desc="Stuck on a masʾalah? Abdullah answers your fiqh and usul questions, quotes the daleel, and drops you straight to the exact chapter to revise."
+                visual={<AbdullahAskPreview />}
               />
             </div>
           </div>
@@ -663,11 +667,11 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                         {active.caption}
                       </p>
                       <div className="mt-4 md:mt-7 flex items-end gap-3 sm:gap-4 flex-wrap">
-                        <div className="font-display text-[36px] sm:text-[52px] md:text-[64px] leading-none text-ink">
+                        <div className="font-display text-[32px] sm:text-[44px] md:text-[52px] leading-[1.05] text-ink">
                           {active.stat}
                         </div>
-                        <div className="font-display text-coral-500 text-[14px] sm:text-[15.5px] leading-snug pb-1.5 max-w-[18ch]">
-                          <em>{active.statLabel}</em>
+                        <div className="text-ink-soft text-[14px] sm:text-[15.5px] leading-snug pb-1.5 max-w-[20ch]">
+                          {active.statLabel}
                         </div>
                       </div>
                     </div>
@@ -928,9 +932,13 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-wrap justify-between items-center gap-5">
             <a href="#" className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-coral-500 to-coral-400 text-white grid place-items-center shadow-soft">
-                <span className="font-display font-bold text-[32px] leading-none">د</span>
-              </div>
+              <img
+                src="/assets/img/logo.png"
+                alt="Dars logo"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-xl shadow-soft object-cover"
+              />
               <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
             </a>
 
@@ -1507,63 +1515,90 @@ function HalaqahPreview() {
   );
 }
 
-function MockExamPreview() {
-  const opts = [
-    { label: "A", text: "Only if it flows", state: "idle" },
-    { label: "B", text: "In all cases", state: "correct" },
-    { label: "C", text: "Never — it's pure", state: "idle" },
-    { label: "D", text: "Only on skin contact", state: "idle" },
-  ];
+function AbdullahAskPreview() {
+  const Sparkle = ({ className = "" }: { className?: string }) => (
+    <svg
+      width="10"
+      height="10"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9z" />
+      <path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9z" opacity="0.7" />
+    </svg>
+  );
+
   return (
-    <div className="w-full max-w-[360px] bg-card border border-border rounded-2xl p-4 shadow-card">
+    <div className="w-full max-w-[340px] bg-card border border-border rounded-2xl p-3.5 shadow-card">
+      {/* Top bar: title + usage pill */}
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[10px] font-semibold tracking-wider text-coral-500 uppercase">
-          ◆ Mock · Quduri
-        </span>
-        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-coral-100 text-coral-600">
-          Q 3 / 20
+        <div className="inline-flex items-center gap-1.5">
+          <span className="w-5 h-5 rounded-md bg-ink text-coral-400 grid place-items-center">
+            <Sparkle />
+          </span>
+          <span className="text-[12.5px] font-semibold text-ink tracking-tight">
+            Abdullah
+          </span>
+        </div>
+        <span className="inline-flex items-center gap-1 text-[9.5px] font-semibold px-2 py-0.5 rounded-full bg-cream-200 text-ink-muted">
+          <Sparkle className="text-coral-500" />
+          1% used
         </span>
       </div>
-      <div className="text-[13.5px] font-semibold text-ink leading-snug mb-3">
-        Which of the following nullifies wuḍūʾ according to the Ḥanafī school?
+
+      {/* Question */}
+      <div className="text-[12.5px] font-semibold text-ink leading-snug mb-2">
+        Does a nosebleed break wuḍūʾ?
       </div>
-      <div className="space-y-1.5">
-        {opts.map((o) => {
-          const correct = o.state === "correct";
-          return (
-            <div
-              key={o.label}
-              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11.5px] ${correct
-                ? "bg-sage-100 border border-sage-500 text-ink"
-                : "bg-cream-200 text-ink-soft"
-                }`}
-            >
-              <span
-                className={`w-5 h-5 rounded-full grid place-items-center text-[10px] font-bold ${correct
-                  ? "bg-sage-500 text-white"
-                  : "bg-card text-ink-muted border border-border"
-                  }`}
-              >
-                {o.label}
-              </span>
-              <span className="flex-1">{o.text}</span>
-              {correct && (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  className="text-sage-500"
-                >
-                  <path d="M5 12l5 5L20 7" />
-                </svg>
-              )}
+
+      {/* Answer */}
+      <div className="text-[11px] text-ink-soft leading-relaxed mb-3">
+        Yes — in the Ḥanafī madhhab, flowing blood nullifies wuḍūʾ. The
+        condition is <strong className="text-ink font-semibold">sayalān</strong>
+        {" "}(that it actually flows).
+      </div>
+
+      {/* References */}
+      <div>
+        <div className="text-[9px] font-semibold tracking-[0.14em] text-ink-muted uppercase mb-1.5">
+          References
+        </div>
+        <div className="flex gap-1.5">
+          <div className="min-w-0 flex-1 bg-cream-200 rounded-lg p-2">
+            <div className="text-[8.5px] font-semibold tracking-wider text-coral-500 uppercase mb-0.5 truncate">
+              Al-Quduri
             </div>
-          );
-        })}
+            <div className="text-[10.5px] font-semibold text-ink leading-tight truncate">
+              ## Nullifiers of Wuḍūʾ
+            </div>
+            <div className="text-[9.5px] text-ink-soft mt-0.5 truncate">
+              Flowing blood is from...
+            </div>
+          </div>
+          <div className="min-w-0 flex-1 bg-cream-200 rounded-lg p-2">
+            <div className="text-[8.5px] font-semibold tracking-wider text-coral-500 uppercase mb-0.5 truncate">
+              Al-Quduri
+            </div>
+            <div className="text-[10.5px] font-semibold text-ink leading-tight truncate">
+              ## Conditions of sayalān
+            </div>
+            <div className="text-[9.5px] text-ink-soft mt-0.5 truncate">
+              Sayalān means the blood...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Input row */}
+      <div className="mt-3 flex items-center gap-1.5 bg-cream-200 rounded-full pl-3 pr-1 py-1">
+        <span className="text-[11px] text-ink-muted flex-1 truncate">
+          Ask Abdullah…
+        </span>
+        <span className="w-6 h-6 rounded-full bg-ink text-coral-400 grid place-items-center">
+          <Sparkle />
+        </span>
       </div>
     </div>
   );
@@ -1628,9 +1663,9 @@ const ROLE_TABS: RoleTab[] = [
     label: "Students",
     eyebrow: "For students",
     caption:
-      "Join with a code, drop into your halaqah, and see exactly what your ustadh set for the week.",
-    stat: "1 tap",
-    statLabel: "to join your class",
+      "Your ustadh's quizzes, mocks and reading — all waiting in your halaqah. Revise before class and never get caught out on a pop quiz.",
+    stat: "Every class",
+    statLabel: "you walk in already prepared",
     bg: "bg-coral-100",
     visual: <StudentRoleVisual />,
   },
@@ -1639,9 +1674,9 @@ const ROLE_TABS: RoleTab[] = [
     label: "Teachers",
     eyebrow: "For teachers",
     caption:
-      "Set quizzes, mocks and reading — and track every student's progress without another WhatsApp group.",
-    stat: "5 min",
-    statLabel: "to set a week's work",
+      "Set weekly quizzes, mocks and reading in minutes. Auto-grade every answer, track each student's progress, and spot who needs a nudge before the exam — not after.",
+    stat: "Every student",
+    statLabel: "tracked, graded and nudged for you",
     bg: "bg-sky-200",
     visual: <TeacherRoleVisual />,
   },
@@ -1650,9 +1685,9 @@ const ROLE_TABS: RoleTab[] = [
     label: "Institutes",
     eyebrow: "For institutes",
     caption:
-      "Every class, teacher and student in one place. Approve join requests and watch engagement in real time.",
-    stat: "1 dashboard",
-    statLabel: "for your whole madrasah",
+      "Your whole madrasah in a single dashboard. Watch live engagement across every halaqah, approve join requests in a tap, and show trustees and parents the real numbers.",
+    stat: "One dashboard",
+    statLabel: "every class, teacher and student",
     bg: "bg-sage-100",
     visual: <InstituteRoleVisual />,
   },

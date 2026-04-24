@@ -1,0 +1,17 @@
+{
+  "name": "Dars",
+  "short_name": "Dars",
+  "description": "The revision app for Alimiyyah students.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffcf6",
+  "theme_color": "#fffcf6",
+  "icons": [
+    {
+      "src": "/assets/img/logo.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
