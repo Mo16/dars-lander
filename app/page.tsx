@@ -876,8 +876,8 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                   </em>
                 </h2>
                 <p className="mt-4 text-[14.5px] sm:text-[15px] text-white/85 leading-relaxed max-w-[44ch]">
-                  Early access, founder pricing for life, and a direct line to
-                  shape the app. Join 2,400+ students already on the list.
+                  Early access, launch updates, and a direct line to
+                  shape the app. Join 100+ students already on the list.
                 </p>
 
                 <div className="mt-7">
