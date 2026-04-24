@@ -88,7 +88,7 @@
     100% { transform: translate(-50%, 0);    opacity: 1; }
   }
   .animate-hero-phone-center {
-    animation: hero-phone-center-slide 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    animation: hero-phone-center-slide 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
   }
 
   @keyframes hero-phone-left-fan {
@@ -96,7 +96,7 @@
     100% { transform: translate(calc(-50% - 180px), 36px) rotate(-11deg) scale(0.82); opacity: 1; }
   }
   .animate-hero-phone-left {
-    animation: hero-phone-left-fan 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+    animation: hero-phone-left-fan 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
   }
 
   @keyframes hero-phone-right-fan {
@@ -104,7 +104,7 @@
     100% { transform: translate(calc(-50% + 180px), 36px) rotate(11deg) scale(0.82); opacity: 1; }
   }
   .animate-hero-phone-right {
-    animation: hero-phone-right-fan 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+    animation: hero-phone-right-fan 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
   }
 
   @media (prefers-reduced-motion: reduce) {
