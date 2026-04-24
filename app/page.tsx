@@ -261,8 +261,8 @@ export default function HomePage() {
                     "linear-gradient(to bottom, black 25%, transparent 55%)",
                 }}
               >
-                {/* Center — upright */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20">
+                {/* Center — upright, slides in from bottom */}
+                <div className="absolute top-0 left-1/2 z-20 animate-hero-phone-center">
                   <Phone shadow={false} bare>
                     <img
                       src="/assets/img/dash mockup.png"
@@ -272,14 +272,8 @@ export default function HomePage() {
                   </Phone>
                 </div>
 
-                {/* Left — tilted, partially behind center */}
-                <div
-                  className="absolute top-0 left-1/2 z-10"
-                  style={{
-                    transform:
-                      "translate(calc(-50% - 180px), 36px) rotate(-11deg) scale(0.82)",
-                  }}
-                >
+                {/* Left — fans out from center */}
+                <div className="absolute top-0 left-1/2 z-10 animate-hero-phone-left">
                   <Phone bare shadow={false}>
                     <img
                       src="/assets/img/quiz.png"
@@ -289,14 +283,8 @@ export default function HomePage() {
                   </Phone>
                 </div>
 
-                {/* Right — tilted, partially behind center */}
-                <div
-                  className="absolute top-0 left-1/2 z-10"
-                  style={{
-                    transform:
-                      "translate(calc(-50% + 180px), 36px) rotate(11deg) scale(0.82)",
-                  }}
-                >
+                {/* Right — fans out from center */}
+                <div className="absolute top-0 left-1/2 z-10 animate-hero-phone-right">
                   <Phone bare shadow={false}>
                     <img
                       src="/assets/img/ai.png"
