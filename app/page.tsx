@@ -22,6 +22,7 @@ export default function HomePage() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const bentoRef = useRef<HTMLDivElement>(null);
   const [roleTab, setRoleTab] = useState<"students" | "teachers" | "institutes">("students");
+  const [heroSignedUp, setHeroSignedUp] = useState(false);
 
   useEffect(() => {
     if (!bentoRef.current) return;
@@ -214,13 +215,63 @@ export default function HomePage() {
           </p>
 
           <div className="mt-8">
-            <WaitlistForm />
+            <WaitlistForm onSuccess={() => setHeroSignedUp(true)} />
           </div>
 
-          <p className="mt-3.5 text-[12.5px] text-ink-muted">
-            <strong className="text-ink font-semibold">100+ students</strong>{" "}
-            on the waitlist · Get early access and launch updates
-          </p>
+          <div className="mt-3.5 grid text-[12.5px] text-ink-muted text-center">
+            <p
+              className={`col-start-1 row-start-1 origin-center will-change-transform ${heroSignedUp ? "animate-tagline-out" : "opacity-100"}`}
+            >
+              <strong className="text-ink font-semibold">350+ students</strong>{" "}
+              on the waitlist · Get early access and launch updates
+            </p>
+            <p
+              className={`col-start-1 row-start-1 origin-center will-change-transform ${heroSignedUp ? "animate-tagline-in" : "opacity-0"}`}
+            >
+              Follow our socials below to keep updated
+            </p>
+          </div>
+
+          <div className="mt-5 flex items-center justify-center gap-2.5">
+            <a
+              href="https://instagram.com/getdars"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow Dars on Instagram"
+              className="w-10 h-10 rounded-full text-white grid place-items-center shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-card"
+              style={{
+                background:
+                  "linear-gradient(135deg, #FEDA77 0%, #F58529 25%, #DD2A7B 60%, #8134AF 90%)",
+              }}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </a>
+            <a
+              href="https://tiktok.com/@dars.app"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow Dars on TikTok"
+              className="w-10 h-10 rounded-full bg-ink text-white grid place-items-center shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-card hover:bg-ink-soft"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.137-.966c-.849-.971-1.166-1.956-1.282-2.645h.004c-.097-.573-.057-.943-.05-.943h-3.865v14.943c0 .2 0 .399-.008.595a4.521 4.521 0 0 1-.072.65 4.408 4.408 0 0 1-.7 1.66 4.4 4.4 0 0 1-3.69 2.107c-2.434 0-4.41-1.99-4.41-4.444s1.976-4.444 4.41-4.444c.461 0 .904.072 1.32.204l.005-3.94a8.353 8.353 0 0 0-1.336-.108c-4.621 0-8.366 3.776-8.366 8.43 0 2.857 1.41 5.385 3.566 6.918A8.302 8.302 0 0 0 8.272 24c4.622 0 8.367-3.776 8.367-8.43V7.842a10.473 10.473 0 0 0 6.272 2.034V5.954a4.395 4.395 0 0 1-3.59-.392z" />
+              </svg>
+            </a>
+          </div>
 
           {/* HERO PHONE with floating UI cards */}
           <div ref={orbsRef} className="relative mt-14 min-h-[280px] sm:min-h-[320px] md:min-h-[380px]">
@@ -819,7 +870,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
       {/* ===== FINAL CTA ===== */}
       <section id="waitlist" className="pb-20 md:pb-28 px-4 sm:px-6">
         <div className=" mx-auto">
-          <div className="relative rounded-[28px] md:rounded-[36px] bg-coral-500 text-white px-6 py-12 sm:px-10 sm:py-16 md:p-16 overflow-hidden">
+          <div className="relative rounded-[28px] md:rounded-[36px] bg-coral-500 text-white px-6 pt-12 pb-6 sm:px-10 sm:pt-16 sm:pb-10 md:p-16 overflow-hidden">
             {/* concentric circle pattern behind phones */}
             <div
               aria-hidden
@@ -864,7 +915,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               }}
             />
 
-            <div className="relative grid md:grid-cols-[1fr_1.05fr] gap-10 md:gap-8 items-center">
+            <div className="relative grid md:grid-cols-[1fr_1.05fr] gap-6 md:gap-8 items-center">
               <div>
                 <span className="text-[11px] sm:text-[12px] font-semibold tracking-wider text-coral-100 uppercase">
                   ◆ Launching 2026
@@ -877,7 +928,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                 </h2>
                 <p className="mt-4 text-[14.5px] sm:text-[15px] text-white/85 leading-relaxed max-w-[44ch]">
                   Early access, launch updates, and a direct line to
-                  shape the app. Join 100+ students already on the list.
+                  shape the app. Join 350+ students already on the list.
                 </p>
 
                 <div className="mt-7">
@@ -890,8 +941,8 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               </div>
 
               {/* Two tilted phones */}
-              <div className="relative h-[360px] sm:h-[440px] md:h-[540px] flex items-center justify-center md:justify-end">
-                <div className="relative scale-[0.55] sm:scale-[0.7] md:scale-[0.85] origin-center">
+              <div className="relative h-[240px] sm:h-[340px] md:h-[540px] flex items-center justify-center md:justify-end">
+                <div className="relative scale-[0.55] sm:scale-[0.7] md:scale-[0.85] origin-center translate-y-24 sm:translate-y-28 md:translate-y-32 lg:translate-y-40">
                   {/* Back phone (tilted further) */}
                   <div className="absolute -left-[180px] top-10 rotate-[-10deg] opacity-90">
                     <Phone shadow bare>
@@ -916,51 +967,62 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="border-t border-border py-10">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-wrap justify-between items-center gap-5">
-            <a href="#" className="flex items-center gap-2.5">
-              <img
-                src="/assets/img/logo.png"
-                alt="Dars logo"
-                width={40}
-                height={40}
-                className="w-10 h-10 rounded-xl shadow-soft object-cover"
-              />
-              <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
-            </a>
+      <footer className="py-10 px-4">
+        <div className="w-full max-w-5xl mx-auto bg-card/90 backdrop-blur-xl border border-border rounded-3xl shadow-card px-6 py-7 flex flex-col items-center gap-5 text-center">
+          <a href="#" className="flex items-center gap-2.5">
+            <img
+              src="/assets/img/logo.png"
+              alt="Dars logo"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-xl shadow-soft object-cover"
+            />
+            <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
+          </a>
 
-            <div className="flex gap-9 text-[15px] font-normal text-ink-soft">
-              <a href="#features" className="hover:text-ink transition-colors">Features</a>
-              <a href="#how" className="hover:text-ink transition-colors">How it works</a>
-              <a href="#" className="hover:text-ink transition-colors">Privacy</a>
-              <a href="#" className="hover:text-ink transition-colors">Terms</a>
-            </div>
-
-            <div className="flex gap-2">
-              <a
-                href="https://instagram.com/dars.app"
-                aria-label="Instagram"
-                className="w-9 h-9 rounded-full bg-ink text-cream-100 grid place-items-center hover:bg-ink-soft transition-colors"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01" />
-                </svg>
-              </a>
-              <a
-                href="https://tiktok.com/@dars.app"
-                aria-label="TikTok"
-                className="w-9 h-9 rounded-full bg-ink text-cream-100 grid place-items-center hover:bg-ink-soft transition-colors"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z" />
-                </svg>
-              </a>
-            </div>
+          <div className="flex flex-wrap justify-center gap-x-9 gap-y-2 text-[15px] font-medium text-ink-soft">
+            <a href="#features" className="hover:text-ink transition-colors">Features</a>
+            <a href="#how" className="hover:text-ink transition-colors">How it works</a>
+            <a href="#" className="hover:text-ink transition-colors">Privacy</a>
+            <a href="#" className="hover:text-ink transition-colors">Terms</a>
           </div>
-          <div className="mt-5 text-[11.5px] text-ink-muted">
-            © 2026 Dars. All rights reserved. Built with ihsan for Alimiyyah students. Made by <a href="https://aurelo.uk" className="underline hover:text-ink transition-colors">Aurelo Web Studio</a>.
+
+          <div className="flex gap-2">
+            <a
+              href="https://instagram.com/getdars"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className="w-9 h-9 rounded-full text-white grid place-items-center transition-transform hover:-translate-y-0.5"
+              style={{
+                background:
+                  "linear-gradient(135deg, #FEDA77 0%, #F58529 25%, #DD2A7B 60%, #8134AF 90%)",
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </a>
+            <a
+              href="https://tiktok.com/@dars.app"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok"
+              className="w-9 h-9 rounded-full bg-ink text-cream-100 grid place-items-center hover:bg-ink-soft transition-all hover:-translate-y-0.5"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.137-.966c-.849-.971-1.166-1.956-1.282-2.645h.004c-.097-.573-.057-.943-.05-.943h-3.865v14.943c0 .2 0 .399-.008.595a4.521 4.521 0 0 1-.072.65 4.408 4.408 0 0 1-.7 1.66 4.4 4.4 0 0 1-3.69 2.107c-2.434 0-4.41-1.99-4.41-4.444s1.976-4.444 4.41-4.444c.461 0 .904.072 1.32.204l.005-3.94a8.353 8.353 0 0 0-1.336-.108c-4.621 0-8.366 3.776-8.366 8.43 0 2.857 1.41 5.385 3.566 6.918A8.302 8.302 0 0 0 8.272 24c4.622 0 8.367-3.776 8.367-8.43V7.842a10.473 10.473 0 0 0 6.272 2.034V5.954a4.395 4.395 0 0 1-3.59-.392z" />
+              </svg>
+            </a>
+          </div>
+
+          <div className="flex flex-col gap-1 text-[11.5px] text-ink-muted">
+            <p>
+              © 2026 Dars. All rights reserved. Built with ihsan for Alimiyyah students. Made by <a href="https://aurelo.uk" className="underline hover:text-ink transition-colors">Aurelo Web Studio</a>.
+            </p>
+            <p>
+              Any questions? Contact <a href="mailto:hello@darsapp.com" className="underline hover:text-ink transition-colors">hello@darsapp.com</a>
+            </p>
           </div>
         </div>
       </footer>
@@ -1289,7 +1351,7 @@ function BentoCard({
   return (
     <div className="bento-card bg-card border border-border rounded-3xl p-3 md:p-4 shadow-card transition-transform hover:-translate-y-1 h-full flex flex-col">
       <div
-        className={`${bg} rounded-[20px] md:rounded-[22px] grid place-items-center px-5 md:px-7 py-8 md:py-10 min-h-[240px] md:min-h-[300px]`}
+        className={`${bg} rounded-[20px] md:rounded-[22px] grid place-items-center px-5 md:px-7 py-8 md:py-10 min-h-[240px] md:min-h-[300px] relative overflow-hidden`}
       >
         {visual}
       </div>
@@ -1312,7 +1374,7 @@ function ReadingPreview() {
     "Hijrah carries the ruling of what it's intended for",
   ];
   return (
-    <div className="relative w-full max-w-[300px]">
+    <div className="relative w-full max-w-[300px] animate-reading-card">
       <div className="bg-card border border-border rounded-2xl p-4 shadow-card">
         <div className="flex items-center justify-between mb-2.5">
           <div>
@@ -1341,7 +1403,10 @@ function ReadingPreview() {
         <ul className="space-y-1.5">
           {points.map((p, i) => (
             <li key={i} className="flex gap-1.5 items-start">
-              <span className="mt-1 w-1 h-1 rounded-full bg-coral-500 shrink-0" />
+              <span
+                className="mt-1 w-1 h-1 rounded-full bg-coral-500 shrink-0 animate-reading-dot"
+                style={{ animationDelay: `${i * 1.4}s` }}
+              />
               <span className="text-[11.5px] leading-snug text-ink-soft">
                 {p}
               </span>
@@ -1357,35 +1422,64 @@ function ReadingPreview() {
 
 function FlashcardsPreview() {
   return (
-    <div className="relative w-[200px] h-[150px]">
-      {/* back cards */}
-      <div className="absolute inset-0 bg-card border border-border rounded-2xl shadow-soft rotate-[-7deg] -translate-x-3 translate-y-2" />
-      <div className="absolute inset-0 bg-card border border-border rounded-2xl shadow-soft rotate-[5deg] translate-x-3 translate-y-1" />
-      {/* front card */}
-      <div className="relative bg-card border border-border rounded-2xl shadow-card w-full h-full p-3 flex flex-col">
-        <div className="text-[9px] font-semibold tracking-wider text-coral-500 uppercase">
-          ◆ Hadith · front
+    <div className="absolute inset-0 grid place-items-center">
+      {/* Verdict tints — fill the bento bg area so it fades to red/green during swipes */}
+      <div className="absolute inset-0 bg-coral-400 animate-verdict-red pointer-events-none" />
+      <div className="absolute inset-0 bg-sage-500 animate-verdict-green pointer-events-none" />
+      {/* Deck */}
+      <div className="relative w-[200px] h-[150px]">
+        <div className="absolute inset-0 bg-card border border-border rounded-2xl shadow-soft animate-flashcard-back-left" />
+        <div className="absolute inset-0 bg-card border border-border rounded-2xl shadow-soft p-3 flex flex-col animate-flashcard-back-right">
+          <div className="text-[9px] font-semibold tracking-wider text-coral-500 uppercase">
+            ◆ Hadith · next
+          </div>
+          <div
+            className="flex-1 grid place-items-center text-[14px] font-bold text-ink text-center leading-snug"
+            dir="rtl"
+            style={{ fontFamily: "serif" }}
+          >
+            الدين النصيحة
+          </div>
+          <div className="flex gap-1.5 justify-center opacity-60">
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-coral-100 text-coral-600 font-semibold">
+              Again
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 font-semibold">
+              Hard
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-sage-100 text-sage-500 font-semibold">
+              Good
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-sky-200 text-ink font-semibold">
+              Easy
+            </span>
+          </div>
         </div>
-        <div
-          className="flex-1 grid place-items-center text-[15px] font-bold text-ink text-center leading-snug"
-          dir="rtl"
-          style={{ fontFamily: "serif" }}
-        >
-          إنما الأعمال بالنيات
-        </div>
-        <div className="flex gap-1.5 justify-center">
-          <span className="text-[9px] px-2 py-0.5 rounded-full bg-coral-100 text-coral-600 font-semibold">
-            Again
-          </span>
-          <span className="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 font-semibold">
-            Hard
-          </span>
-          <span className="text-[9px] px-2 py-0.5 rounded-full bg-sage-100 text-sage-500 font-semibold">
-            Good
-          </span>
-          <span className="text-[9px] px-2 py-0.5 rounded-full bg-sky-200 text-ink font-semibold">
-            Easy
-          </span>
+        <div className="relative bg-card border border-border rounded-2xl shadow-card w-full h-full p-3 flex flex-col animate-flashcard-front">
+          <div className="text-[9px] font-semibold tracking-wider text-coral-500 uppercase">
+            ◆ Hadith · front
+          </div>
+          <div
+            className="flex-1 grid place-items-center text-[15px] font-bold text-ink text-center leading-snug"
+            dir="rtl"
+            style={{ fontFamily: "serif" }}
+          >
+            إنما الأعمال بالنيات
+          </div>
+          <div className="flex gap-1.5 justify-center">
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-coral-100 text-coral-600 font-semibold">
+              Again
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 font-semibold">
+              Hard
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-sage-100 text-sage-500 font-semibold">
+              Good
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-sky-200 text-ink font-semibold">
+              Easy
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1394,10 +1488,39 @@ function FlashcardsPreview() {
 
 function MasteryPreview() {
   const books = [
-    { en: "Sahih Bukhari", ar: "البخاري", pct: 82, color: "bg-sage-500" },
-    { en: "Quduri", ar: "القدوري", pct: 64, color: "bg-amber-500" },
-    { en: "Hidayah", ar: "الهداية", pct: 41, color: "bg-coral-500" },
+    { en: "Sahih Bukhari", ar: "البخاري", base: 82, swing: 6, color: "bg-sage-500", phase: 0 },
+    { en: "Quduri", ar: "القدوري", base: 64, swing: 8, color: "bg-amber-500", phase: 1.7 },
+    { en: "Hidayah", ar: "الهداية", base: 41, swing: 9, color: "bg-coral-500", phase: 3.4 },
   ];
+  const [pcts, setPcts] = useState<Record<string, number>>(() =>
+    Object.fromEntries(books.map((b) => [b.en, b.base])),
+  );
+  const tickRef = useRef(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      tickRef.current += 1;
+      const t = tickRef.current;
+      setPcts((prev) => {
+        const next = { ...prev };
+        for (const b of books) {
+          const target = Math.max(
+            5,
+            Math.min(
+              99,
+              b.base +
+                Math.round(Math.sin((t + b.phase * 14) * 0.022) * b.swing),
+            ),
+          );
+          const cur = next[b.en];
+          if (cur < target) next[b.en] = cur + 1;
+          else if (cur > target) next[b.en] = cur - 1;
+        }
+        return next;
+      });
+    }, 26);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="w-full max-w-[260px] space-y-2.5">
       <div className="flex items-baseline justify-between mb-1">
@@ -1406,44 +1529,170 @@ function MasteryPreview() {
         </span>
         <span className="text-[10px] text-ink-muted">Year 3</span>
       </div>
-      {books.map((b) => (
-        <div key={b.en} className="bg-card rounded-xl p-2.5 shadow-soft">
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="flex items-center gap-1.5">
-              <span
-                className="text-[11px] font-semibold text-ink-soft"
-                dir="rtl"
-                style={{ fontFamily: "serif" }}
-              >
-                {b.ar}
-              </span>
-              <span className="text-[11.5px] font-semibold text-ink">
-                {b.en}
+      {books.map((b) => {
+        const value = pcts[b.en];
+        return (
+          <div key={b.en} className="bg-card rounded-xl p-2.5 shadow-soft">
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="text-[11px] font-semibold text-ink-soft"
+                  dir="rtl"
+                  style={{ fontFamily: "serif" }}
+                >
+                  {b.ar}
+                </span>
+                <span className="text-[11.5px] font-semibold text-ink">
+                  {b.en}
+                </span>
+              </div>
+              <span className="text-[11px] font-bold text-ink tabular-nums w-9 text-right">
+                {value}%
               </span>
             </div>
-            <span className="text-[11px] font-bold text-ink">{b.pct}%</span>
+            <div className="h-1.5 w-full rounded-full bg-cream-200 overflow-hidden">
+              <div
+                className={`h-full rounded-full ${b.color}`}
+                style={{
+                  width: `${value}%`,
+                  transition: "width 60ms linear",
+                }}
+              />
+            </div>
           </div>
-          <div className="h-1.5 w-full rounded-full bg-cream-200">
-            <div
-              className={`h-full rounded-full ${b.color}`}
-              style={{ width: `${b.pct}%` }}
-            />
-          </div>
-        </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Confetti() {
+  const colors = ["#EC6144", "#F4D35E", "#7E9467", "#5BB6E0", "#FFA17C"];
+  const pieces = Array.from({ length: 32 }, (_, i) => ({
+    left: (i * 37 + 13) % 100,
+    color: colors[i % colors.length],
+    delay: ((i * 47) % 40) * 10,
+    duration: 1800 + ((i * 131) % 1000),
+    width: 6 + ((i * 5) % 6),
+    height: 9 + ((i * 3) % 8),
+    drift: ((i * 17) % 100) - 50,
+    rot: (i * 47) % 360,
+  }));
+  return (
+    <div className="absolute inset-0 pointer-events-none z-10" aria-hidden>
+      {pieces.map((p, i) => (
+        <div
+          key={i}
+          className="absolute animate-confetti"
+          style={{
+            left: `${p.left}%`,
+            top: -10,
+            width: p.width,
+            height: p.height,
+            backgroundColor: p.color,
+            borderRadius: 2,
+            animationDelay: `${p.delay}ms`,
+            animationDuration: `${p.duration}ms`,
+            transform: `rotate(${p.rot}deg)`,
+            ["--drift" as string]: `${p.drift * 1.6}px`,
+          } as React.CSSProperties}
+        />
       ))}
     </div>
   );
 }
 
 function HalaqahPreview() {
-  const rows = [
-    { rank: 1, initial: "ي", name: "Yusuf K.", pts: "2,140", top: true },
-    { rank: 2, initial: "م", name: "Maryam T.", pts: "1,890" },
-    { rank: 3, initial: "ع", name: "You", pts: "1,720", you: true },
-    { rank: 4, initial: "ح", name: "Hamza B.", pts: "1,610" },
+  const seed = [
+    { id: "yusuf", initial: "ي", name: "Yusuf K.", base: 2120, swing: 280, phase: 0 },
+    { id: "maryam", initial: "م", name: "Maryam T.", base: 2080, swing: 320, phase: 1.6 },
+    { id: "you", initial: "ع", name: "You", base: 2030, swing: 420, phase: 2.9 },
+    { id: "hamza", initial: "ح", name: "Hamza B.", base: 1990, swing: 260, phase: 4.3 },
   ];
+  const [scores, setScores] = useState<Record<string, number>>(() =>
+    Object.fromEntries(seed.map((r) => [r.id, r.base])),
+  );
+  const [celebrating, setCelebrating] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [celebrateKey, setCelebrateKey] = useState(0);
+  const tickRef = useRef(0);
+  const celebratingRef = useRef(false);
+  const cooldownRef = useRef(false);
+  useEffect(() => {
+    celebratingRef.current = celebrating;
+  }, [celebrating]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      tickRef.current += 1;
+      const t = tickRef.current;
+      const naturalTargets: Record<string, number> = {};
+      for (const r of seed) {
+        naturalTargets[r.id] =
+          r.base +
+          Math.round(Math.sin((t + r.phase * 17) * 0.0042) * r.swing * 0.6) +
+          Math.round(Math.sin((t + r.phase * 31) * 0.0115) * r.swing * 0.4);
+      }
+      // While celebrating, force You's target above the pack so the moment lingers.
+      const targets = { ...naturalTargets };
+      if (celebratingRef.current) {
+        const maxOther = Math.max(
+          ...seed.filter((r) => r.id !== "you").map((r) => naturalTargets[r.id]),
+        );
+        targets["you"] = maxOther + 65 + Math.round(Math.sin(t * 0.04) * 22);
+      }
+      setScores((prev) => {
+        const next = { ...prev };
+        for (const r of seed) {
+          const tgt = targets[r.id];
+          const cur = next[r.id];
+          if (cur < tgt) next[r.id] = cur + 1;
+          else if (cur > tgt) next[r.id] = cur - 1;
+        }
+        return next;
+      });
+    }, 14);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const ranked = [...seed].sort((a, b) => scores[b.id] - scores[a.id]);
+  const rankOf = (id: string) => ranked.findIndex((r) => r.id === id);
+  const youRank = rankOf("you");
+
+  // Trigger celebration when You first hits #1 (rising edge), with a cooldown
+  // afterward so we don't immediately re-fire while she's gradually drifting back down.
+  useEffect(() => {
+    if (youRank === 0 && !celebratingRef.current && !cooldownRef.current) {
+      setCelebrating(true);
+      setShowConfetti(true);
+      setCelebrateKey((k) => k + 1);
+    }
+  }, [youRank]);
+
+  // Savor period — keep You at the top for a beat after climbing, then release.
+  useEffect(() => {
+    if (!celebrating) return;
+    const endId = setTimeout(() => {
+      setCelebrating(false);
+      cooldownRef.current = true;
+      setTimeout(() => {
+        cooldownRef.current = false;
+      }, 2500);
+    }, 4200);
+    return () => clearTimeout(endId);
+  }, [celebrating]);
+
+  // Confetti fades earlier than the savor; the pulse glow carries the rest.
+  useEffect(() => {
+    if (!showConfetti) return;
+    const id = setTimeout(() => setShowConfetti(false), 2800);
+    return () => clearTimeout(id);
+  }, [showConfetti, celebrateKey]);
+
+  const ROW_H = 50;
   return (
-    <div className="w-full max-w-[360px]">
+    <div className="w-full max-w-[360px] relative">
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="text-[10px] font-semibold tracking-wider text-coral-500 uppercase">
@@ -1458,47 +1707,63 @@ function HalaqahPreview() {
           Challenge
         </button>
       </div>
-      <div className="space-y-1.5">
-        {rows.map((r) => (
-          <div
-            key={r.rank}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl ${r.top
-              ? "bg-coral-500 text-white shadow-coral"
-              : r.you
-                ? "bg-coral-100 border border-coral-200 text-ink"
-                : "bg-card text-ink shadow-soft"
-              }`}
-          >
-            <span
-              className={`font-display text-[12px] w-4 text-center ${r.top ? "text-white/80" : "text-ink-muted"
-                }`}
-            >
-              {r.rank}
-            </span>
+      <div className="relative" style={{ height: ROW_H * seed.length - 6 }}>
+        {seed.map((r) => {
+          const rank = rankOf(r.id);
+          const isTop = rank === 0;
+          const isYou = r.id === "you";
+          const youCelebrating = isYou && celebrating;
+          return (
             <div
-              className={`w-7 h-7 rounded-full grid place-items-center font-bold text-[12px] ${r.top
-                ? "bg-white text-coral-500"
-                : r.you
-                  ? "bg-coral-500 text-white"
-                  : "bg-sky-200 text-ink"
-                }`}
-              style={{ fontFamily: "serif" }}
-              dir="rtl"
+              key={r.id}
+              className={`absolute left-0 right-0 flex items-center gap-2.5 px-3 py-2 rounded-xl ${
+                isTop
+                  ? "bg-coral-500 text-white shadow-coral"
+                  : isYou
+                    ? "bg-coral-100 border border-coral-200 text-ink"
+                    : "bg-card text-ink shadow-soft"
+              } ${youCelebrating ? "animate-celebrate-pulse" : ""}`}
+              style={{
+                top: rank * ROW_H,
+                transition:
+                  "top 0.85s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.55s cubic-bezier(0.4, 0, 0.2, 1), color 0.55s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.55s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
             >
-              {r.initial}
+              <span
+                className={`font-display text-[12px] w-4 text-center tabular-nums ${
+                  isTop ? "text-white/80" : "text-ink-muted"
+                }`}
+              >
+                {rank + 1}
+              </span>
+              <div
+                className={`w-7 h-7 rounded-full grid place-items-center font-bold text-[12px] ${
+                  isTop
+                    ? "bg-white text-coral-500"
+                    : isYou
+                      ? "bg-coral-500 text-white"
+                      : "bg-sky-200 text-ink"
+                }`}
+                style={{ fontFamily: "serif" }}
+                dir="rtl"
+              >
+                {r.initial}
+              </div>
+              <span className="text-[12.5px] font-semibold flex-1">
+                {r.name}
+              </span>
+              <span
+                className={`text-[11.5px] font-bold tabular-nums ${
+                  isTop ? "text-white" : "text-ink-muted"
+                }`}
+              >
+                {scores[r.id].toLocaleString()}
+              </span>
             </div>
-            <span className="text-[12.5px] font-semibold flex-1">
-              {r.name}
-            </span>
-            <span
-              className={`text-[11.5px] font-bold ${r.top ? "text-white" : "text-ink-muted"
-                }`}
-            >
-              {r.pts}
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
+      {showConfetti && <Confetti key={celebrateKey} />}
     </div>
   );
 }
@@ -1518,9 +1783,79 @@ function AbdullahAskPreview() {
     </svg>
   );
 
+  const QUESTION = "Does a nosebleed break wuḍūʾ?";
+  const ANSWER_PARTS: Array<{ text: string; bold?: boolean }> = [
+    {
+      text: "Yes — in the Ḥanafī madhhab, flowing blood nullifies wuḍūʾ. The condition is ",
+    },
+    { text: "sayalān", bold: true },
+    { text: " (that it actually flows)." },
+  ];
+  const ANSWER = ANSWER_PARTS.map((p) => p.text).join("");
+
+  // 0: idle → 1: typing question → 2: typing answer → 3: refs appear → 4: hold → 5: fade out
+  const [phase, setPhase] = useState(0);
+  const [qChars, setQChars] = useState(0);
+  const [aChars, setAChars] = useState(0);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (phase === 0) {
+      timer = setTimeout(() => {
+        setQChars(0);
+        setAChars(0);
+        setPhase(1);
+      }, 700);
+    } else if (phase === 1) {
+      if (qChars < QUESTION.length) {
+        timer = setTimeout(() => setQChars((c) => c + 1), 55);
+      } else {
+        timer = setTimeout(() => setPhase(2), 500);
+      }
+    } else if (phase === 2) {
+      if (aChars < ANSWER.length) {
+        timer = setTimeout(() => setAChars((c) => c + 1), 22);
+      } else {
+        timer = setTimeout(() => setPhase(3), 350);
+      }
+    } else if (phase === 3) {
+      timer = setTimeout(() => setPhase(4), 900);
+    } else if (phase === 4) {
+      timer = setTimeout(() => setPhase(5), 2200);
+    } else if (phase === 5) {
+      timer = setTimeout(() => setPhase(0), 550);
+    }
+    return () => clearTimeout(timer);
+  }, [phase, qChars, aChars, QUESTION.length, ANSWER.length]);
+
+  const showQ = phase >= 2 && phase < 5;
+  const showA = phase >= 2 && phase < 5;
+  const showRefs = phase >= 3 && phase < 5;
+  const isTypingInput = phase === 1;
+
+  const answerNode =
+    phase === 2 ? (
+      <>
+        {ANSWER.slice(0, aChars)}
+        <span className="inline-block w-[1.5px] h-[11px] bg-ink ml-px align-[-1px] animate-caret" />
+      </>
+    ) : (
+      <>
+        {ANSWER_PARTS.map((p, i) =>
+          p.bold ? (
+            <strong key={i} className="text-ink font-semibold">
+              {p.text}
+            </strong>
+          ) : (
+            <span key={i}>{p.text}</span>
+          ),
+        )}
+      </>
+    );
+
   return (
     <div className="w-full max-w-[340px] bg-card border border-border rounded-2xl p-3.5 shadow-card">
-      {/* Top bar: title + usage pill */}
+      {/* Top bar */}
       <div className="flex items-center justify-between mb-3">
         <div className="inline-flex items-center gap-1.5">
           <span className="w-5 h-5 rounded-md bg-ink text-coral-400 grid place-items-center">
@@ -1536,20 +1871,42 @@ function AbdullahAskPreview() {
         </span>
       </div>
 
-      {/* Question */}
-      <div className="text-[12.5px] font-semibold text-ink leading-snug mb-2">
-        Does a nosebleed break wuḍūʾ?
+      {/* Question — appears after submit */}
+      <div
+        className="flex justify-end mb-2.5 min-h-[26px]"
+        style={{
+          opacity: showQ ? 1 : 0,
+          transform: showQ ? "translateY(0)" : "translateY(-4px)",
+          transition: "opacity 0.35s ease, transform 0.35s ease",
+        }}
+      >
+        {showQ && (
+          <div className="bg-coral-100 text-ink rounded-2xl rounded-br-md px-2.5 py-1.5 text-[12px] font-medium leading-snug max-w-[85%]">
+            {QUESTION}
+          </div>
+        )}
       </div>
 
-      {/* Answer */}
-      <div className="text-[11px] text-ink-soft leading-relaxed mb-3">
-        Yes — in the Ḥanafī madhhab, flowing blood nullifies wuḍūʾ. The
-        condition is <strong className="text-ink font-semibold">sayalān</strong>
-        {" "}(that it actually flows).
+      {/* Assistant answer — plain left-aligned text, types out char by char */}
+      <div
+        className="text-[11.5px] text-ink leading-relaxed mb-3 min-h-[100px]"
+        style={{
+          opacity: showA ? 1 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      >
+        {showA ? answerNode : null}
       </div>
 
-      {/* References */}
-      <div>
+      {/* References — slide in once answer is done */}
+      <div
+        style={{
+          opacity: showRefs ? 1 : 0,
+          transform: showRefs ? "translateY(0)" : "translateY(8px)",
+          transition:
+            "opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
+        }}
+      >
         <div className="text-[9px] font-semibold tracking-[0.14em] text-ink-muted uppercase mb-1.5">
           References
         </div>
@@ -1579,10 +1936,17 @@ function AbdullahAskPreview() {
         </div>
       </div>
 
-      {/* Input row */}
+      {/* Input row — typing happens here during phase 1 */}
       <div className="mt-3 flex items-center gap-1.5 bg-cream-200 rounded-full pl-3 pr-1 py-1">
-        <span className="text-[11px] text-ink-muted flex-1 truncate">
-          Ask Abdullah…
+        <span className="text-[11px] flex-1 truncate min-h-[16px]">
+          {isTypingInput ? (
+            <>
+              <span className="text-ink">{QUESTION.slice(0, qChars)}</span>
+              <span className="inline-block w-[1.5px] h-[11px] bg-ink ml-px align-[-1px] animate-caret" />
+            </>
+          ) : (
+            <span className="text-ink-muted">Ask Abdullah…</span>
+          )}
         </span>
         <span className="w-6 h-6 rounded-full bg-ink text-coral-400 grid place-items-center">
           <Sparkle />

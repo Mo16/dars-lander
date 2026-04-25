@@ -82,7 +82,7 @@ export function buildConfirmationEmail() {
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
 <div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  You're on the Dars waitlist — early access, founder pricing for life.
+  You're on the Dars waitlist — early access, launch updates.
 </div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
@@ -93,7 +93,7 @@ export function buildConfirmationEmail() {
         <!-- brand -->
         <tr>
           <td style="padding: 0 4px 28px;">
-            <img src="https://dars.app/assets/img/logo.png" width="30" height="30" alt="Dars" style="display:inline-block; width:30px; height:30px; border-radius:8px; vertical-align:middle; border:0; outline:none; text-decoration:none;" />
+            <img src="https://darsapp.com/assets/img/logo.png" width="30" height="30" alt="Dars" style="display:inline-block; width:30px; height:30px; border-radius:8px; vertical-align:middle; border:0; outline:none; text-decoration:none;" />
             <span class="dm-text-ink" style="vertical-align:middle; margin-left:10px; font-family:${sans}; font-size:18px; font-weight:600; letter-spacing:-0.01em; color:${ink};">Dars</span>
           </td>
         </tr>
@@ -118,7 +118,7 @@ export function buildConfirmationEmail() {
           <td class="dm-bg-card dm-border" style="background:${card}; border:1px solid ${border}; border-radius:20px; padding:30px 32px 14px;">
             <p class="dm-text-ink-muted" style="margin:0 0 20px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What&#39;s next</p>
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-              ${step(1, "We&#39;ll email you at launch", "early access, founder pricing for life.")}
+              ${step(1, "We&#39;ll email you at launch", "early access, launch updates.")}
               ${step(2, "Your feedback shapes the app", "reply to this email with anything you want to see.")}
               ${step(3, "Invite your halaqah", "the more classmates on board, the better the leaderboards.")}
             </table>

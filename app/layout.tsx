@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { Instrument_Serif } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
+
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -117,7 +120,25 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${instrumentSerif.variable}`}
       style={{ "--font-geist": "var(--font-geist-sans)" } as React.CSSProperties}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        {gaId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        ) : null}
+      </body>
     </html>
   );
 }

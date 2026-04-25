@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = {
   variant?: "light" | "dark";
+  onSuccess?: () => void;
 };
 
 const SHARE_URL = "https://darsapp.com";
@@ -11,7 +12,7 @@ const SHARE_TITLE = "Dars";
 const SHARE_TEXT =
   "Join me on the Dars waitlist — the revision app built for Alimiyyah students.";
 
-export default function WaitlistForm({ variant = "light" }: Props) {
+export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
   const [email, setEmail] = useState("");
   const [botcheck, setBotcheck] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -32,6 +33,7 @@ export default function WaitlistForm({ variant = "light" }: Props) {
   const finishSuccess = () => {
     setSuccess(true);
     setEmail("");
+    onSuccess?.();
     shareTimer.current = setTimeout(() => setShareMode(true), 1100);
   };
 
@@ -91,7 +93,8 @@ export default function WaitlistForm({ variant = "light" }: Props) {
   const wrapBase =
     "relative flex p-1.5 rounded-full max-w-md w-full transition-all duration-500 ease-out";
   const wrapLight = "bg-card border border-border shadow-card mx-auto";
-  const wrapDark = "bg-white/10 border border-white/15 backdrop-blur-sm";
+  const wrapDark =
+    "bg-white border border-white/80 shadow-[0_10px_30px_-10px_rgba(26,24,20,0.45)]";
   const wrapGap = success ? "gap-0" : "gap-1.5";
   const wrapCls = `${wrapBase} ${wrapGap} ${isDark ? wrapDark : wrapLight} ${
     success ? "ring-2 ring-sage-500/40" : ""
@@ -100,7 +103,7 @@ export default function WaitlistForm({ variant = "light" }: Props) {
   const inputBase =
     "min-w-0 bg-transparent py-2.5 sm:py-3 text-[14px] sm:text-[15px] focus:outline-none transition-all duration-500 ease-out";
   const inputTheme = isDark
-    ? "text-white placeholder:text-white/50"
+    ? "text-ink placeholder:text-ink-subtle"
     : "text-ink placeholder:text-ink-subtle";
   const inputSize = success
     ? "flex-none w-0 px-0 opacity-0 pointer-events-none select-none"
@@ -111,7 +114,7 @@ export default function WaitlistForm({ variant = "light" }: Props) {
     "relative overflow-hidden py-2.5 sm:py-3 rounded-full text-[13px] sm:text-sm font-medium whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-500 ease-out disabled:cursor-not-allowed";
   const btnTheme = shareMode
     ? isDark
-      ? "bg-white text-coral-500 hover:bg-cream-100"
+      ? "bg-coral-500 hover:bg-coral-600 text-white"
       : "bg-ink hover:bg-ink-soft text-white"
     : success
       ? "bg-sage-500 text-white"
