@@ -498,14 +498,10 @@ export default function HomePage() {
           >
             {/* Inner wrapper scales the whole scene down on small screens */}
             <div className="relative scale-[0.4] sm:scale-[0.6] md:scale-100 origin-center">
-              {/* Center — framed phone (in flow → defines size for abs siblings) */}
+              {/* Center — framed phone (in flow → defines size for abs siblings); loops through every screen */}
               <div className="relative z-20">
                 <Phone shadow={false} bare>
-                  <img
-                    src="/assets/img/flashcard.png"
-                    alt=""
-                    className="w-full h-full object-cover object-top"
-                  />
+                  <FeatureCenterScreens />
                 </Phone>
               </div>
 
@@ -1033,6 +1029,49 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
 /* =======================================================
    Small helpers below
    ======================================================= */
+
+// Ordered so each slide flows into the next: coral hero block,
+// then amber, then sky, then cream content pages, then the
+// sage-bg in-session screens at the end.
+const FEATURE_SCREEN_LOOP = [
+  "dash mockup.png",          // coral hero
+  "revise.png",               // coral hero
+  "halaqas.png",              // coral hero
+  "selectedhalaqa.png",       // amber/gold hero
+  "subject revise page.png",  // sky hero
+  "book revise page.png",     // sky hero (book context)
+  "book read page.png",       // cream reading
+  "ai.png",                   // cream chat
+  "marketplace.png",          // cream marketplace
+  "book exam.png",            // cream quiz transition
+  "quiz.png",                 // sage in-session
+  "flashcard.png",            // sage in-session
+];
+
+function FeatureCenterScreens() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIdx((i) => (i + 1) % FEATURE_SCREEN_LOOP.length);
+    }, 280);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <>
+      {FEATURE_SCREEN_LOOP.map((src, i) => (
+        <img
+          key={src}
+          src={`/assets/img/${src}`}
+          alt={i === 0 ? "Dars app screens" : ""}
+          loading="eager"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover object-top"
+          style={{ opacity: i === idx ? 1 : 0 }}
+        />
+      ))}
+    </>
+  );
+}
 
 function FloatCard({
   children,
