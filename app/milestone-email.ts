@@ -149,7 +149,7 @@ export function buildMilestoneEmail() {
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
               ${point(
                 1,
-                "book%20read%20page.png",
+                "email%20content.png",
                 "Books being loaded into Dars",
                 "Books are being loaded in.",
                 "We&#39;ve been ingesting full Alimiyyah texts into the system, chapter by chapter, with summaries, key points, Arabic with harakat, and flashcards mapped to each baab. It&#39;s slower than I&#39;d like, but it has to be done properly. There is no point shipping a revision app that gets Quduri wrong.",
@@ -158,19 +158,19 @@ export function buildMilestoneEmail() {
                 2,
                 "email%20halaqa.png",
                 "Dars leaderboard for a study group",
-                "Revision shouldn&#39;t feel like a chore.",
+                "The leaderboards are taking shape.",
                 "Your year, your friends, your class &mdash; all on the leaderboard. Streaks, head-to-head quizzes, who&#39;s smashed which baab this week. We&#39;re making it competitive in the best way: the kind that has you opening the app on a Saturday morning instead of avoiding it. Sacred knowledge stays serious. The way you get it into your head doesn&#39;t have to be.",
               )}
               ${point(
                 3,
-                "ai.png",
+                "email%20ai.png",
                 "AI tutor inside Dars",
                 "The AI tutor is getting smarter.",
                 "We&#39;ve been training it to actually understand your year level, your madhab, and the specific books you&#39;re studying, so when you ask a question it points you to the right chapter and page rather than giving you a generic Wikipedia answer. It still defers to your ustad on anything fatwa-related. That part is non-negotiable.",
               )}
               ${point(
                 4,
-                "flashcard.png",
+                "email_quiz.png",
                 "Polished Dars flashcard interface",
                 "The app itself is being polished. Properly.",
                 "The kind of polish where I find myself at 2am moving a button two pixels to the left because it was bothering me. Sacred knowledge deserves a UI that respects it, not something that looks like it was thrown together in a weekend.",
