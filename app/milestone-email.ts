@@ -170,7 +170,7 @@ export function buildMilestoneEmail() {
               )}
               ${point(
                 4,
-                "email_quiz.png",
+                "email%20quiz.png",
                 "Polished Dars flashcard interface",
                 "The app itself is being polished. Properly.",
                 "The kind of polish where I find myself at 2am moving a button two pixels to the left because it was bothering me. Sacred knowledge deserves a UI that respects it, not something that looks like it was thrown together in a weekend.",

@@ -309,6 +309,21 @@
     animation: flashcard-verdict-green 8s ease-in-out infinite;
   }
 
+  @keyframes step-in-forward {
+    0%   { opacity: 0; transform: translateX(24px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes step-in-back {
+    0%   { opacity: 0; transform: translateX(-24px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  .animate-step-in-forward {
+    animation: step-in-forward 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .animate-step-in-back {
+    animation: step-in-back 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-hero-phone-center {
       animation: none;
@@ -331,7 +346,9 @@
     .animate-verdict-green,
     .animate-caret,
     .animate-confetti,
-    .animate-celebrate-pulse {
+    .animate-celebrate-pulse,
+    .animate-step-in-forward,
+    .animate-step-in-back {
       animation: none;
     }
   }
