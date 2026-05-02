@@ -519,7 +519,10 @@ function StepAbout({ data, update, errors }: StepProps) {
           <p>
             <span className="font-semibold text-ink">In return: lifetime Pro access.</span>{" "}
             The AI tutor usage will be capped (each query costs us money) —
-            we&apos;ll lift the cap as Dars starts earning.
+            we&apos;ll lift the cap as Dars starts earning. You&apos;ll also get
+            every other paid benefit we add, free for life. If you&apos;re a
+            teacher, that includes the full teacher package free for life when
+            it rolls out.
           </p>
           <p>
             <span className="font-semibold text-ink">First in line when we hire.</span>{" "}
