@@ -21,9 +21,23 @@ export default function HomePage() {
   const orbsRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const bentoRef = useRef<HTMLDivElement>(null);
+  const mobileMenuInnerRef = useRef<HTMLDivElement>(null);
   const [roleTab, setRoleTab] = useState<"students" | "teachers" | "institutes">("students");
   const [heroSignedUp, setHeroSignedUp] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mobileMenuHeight, setMobileMenuHeight] = useState(0);
+
+  // Measure the dropdown's natural height so we can animate from 0 to
+  // the exact size — fluid, no jumps, no grid-row fr bugs.
+  useEffect(() => {
+    if (!mobileMenuInnerRef.current) return;
+    const el = mobileMenuInnerRef.current;
+    const update = () => setMobileMenuHeight(el.scrollHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!bentoRef.current) return;
@@ -154,7 +168,7 @@ export default function HomePage() {
       {/* ===== NAV (floating pill) ===== */}
       <nav className="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
         <div
-          className={`pointer-events-auto w-full max-w-5xl backdrop-blur-xl border border-border shadow-card overflow-hidden transition-[border-radius,background-color] duration-300 ease-out ${
+          className={`pointer-events-auto w-full max-w-5xl backdrop-blur-xl border border-border shadow-card overflow-hidden transition-[border-radius,background-color] duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)] ${
             mobileNavOpen
               ? "rounded-[28px] bg-cream-200/95"
               : "rounded-full bg-card/90"
@@ -224,46 +238,39 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Mobile expandable section — morphs height + content fades in */}
+          {/* Mobile expandable section — measured height animates fluidly */}
           <div
-            className={`md:hidden grid transition-[grid-template-rows] duration-300 ease-out ${
-              mobileNavOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-            }`}
+            className="md:hidden overflow-hidden transition-[height] duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+            style={{ height: mobileNavOpen ? mobileMenuHeight : 0 }}
             aria-hidden={!mobileNavOpen}
           >
-            <div className="min-h-0 overflow-hidden">
-              <div
-                className={`px-3 pt-1 pb-3 transition-opacity duration-200 ${
-                  mobileNavOpen ? "opacity-100 delay-150" : "opacity-0"
-                }`}
-              >
-                {[
-                  { href: "#about", label: "About" },
-                  { href: "#features", label: "Features" },
-                  { href: "#institutes", label: "Institutes" },
-                  { href: "#halaqas", label: "Halaqas" },
-                  { href: "/contribute", label: "Contribute" },
-                ].map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileNavOpen(false)}
-                    tabIndex={mobileNavOpen ? 0 : -1}
-                    className="block px-3 py-3 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink rounded-lg transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                ))}
+            <div ref={mobileMenuInnerRef} className="px-3 pt-1 pb-3">
+              {[
+                { href: "#about", label: "About" },
+                { href: "#features", label: "Features" },
+                { href: "#institutes", label: "Institutes" },
+                { href: "#halaqas", label: "Halaqas" },
+                { href: "/contribute", label: "Contribute" },
+              ].map((item) => (
                 <a
-                  href="#waitlist"
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setMobileNavOpen(false)}
                   tabIndex={mobileNavOpen ? 0 : -1}
-                  className="mt-2 flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-ink text-cream-100 text-[15px] font-medium hover:bg-ink-soft transition-colors shadow-soft"
+                  className="block px-3 py-3 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink rounded-lg transition-colors"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
-                  Join waitlist
+                  {item.label}
                 </a>
-              </div>
+              ))}
+              <a
+                href="#waitlist"
+                onClick={() => setMobileNavOpen(false)}
+                tabIndex={mobileNavOpen ? 0 : -1}
+                className="mt-2 flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-ink text-cream-100 text-[15px] font-medium hover:bg-ink-soft transition-colors shadow-soft"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
+                Join waitlist
+              </a>
             </div>
           </div>
         </div>
