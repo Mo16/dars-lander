@@ -222,7 +222,7 @@ export default function HomePage() {
             <p
               className={`col-start-1 row-start-1 origin-center will-change-transform ${heroSignedUp ? "animate-tagline-out" : "opacity-100"}`}
             >
-              <strong className="text-ink font-semibold">1,600+ students</strong>{" "}
+              <strong className="text-ink font-semibold">2,100+ students</strong>{" "}
               on the waitlist · Get early access and launch updates
             </p>
             <p
@@ -924,7 +924,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                 </h2>
                 <p className="mt-4 text-[14.5px] sm:text-[15px] text-white/85 leading-relaxed max-w-[44ch]">
                   Early access, launch updates, and a direct line to
-                  shape the app. Join 1,600+ students already on the list.
+                  shape the app. Join 2,100+ students already on the list.
                 </p>
 
                 <div className="mt-7">
