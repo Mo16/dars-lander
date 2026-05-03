@@ -220,18 +220,24 @@ export default function HomePage() {
               { href: "#institutes", label: "Institutes" },
               { href: "#halaqas", label: "Halaqas" },
               { href: "/contribute", label: "Contribute" },
-            ].map((item, i, arr) => (
+            ].map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileNavOpen(false)}
-                className={`block px-5 py-3.5 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink transition-colors ${
-                  i < arr.length - 1 ? "border-b border-border" : ""
-                }`}
+                className="block px-5 py-3.5 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink transition-colors border-b border-border"
               >
                 {item.label}
               </a>
             ))}
+            <a
+              href="#waitlist"
+              onClick={() => setMobileNavOpen(false)}
+              className="flex items-center justify-center gap-2 m-2 px-5 py-3 rounded-xl bg-ink text-cream-100 text-[15px] font-medium hover:bg-ink-soft transition-colors shadow-soft"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
+              Join waitlist
+            </a>
           </div>
         </div>
       </nav>
