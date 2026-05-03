@@ -176,7 +176,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2 shrink-0">
             <a
               href="#waitlist"
-              className="bg-ink text-cream-100 px-4 sm:px-5 py-2.5 rounded-full text-[13px] sm:text-[14px] font-medium inline-flex items-center gap-2 hover:bg-ink-soft transition-colors shadow-soft"
+              className="hidden md:inline-flex bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[14px] font-medium items-center gap-2 hover:bg-ink-soft transition-colors shadow-soft"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
               Join waitlist
