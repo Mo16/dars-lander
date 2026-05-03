@@ -206,10 +206,10 @@ export default function HomePage() {
 
         {/* Mobile dropdown menu */}
         <div
-          className={`pointer-events-auto md:hidden w-full max-w-5xl mt-2 origin-top transition-all duration-200 ease-out ${
+          className={`md:hidden w-full max-w-5xl mt-2 origin-top transition-all duration-200 ease-out ${
             mobileNavOpen
-              ? "opacity-100 scale-y-100 translate-y-0"
-              : "opacity-0 scale-y-95 -translate-y-2 pointer-events-none"
+              ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 scale-y-95 -translate-y-2 invisible pointer-events-none"
           }`}
           aria-hidden={!mobileNavOpen}
         >
