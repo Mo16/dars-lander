@@ -23,6 +23,7 @@ export default function HomePage() {
   const bentoRef = useRef<HTMLDivElement>(null);
   const [roleTab, setRoleTab] = useState<"students" | "teachers" | "institutes">("students");
   const [heroSignedUp, setHeroSignedUp] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     if (!bentoRef.current) return;
@@ -151,7 +152,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#fffcf6] text-ink overflow-x-clip">
       {/* ===== NAV (floating pill) ===== */}
-      <nav className="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+      <nav className="fixed top-5 inset-x-0 z-50 flex flex-col items-center px-4 pointer-events-none">
         <div className="pointer-events-auto w-full max-w-5xl bg-card/90 backdrop-blur-xl border border-border rounded-full shadow-card pl-5 pr-3 py-3 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2.5 shrink-0">
             <img
@@ -169,16 +170,69 @@ export default function HomePage() {
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
             <a href="#institutes" className="hover:text-ink transition-colors">Institutes</a>
             <a href="#halaqas" className="hover:text-ink transition-colors">Halaqas</a>
-            <a href="#reviews" className="hover:text-ink transition-colors">Reviews</a>
+            <a href="/contribute" className="hover:text-ink transition-colors">Contribute</a>
           </div>
 
-          <a
-            href="#waitlist"
-            className="bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[14px] font-medium inline-flex items-center gap-2 hover:bg-ink-soft transition-colors shrink-0 shadow-soft"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
-            Join waitlist
-          </a>
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href="#waitlist"
+              className="bg-ink text-cream-100 px-4 sm:px-5 py-2.5 rounded-full text-[13px] sm:text-[14px] font-medium inline-flex items-center gap-2 hover:bg-ink-soft transition-colors shadow-soft"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
+              Join waitlist
+            </a>
+            <button
+              type="button"
+              aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileNavOpen}
+              onClick={() => setMobileNavOpen((v) => !v)}
+              className="md:hidden w-10 h-10 rounded-full flex items-center justify-center text-ink hover:bg-ink/5 transition-colors"
+            >
+              {mobileNavOpen ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile dropdown menu */}
+        <div
+          className={`pointer-events-auto md:hidden w-full max-w-5xl mt-2 origin-top transition-all duration-200 ease-out ${
+            mobileNavOpen
+              ? "opacity-100 scale-y-100 translate-y-0"
+              : "opacity-0 scale-y-95 -translate-y-2 pointer-events-none"
+          }`}
+          aria-hidden={!mobileNavOpen}
+        >
+          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-card overflow-hidden">
+            {[
+              { href: "#about", label: "About" },
+              { href: "#features", label: "Features" },
+              { href: "#institutes", label: "Institutes" },
+              { href: "#halaqas", label: "Halaqas" },
+              { href: "/contribute", label: "Contribute" },
+            ].map((item, i, arr) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileNavOpen(false)}
+                className={`block px-5 py-3.5 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink transition-colors ${
+                  i < arr.length - 1 ? "border-b border-border" : ""
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
         </div>
       </nav>
 
@@ -197,7 +251,7 @@ export default function HomePage() {
         <div className="relative  mx-auto px-6">
           <span className="inline-flex items-center gap-2 border border-border-strong bg-card px-4 py-1.5 rounded-full text-[12px] font-medium text-ink-soft shadow-soft">
             <span className="w-1.5 h-1.5 rounded-full bg-coral-500 animate-pulse-dot" />
-            Join the waitlist
+            Free early access · 2,100+ joined
           </span>
 
           <h1 className="font-display font-light text-[51px] md:text-[72px] lg:text-[84px] leading-[1.02] tracking-tight mt-5 text-balance">
