@@ -152,92 +152,119 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#fffcf6] text-ink overflow-x-clip">
       {/* ===== NAV (floating pill) ===== */}
-      <nav className="fixed top-5 inset-x-0 z-50 flex flex-col items-center px-4 pointer-events-none">
-        <div className="pointer-events-auto w-full max-w-5xl bg-card/90 backdrop-blur-xl border border-border rounded-full shadow-card pl-5 pr-3 py-3 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2.5 shrink-0">
-            <img
-              src="/assets/img/logo.png"
-              alt="Dars logo"
-              width={40}
-              height={40}
-              className="w-10 h-10 rounded-xl shadow-soft object-cover"
-            />
-            <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
-          </a>
-
-          <div className="hidden md:flex gap-9 items-center text-[15px] text-ink-soft font-medium">
-            <a href="#about" className="hover:text-ink transition-colors">About</a>
-            <a href="#features" className="hover:text-ink transition-colors">Features</a>
-            <a href="#institutes" className="hover:text-ink transition-colors">Institutes</a>
-            <a href="#halaqas" className="hover:text-ink transition-colors">Halaqas</a>
-            <a href="/contribute" className="hover:text-ink transition-colors">Contribute</a>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            <a
-              href="#waitlist"
-              className="hidden md:inline-flex bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[14px] font-medium items-center gap-2 hover:bg-ink-soft transition-colors shadow-soft"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
-              Join waitlist
-            </a>
-            <button
-              type="button"
-              aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileNavOpen}
-              onClick={() => setMobileNavOpen((v) => !v)}
-              className="md:hidden w-10 h-10 rounded-full flex items-center justify-center text-ink hover:bg-ink/5 transition-colors"
-            >
-              {mobileNavOpen ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile dropdown menu */}
+      <nav className="fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
         <div
-          className={`md:hidden w-full max-w-5xl mt-2 origin-top transition-all duration-200 ease-out ${
+          className={`pointer-events-auto w-full max-w-5xl backdrop-blur-xl border border-border shadow-card overflow-hidden transition-[border-radius,background-color] duration-300 ease-out ${
             mobileNavOpen
-              ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
-              : "opacity-0 scale-y-95 -translate-y-2 invisible pointer-events-none"
+              ? "rounded-[28px] bg-cream-200/95"
+              : "rounded-full bg-card/90"
           }`}
-          aria-hidden={!mobileNavOpen}
         >
-          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-card overflow-hidden">
-            {[
-              { href: "#about", label: "About" },
-              { href: "#features", label: "Features" },
-              { href: "#institutes", label: "Institutes" },
-              { href: "#halaqas", label: "Halaqas" },
-              { href: "/contribute", label: "Contribute" },
-            ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileNavOpen(false)}
-                className="block px-5 py-3.5 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink transition-colors border-b border-border"
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="#waitlist"
-              onClick={() => setMobileNavOpen(false)}
-              className="flex items-center justify-center gap-2 m-2 px-5 py-3 rounded-xl bg-ink text-cream-100 text-[15px] font-medium hover:bg-ink-soft transition-colors shadow-soft"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
-              Join waitlist
+          {/* Pill row */}
+          <div className="pl-5 pr-3 py-3 flex items-center justify-between">
+            <a href="#" className="flex items-center gap-2.5 shrink-0">
+              <img
+                src="/assets/img/logo.png"
+                alt="Dars logo"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-xl shadow-soft object-cover"
+              />
+              <span className="font-display text-[22px] leading-none tracking-tight">Dars</span>
             </a>
+
+            <div className="hidden md:flex gap-9 items-center text-[15px] text-ink-soft font-medium">
+              <a href="#about" className="hover:text-ink transition-colors">About</a>
+              <a href="#features" className="hover:text-ink transition-colors">Features</a>
+              <a href="#institutes" className="hover:text-ink transition-colors">Institutes</a>
+              <a href="#halaqas" className="hover:text-ink transition-colors">Halaqas</a>
+              <a href="/contribute" className="hover:text-ink transition-colors">Contribute</a>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <a
+                href="#waitlist"
+                className="hidden md:inline-flex bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[14px] font-medium items-center gap-2 hover:bg-ink-soft transition-colors shadow-soft"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
+                Join waitlist
+              </a>
+              <button
+                type="button"
+                aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileNavOpen}
+                onClick={() => setMobileNavOpen((v) => !v)}
+                className="md:hidden w-10 h-10 rounded-full flex items-center justify-center text-ink hover:bg-ink/5 transition-colors"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform duration-300 ${mobileNavOpen ? "rotate-90" : ""}`}
+                >
+                  {mobileNavOpen ? (
+                    <>
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </>
+                  ) : (
+                    <>
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <line x1="3" y1="12" x2="21" y2="12" />
+                      <line x1="3" y1="18" x2="21" y2="18" />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile expandable section — morphs height + content fades in */}
+          <div
+            className={`md:hidden grid transition-[grid-template-rows] duration-300 ease-out ${
+              mobileNavOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+            aria-hidden={!mobileNavOpen}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <div
+                className={`px-3 pt-1 pb-3 transition-opacity duration-200 ${
+                  mobileNavOpen ? "opacity-100 delay-150" : "opacity-0"
+                }`}
+              >
+                {[
+                  { href: "#about", label: "About" },
+                  { href: "#features", label: "Features" },
+                  { href: "#institutes", label: "Institutes" },
+                  { href: "#halaqas", label: "Halaqas" },
+                  { href: "/contribute", label: "Contribute" },
+                ].map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileNavOpen(false)}
+                    tabIndex={mobileNavOpen ? 0 : -1}
+                    className="block px-3 py-3 text-[15px] font-medium text-ink-soft hover:bg-ink/5 hover:text-ink rounded-lg transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <a
+                  href="#waitlist"
+                  onClick={() => setMobileNavOpen(false)}
+                  tabIndex={mobileNavOpen ? 0 : -1}
+                  className="mt-2 flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-ink text-cream-100 text-[15px] font-medium hover:bg-ink-soft transition-colors shadow-soft"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
+                  Join waitlist
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
