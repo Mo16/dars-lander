@@ -57,7 +57,13 @@ const config: Config = {
         card: "#FFFDF8",
       },
       fontFamily: {
-        sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        sans: [
+          "var(--font-figtree)",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
         display: ["var(--font-geist)", "system-ui", "sans-serif"],
         arabic: ["var(--font-arabic)", "serif"],
       },

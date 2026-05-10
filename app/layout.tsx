@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
-import { Instrument_Serif } from "next/font/google";
+import { Figtree, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-figtree",
+  display: "swap",
+});
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -14,7 +21,7 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-const siteUrl = "https://dars.app";
+const siteUrl = "https://darsapp.com";
 const siteName = "Dars";
 const title = "Dars — The revision app for Alimiyyah students";
 const description =
@@ -117,7 +124,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${instrumentSerif.variable}`}
+      className={`${GeistSans.variable} ${instrumentSerif.variable} ${figtree.variable}`}
       style={{ "--font-geist": "var(--font-geist-sans)" } as React.CSSProperties}
     >
       <body>

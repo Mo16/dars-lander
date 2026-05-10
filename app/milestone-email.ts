@@ -13,7 +13,7 @@ export function buildMilestoneEmail() {
   const inkSubtle = "#9A9488";
   const serif = "Georgia, 'Times New Roman', serif";
   const sans =
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+    "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 
   const base = "https://darsapp.com/assets/img";
 
@@ -62,6 +62,7 @@ export function buildMilestoneEmail() {
 <meta name="supported-color-schemes" content="only light">
 <title>oh stop it you 😊 (1,000 of you signed up)</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
   :root {
     color-scheme: only light;
     supported-color-schemes: only light;

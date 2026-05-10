@@ -324,6 +324,60 @@
     animation: step-in-back 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /*
+   * Burst confetti — like animate-confetti but each piece travels along a
+   * 2D vector from the center using --bx / --by, so the burst expands
+   * outward in a sphere instead of just falling.
+   */
+  @keyframes confetti-burst {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(0.6); opacity: 0; }
+    8%   { opacity: 1; transform: translate(calc(var(--bx, 0px) * 0.18), calc(var(--by, 0px) * 0.18)) rotate(calc(var(--br, 360deg) * 0.1)) scale(1); }
+    100% { transform: translate(var(--bx, 0px), calc(var(--by, 0px) + 80px)) rotate(var(--br, 360deg)) scale(0.95); opacity: 0; }
+  }
+  .animate-confetti-burst {
+    animation: confetti-burst 1.6s cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
+  }
+
+  @keyframes shimmer-sweep {
+    0%   { transform: translateX(-120%); }
+    100% { transform: translateX(220%); }
+  }
+  .animate-shimmer-sweep {
+    animation: shimmer-sweep 2.2s ease-in-out infinite;
+  }
+
+  @keyframes medallion-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(236, 97, 68, 0.55), 0 30px 60px -20px rgba(236, 97, 68, 0.55); }
+    50%      { box-shadow: 0 0 0 16px rgba(236, 97, 68, 0), 0 30px 60px -20px rgba(236, 97, 68, 0.55); }
+  }
+  .animate-medallion-glow {
+    animation: medallion-glow 2.4s ease-in-out infinite;
+  }
+
+  @keyframes blob-drift-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(40px, -30px) scale(1.08); }
+  }
+  @keyframes blob-drift-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-50px, 40px) scale(1.12); }
+  }
+  @keyframes blob-drift-c {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(30px, 50px) scale(1.05); }
+  }
+  .animate-blob-a { animation: blob-drift-a 16s ease-in-out infinite; }
+  .animate-blob-b { animation: blob-drift-b 19s ease-in-out infinite; }
+  .animate-blob-c { animation: blob-drift-c 22s ease-in-out infinite; }
+
+  @keyframes badge-orbit {
+    0%   { transform: rotate(0deg) translateY(-46px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateY(-46px) rotate(-360deg); }
+  }
+  .animate-badge-orbit {
+    animation: badge-orbit 8s linear infinite;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-hero-phone-center {
       animation: none;
@@ -348,7 +402,14 @@
     .animate-confetti,
     .animate-celebrate-pulse,
     .animate-step-in-forward,
-    .animate-step-in-back {
+    .animate-step-in-back,
+    .animate-confetti-burst,
+    .animate-shimmer-sweep,
+    .animate-medallion-glow,
+    .animate-blob-a,
+    .animate-blob-b,
+    .animate-blob-c,
+    .animate-badge-orbit {
       animation: none;
     }
   }

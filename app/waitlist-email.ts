@@ -16,7 +16,7 @@ export function buildConfirmationEmail() {
   const inkSubtle = "#9A9488";
   const serif = "Georgia, 'Times New Roman', serif";
   const sans =
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+    "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 
   const step = (n: number, title: string, body: string) => `
     <tr>
@@ -45,6 +45,7 @@ export function buildConfirmationEmail() {
 <meta name="supported-color-schemes" content="only light">
 <title>You're on the Dars waitlist</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
   :root {
     color-scheme: only light;
     supported-color-schemes: only light;

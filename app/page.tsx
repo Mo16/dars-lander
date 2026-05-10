@@ -1073,8 +1073,9 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
           <div className="flex flex-wrap justify-center gap-x-9 gap-y-2 text-[15px] font-medium text-ink-soft">
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
             <a href="#how" className="hover:text-ink transition-colors">How it works</a>
-            <a href="#" className="hover:text-ink transition-colors">Privacy</a>
-            <a href="#" className="hover:text-ink transition-colors">Terms</a>
+            <a href="/support" className="hover:text-ink transition-colors">Support</a>
+            <a href="/privacy" className="hover:text-ink transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-ink transition-colors">Terms</a>
           </div>
 
           <div className="flex gap-2">

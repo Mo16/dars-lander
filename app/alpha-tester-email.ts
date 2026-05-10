@@ -1,7 +1,7 @@
-// HTML contributor email — "I can't do this alone" call for help.
-// Reuses the cream + coral palette and dark-mode lockout from milestone-email.ts
-// but uses text-only requirement cards and pill-button support links.
-export function buildContributorEmail() {
+// HTML alpha-tester email — late-night "u up?" call to sign up for alpha.
+// Reuses the cream + coral palette and dark-mode lockout from
+// contributor-email.ts and adds a primary CTA button to /beta-access.
+export function buildAlphaTesterEmail() {
   const coral = "#EC6144";
   const coralSoft = "#FFE3D6";
   const coralDeep = "#C94A2E";
@@ -17,24 +17,16 @@ export function buildContributorEmail() {
     "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 
   const base = "https://darsapp.com/assets/img";
+  const ctaUrl = "https://darsapp.com/beta-access";
 
-  const requirement = (n: number, title: string, body: string) => `
+  const bullet = (title: string, body: string) => `
     <tr>
-      <td class="dm-bg-card dm-border" style="background:${card}; border:1px solid ${border}; border-radius:18px; padding:22px 24px;">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-          <tr>
-            <td width="44" valign="top">
-              <div class="dm-bg-coral dm-text-white" style="width:34px; height:34px; border-radius:999px; background:${coral}; color:#ffffff; text-align:center; line-height:34px; font-size:14px; font-weight:600; font-family:${sans};">${n}</div>
-            </td>
-            <td valign="top" style="padding-left:6px;">
-              <p class="dm-text-ink" style="margin:0 0 6px; font-family:${sans}; font-size:16px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.005em;">${title}</p>
-              <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:14.5px; line-height:1.6; color:${inkSoft};">${body}</p>
-            </td>
-          </tr>
-        </table>
+      <td class="dm-bg-card dm-border" style="background:${card}; border:1px solid ${border}; border-radius:18px; padding:20px 22px;">
+        <p class="dm-text-ink" style="margin:0 0 6px; font-family:${sans}; font-size:15px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.005em;">${title}</p>
+        <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:14.5px; line-height:1.6; color:${inkSoft};">${body}</p>
       </td>
     </tr>
-    <tr><td style="height:12px; line-height:12px; font-size:0;">&nbsp;</td></tr>
+    <tr><td style="height:10px; line-height:10px; font-size:0;">&nbsp;</td></tr>
   `;
 
   return `<!DOCTYPE html>
@@ -44,7 +36,7 @@ export function buildContributorEmail() {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="only light">
 <meta name="supported-color-schemes" content="only light">
-<title>they&#39;re coming to our country and taking our jobs 😭</title>
+<title>u up?</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
   :root {
@@ -84,7 +76,7 @@ export function buildContributorEmail() {
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
 <div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  Opening contributor spots on Dars. If you&#39;ve studied Alimiyyah texts, we need your help.
+  We&#39;ve been working on Dars &mdash; hard. The very first alpha build is ready for testers.
 </div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
@@ -103,12 +95,12 @@ export function buildContributorEmail() {
         <!-- hero card -->
         <tr>
           <td class="dm-bg-coral-soft" style="background:${coralSoft}; border-radius:24px; padding:44px 36px;">
-            <p class="dm-text-coral" style="margin:0 0 14px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:${coral}; font-weight:600;">◆ A favour to ask</p>
+            <p class="dm-text-coral" style="margin:0 0 14px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:${coral}; font-weight:600;">◆ Alpha testers wanted</p>
             <h1 class="dm-text-ink" style="margin:0 0 18px; font-family:${sans}; font-size:42px; line-height:1.05; font-weight:500; letter-spacing:-0.02em; color:${ink};">
-              Want to help <span class="dm-text-coral" style="font-family:${serif}; font-style:italic; color:${coral}; font-weight:400;">build it?</span>
+              We&#39;ve been up. <span class="dm-text-coral" style="font-family:${serif}; font-style:italic; color:${coral}; font-weight:400;">For a while now.</span>
             </h1>
             <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.65; color:${inkSoft};">
-              Assalamu alaikum &mdash; quick one. We&#39;re opening contributor spots on Dars, and we&#39;re looking for the right people.
+              Assalamu alaikum. We&#39;ve been heads-down on Dars for months &mdash; long days, longer nights, a lot of du&#39;a. The very first alpha build is finally ready for testers.
             </p>
           </td>
         </tr>
@@ -119,71 +111,107 @@ export function buildContributorEmail() {
         <tr>
           <td style="padding:0 4px 8px;">
             <p class="dm-text-ink-soft" style="margin:0 0 16px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              The Alimiyyah syllabus has hundreds of books across <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">Fiqh, Nahw, Sarf, Hadith, Tafsir, Aqeedah</strong> and beyond. Getting each one properly into Dars &mdash; chapter summaries, key points, flashcards, the works &mdash; is the bulk of the work right now.
+              Genuinely &mdash; we&#39;ve been working <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">hard</strong> on this. Building, breaking, rebuilding. Trying to make something that earns its place on your homescreen rather than another app you forget about by Wednesday.
             </p>
-            <p class="dm-text-ink-soft" style="margin:0 0 22px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              On our own, we ship in a few months. With contributors, much sooner &mdash; and none of us want to wait longer than we have to.
+            <p class="dm-text-ink-soft" style="margin:0 0 16px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
+              Fair warning though: this is <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">alpha</strong>, not beta. Things will break. Buttons will do nothing. The AI tutor might confidently misattribute a hadith. Cards may save themselves to the void. The streak counter could decide you&#39;ve been studying for negative four days.
             </p>
-          </td>
-        </tr>
-
-        <!-- big banner -->
-        <tr>
-          <td class="dm-bg-coral dm-text-white" style="background:${coral}; border-radius:20px; padding:28px 32px;">
-            <p class="dm-text-white" style="margin:0 0 6px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#ffffff; font-weight:600; opacity:0.85;">So here&#39;s the thing</p>
-            <p class="dm-text-white" style="margin:0; font-family:${sans}; font-size:24px; line-height:1.25; font-weight:500; letter-spacing:-0.01em; color:#ffffff;">
-              We&#39;re opening <span style="font-family:${serif}; font-style:italic; font-weight:400;">contributor spots.</span>
+            <p class="dm-text-ink" style="margin:0 0 22px; font-family:${sans}; font-size:15px; line-height:1.7; color:${ink}; font-weight:500;">
+              That&#39;s exactly why we need testers.
             </p>
-          </td>
-        </tr>
-
-        <tr><td style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
-
-        <!-- requirements heading -->
-        <tr>
-          <td style="padding:0 4px 14px;">
-            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What we&#39;re looking for</p>
-            <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
-              Here&#39;s the shortlist.
-            </p>
-          </td>
-        </tr>
-
-        <!-- requirements -->
-        <tr>
-          <td>
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-              ${requirement(
-                1,
-                "You&#39;ve actually studied these books.",
-                "Currently in Alimiyyah, graduated, or seriously read texts like Quduri, Hidayah, Ajrumiyyah, Mishkat, Bukhari, the Urdu staples, the Tafsir side. Accuracy is everything &mdash; the whole pitch of Dars falls apart if the content gets things wrong.",
-              )}
-              ${requirement(
-                2,
-                "You have a ChatGPT Plus or Claude Pro account.",
-                "The workflow leans on these heavily and the free tiers cap out fast. If you don&#39;t have one already, this isn&#39;t for you yet.",
-              )}
-              ${requirement(
-                3,
-                "You can handle the tech side.",
-                "It&#39;s structured data entry. PDF in, AI prompt, review the output, paste into the admin panel, tidy the formatting. Not coding &mdash; but you need to be comfortable around it.",
-              )}
-            </table>
           </td>
         </tr>
 
         <!-- CTA card -->
         <tr>
-          <td class="dm-bg-coral-soft" style="background:${coralSoft}; border-radius:20px; padding:26px 30px;">
-            <p class="dm-text-coral" style="margin:0 0 8px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:${coral}; font-weight:600;">↳ How to apply</p>
-            <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.65; color:${ink};">
-              <strong style="font-weight:600;">Hit reply</strong>
-              <span class="dm-text-ink-soft" style="color:${inkSoft};"> with what year you&#39;re in or graduated from, the books you know best, and which AI account you have. We&#39;ll write back to everyone personally.</span>
+          <td class="dm-bg-coral" style="background:${coral}; border-radius:20px; padding:34px 32px; text-align:center;">
+            <p class="dm-text-white" style="margin:0 0 8px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#ffffff; font-weight:600; opacity:0.85;">↳ How to apply</p>
+            <p class="dm-text-white" style="margin:0 0 22px; font-family:${sans}; font-size:22px; line-height:1.3; font-weight:500; letter-spacing:-0.01em; color:#ffffff;">
+              Sign up for <span style="font-family:${serif}; font-style:italic; font-weight:400;">alpha access.</span>
+            </p>
+            <a href="${ctaUrl}" class="dm-bg-card dm-text-coral" style="display:inline-block; text-decoration:none; background:${card}; color:${coral}; padding:14px 30px; border-radius:999px; font-family:${sans}; font-size:15px; font-weight:600;">
+              <span class="dm-text-coral" style="color:${coral};">Apply for alpha access &rarr;</span>
+            </a>
+            <p class="dm-text-white" style="margin:18px 0 0; font-family:${sans}; font-size:13.5px; line-height:1.55; color:#ffffff; opacity:0.85;">
+              Spots are limited &mdash; we want to actually read everyone&#39;s feedback properly. First serious replies get in.
             </p>
           </td>
         </tr>
 
-        <tr><td style="height:36px; line-height:36px; font-size:0;">&nbsp;</td></tr>
+        <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- what you'd be doing -->
+        <tr>
+          <td style="padding:0 4px 14px;">
+            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What you&#39;d actually be doing</p>
+            <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
+              Honestly &mdash; just using it.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+              ${bullet(
+                "Use the app like you normally would.",
+                "Revising, flicking through cards, trying the quizzes, poking the AI tutor.",
+              )}
+              ${bullet(
+                "Tell us when something breaks.",
+                "Looks weird, doesn&#39;t make sense, or just feels off &mdash; we want to hear about it.",
+              )}
+              ${bullet(
+                "Be patient when it does break.",
+                "Because it will. That&#39;s the whole point of an alpha.",
+              )}
+            </table>
+          </td>
+        </tr>
+
+        <tr><td style="height:18px; line-height:18px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- what you get -->
+        <tr>
+          <td style="padding:0 4px 14px;">
+            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What you get out of it</p>
+            <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
+              More than you&#39;d expect.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+              ${bullet(
+                "Genuine input on the app before launch.",
+                "Stuff you flag now actually shapes what ships.",
+              )}
+              ${bullet(
+                "First access, ahead of everyone else on the waitlist.",
+                "You&#39;ll be in long before we open the doors properly.",
+              )}
+              ${bullet(
+                "Our undying gratitude.",
+                "And likely a thank-you that I&#39;ll work out properly closer to launch.",
+              )}
+            </table>
+          </td>
+        </tr>
+
+        <tr><td style="height:14px; line-height:14px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- closing -->
+        <tr>
+          <td style="padding:0 4px;">
+            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
+              You&#39;ll be asked three quick things on the form: what device you&#39;d test on, your year of study (or what you&#39;ve previously studied), and roughly how often you&#39;d be able to use it.
+            </p>
+          </td>
+        </tr>
+
+        <tr><td style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
 
         <!-- divider -->
         <tr>
@@ -201,9 +229,9 @@ export function buildContributorEmail() {
         <!-- support heading -->
         <tr>
           <td style="padding:0 4px 14px;">
-            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">If you can&#39;t contribute time</p>
+            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">Other ways to help</p>
             <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
-              There are other ways to help.
+              Sharing counts. So does donating.
             </p>
           </td>
         </tr>
@@ -211,8 +239,11 @@ export function buildContributorEmail() {
         <!-- support body -->
         <tr>
           <td style="padding:0 4px 18px;">
+            <p class="dm-text-ink-soft" style="margin:0 0 14px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
+              Honestly, the biggest thing right now is getting Dars in front of people who&#39;d actually use it. A forward to a friend, a screenshot in a group chat, a quick repost on your story &mdash; that helps as much as anything else. Free, takes ten seconds, makes a real difference.
+            </p>
             <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Dars is being built entirely out of our own pocket right now &mdash; AI credits, hosting, design tools, all of it. Every contribution genuinely keeps the lights on.
+              And if you&#39;d rather chip something in: Dars is funded entirely out of our own pocket right now &mdash; AI credits, hosting, the lot. Anything you send goes straight back into keeping it running. Genuinely no pressure either way.
             </p>
           </td>
         </tr>
@@ -239,31 +270,16 @@ export function buildContributorEmail() {
           </td>
         </tr>
 
-        <tr><td style="height:24px; line-height:24px; font-size:0;">&nbsp;</td></tr>
-
-        <!-- aurelo card -->
-        <tr>
-          <td class="dm-bg-card dm-border" style="background:${card}; border:1px solid ${border}; border-radius:20px; padding:26px 30px;">
-            <p class="dm-text-ink-muted" style="margin:0 0 8px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">Or option three</p>
-            <p class="dm-text-ink" style="margin:0 0 14px; font-family:${sans}; font-size:16px; line-height:1.45; font-weight:600; color:${ink}; letter-spacing:-0.005em;">
-              Send work our agency&#39;s way.
-            </p>
-            <p class="dm-text-ink-soft" style="margin:0 0 18px; font-family:${sans}; font-size:14.5px; line-height:1.65; color:${inkSoft};">
-              We also run <a href="https://aurelo.uk" class="dm-text-coral" style="color:${coral}; font-weight:500;">Aurelo Web Studio</a> &mdash; the studio that built Dars. We get businesses more customers, higher search rankings, and apps that actually ship. Dars is one of ours, so you already know the standard. If you or anyone you know needs that kind of work, sending it our way directly funds Dars.
-            </p>
-            <a href="https://aurelo.uk" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:11px 22px; border-radius:999px; font-family:${sans}; font-size:14px; font-weight:500;">
-              <span class="dm-text-white" style="color:#ffffff;">Visit aurelo.uk &rarr;</span>
-            </a>
-          </td>
-        </tr>
-
         <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
 
-        <!-- closing -->
+        <!-- proper send-off -->
         <tr>
           <td style="padding:0 4px;">
-            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft}; font-style:italic; font-family:${serif};">
-              Genuinely no pressure. Sharing the app with someone who&#39;d benefit is just as valuable.
+            <p class="dm-text-ink-soft" style="margin:0 0 8px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
+              Whatever you go with &mdash; testing, sharing, chipping in, or just reading this far &mdash; jazakAllah khair. Genuinely. None of this works without you.
+            </p>
+            <p class="dm-text-ink-soft" style="margin:0; font-family:${serif}; font-style:italic; font-size:15px; line-height:1.7; color:${inkSoft};">
+              Speak soon, inshaAllah.
             </p>
           </td>
         </tr>
@@ -276,10 +292,7 @@ export function buildContributorEmail() {
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
               <tr>
                 <td valign="top">
-                  <p class="dm-text-ink-soft" style="margin:0 0 6px; font-family:${sans}; font-size:14.5px; line-height:1.6; color:${inkSoft};">
-                    More soon, inshaAllah.
-                  </p>
-                  <p class="dm-text-ink" style="margin:18px 0 2px; font-family:${sans}; font-size:14.5px; line-height:1.6; color:${ink}; font-weight:500;">
+                  <p class="dm-text-ink" style="margin:0 0 2px; font-family:${sans}; font-size:14.5px; line-height:1.6; color:${ink}; font-weight:500;">
                     Mohammed
                   </p>
                   <p class="dm-text-coral" style="margin:0; font-family:${serif}; font-style:italic; font-size:14px; line-height:1.6; color:${coral};">
