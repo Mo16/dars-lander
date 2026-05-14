@@ -40,6 +40,15 @@ function clerkError(err: unknown): string {
 export default function DeleteAccountFlow() {
   const { isLoaded: authLoaded, isSignedIn } = useAuth();
 
+  // The "done" screen has to outlive the sign-out that runs right
+  // after a successful deletion — otherwise `isSignedIn` flips to
+  // false and the user gets bounced back to the sign-in form. Holding
+  // the flag (and the deleted user's email) at the top of the tree
+  // means the success copy stays put until the user navigates away.
+  const [done, setDone] = useState<{ email: string } | null>(null);
+
+  if (done) return <Frame><DonePanel email={done.email} /></Frame>;
+
   // Wait for Clerk to hydrate before deciding which stage to mount —
   // otherwise the sign-in form flashes for already-signed-in users.
   if (!authLoaded) return <Frame><CenteredSpinner /></Frame>;
@@ -54,7 +63,7 @@ export default function DeleteAccountFlow() {
 
   return (
     <Frame>
-      <ConfirmPanel />
+      <ConfirmPanel onDone={(email) => setDone({ email })} />
     </Frame>
   );
 }
@@ -438,7 +447,7 @@ function FootnoteCard() {
 /* Stage 2 — confirm                                                          */
 /* -------------------------------------------------------------------------- */
 
-function ConfirmPanel() {
+function ConfirmPanel({ onDone }: { onDone: (email: string) => void }) {
   const { user } = useUser();
   const { getToken } = useAuth();
   const { signOut } = useClerk();
@@ -446,7 +455,6 @@ function ConfirmPanel() {
   const [phrase, setPhrase] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
 
   const ready = phrase.trim().toUpperCase() === "DELETE";
 
@@ -480,18 +488,16 @@ function ConfirmPanel() {
       if (!res.ok || !json?.ok) {
         throw new Error(json?.error || `Could not delete account (${res.status}).`);
       }
-      setDone(true);
-      // Best-effort sign-out — the Clerk user is already gone on the
-      // server, but signing out locally clears the cookie + UI state.
+      // Hand the success state up to the parent BEFORE signing out —
+      // otherwise the auth-state flip would unmount this tree before
+      // the parent rerenders into the done view.
+      onDone(email);
       try { await signOut(); } catch { /* ignore */ }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not delete account.");
-    } finally {
       setBusy(false);
     }
   };
-
-  if (done) return <DonePanel email={email} />;
 
   return (
     <div className="space-y-6">
