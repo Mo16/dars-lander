@@ -338,7 +338,7 @@ export default function BetaAccessForm() {
             </em>
           </h1>
           <p className="text-[15px] sm:text-[16px] leading-[1.6] text-ink-soft text-pretty max-w-xl">
-            Two quick steps. We read every reply personally &mdash; no bots, no
+            Two quick steps. We read every reply personally 
             auto-filter.
           </p>
         </div>
@@ -1249,7 +1249,7 @@ function CelebrationCard({
                   We read every reply, personally.
                 </p>
                 <p className="text-[13.5px] leading-[1.55] text-ink-soft">
-                  No bots, no auto-filter. Every entry gets eyes on it.
+                 Every entry gets eyes on it.
                 </p>
               </div>
             </li>
