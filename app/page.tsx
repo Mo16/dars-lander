@@ -291,7 +291,7 @@ export default function HomePage() {
         <div className="relative  mx-auto px-6">
           <span className="inline-flex items-center gap-2 border border-border-strong bg-card px-4 py-1.5 rounded-full text-[12px] font-medium text-ink-soft shadow-soft">
             <span className="w-1.5 h-1.5 rounded-full bg-coral-500 animate-pulse-dot" />
-            Free early access · 2,100+ joined
+            Over 2,100+ students on the waitlist
           </span>
 
           <h1 className="font-display font-light text-[51px] md:text-[72px] lg:text-[84px] leading-[1.02] tracking-tight mt-5 text-balance">

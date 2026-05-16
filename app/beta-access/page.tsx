@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BetaAccessForm from "./beta-access-form";
 
 export const metadata: Metadata = {
-  title: "Apply for Dars alpha access",
+  title: "Apply for Dars beta access",
   description:
     "Apply to test the very first build of Dars. Things will break — that's the point.",
   alternates: { canonical: "/beta-access" },

@@ -91,13 +91,28 @@ export async function POST(req: Request) {
 
   if (resendKey) {
     const resend = new Resend(resendKey);
-    const firstName = name.split(/\s+/)[0] || "there";
+    const nameParts = name.split(/\s+/);
+    const firstName = nameParts[0] || "there";
+    const contactFirstName = nameParts[0] || "";
+    const contactLastName = nameParts.slice(1).join(" ");
+
+    try {
+      await resend.contacts.create({
+        audienceId: "478122fd-a6aa-43a8-af29-7901acae240b",
+        email,
+        firstName: contactFirstName,
+        lastName: contactLastName,
+        unsubscribed: false,
+      });
+    } catch (e) {
+      console.error("resend audience add failed", e);
+    }
 
     try {
       await resend.emails.send({
         from: process.env.RESEND_FROM ?? "Dars <onboarding@resend.dev>",
         to: email,
-        subject: "Got your alpha tester application — Dars",
+        subject: "Got your beta tester application — Dars",
         html: buildAcknowledgement(firstName),
       });
     } catch (e) {
@@ -110,7 +125,7 @@ export async function POST(req: Request) {
         await resend.emails.send({
           from: process.env.RESEND_FROM ?? "Dars <onboarding@resend.dev>",
           to: notifyTo,
-          subject: `New alpha tester application — ${name}`,
+          subject: `New beta tester application — ${name}`,
           html: buildInternalNotification({
             name,
             email,
@@ -137,7 +152,7 @@ function buildAcknowledgement(firstName: string) {
 <div style="max-width:520px;margin:0 auto;background:#FFFDF8;border:1px solid #EADFCB;border-radius:20px;padding:32px;">
   <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#EC6144;font-weight:600;">◆ Application received</p>
   <h1 style="margin:0 0 14px;font-size:28px;line-height:1.15;font-weight:500;letter-spacing:-0.02em;">Got it, ${firstName}.</h1>
-  <p style="margin:0 0 14px;font-size:15px;line-height:1.65;color:#3B372F;">Thanks for applying to test the Dars alpha. Spots are limited &mdash; we&#39;ll go through every application personally and reach out by email or WhatsApp if you&#39;re in.</p>
+  <p style="margin:0 0 14px;font-size:15px;line-height:1.65;color:#3B372F;">Thanks for applying to test the Dars beta. We&#39;ll go through every application personally and reach out by email or WhatsApp once we&#39;ve had a proper look.</p>
   <p style="margin:0;font-size:15px;line-height:1.65;color:#3B372F;">In the meantime, if you&#39;ve got anything to add, just reply to this email.</p>
   <p style="margin:24px 0 0;font-size:14px;color:#1A1814;">Mohammed<br><span style="color:#EC6144;font-style:italic;">Founder, Dars</span></p>
 </div>
@@ -160,7 +175,7 @@ function buildInternalNotification(d: {
   return `<!DOCTYPE html>
 <html><body style="margin:0;padding:24px;background:#FFF7EC;font-family:-apple-system,Helvetica,sans-serif;">
 <div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #EADFCB;border-radius:16px;padding:24px;">
-<h2 style="margin:0 0 16px;font-size:20px;">New alpha tester application</h2>
+<h2 style="margin:0 0 16px;font-size:20px;">New beta tester application</h2>
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;border-collapse:collapse;">
 ${row("Name", d.name)}
 ${row("Email", d.email)}

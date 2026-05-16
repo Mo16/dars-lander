@@ -98,7 +98,7 @@ export default function PrivacyPage() {
           <ul>
             <li>
               Your progress through the curriculum: which books and chapters
-              you&apos;ve read, marked, or starred; flashcard review state and
+              you&apos;ve read, marked, or bookmarked; flashcard review state and
               ratings; study session length and outcomes; mock-exam results;
               streaks and achievements.
             </li>

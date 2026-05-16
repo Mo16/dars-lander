@@ -1,7 +1,7 @@
-// HTML alpha-tester email — late-night "u up?" call to sign up for alpha.
-// Reuses the cream + coral palette and dark-mode lockout from
-// contributor-email.ts and adds a primary CTA button to /beta-access.
-export function buildAlphaTesterEmail() {
+// HTML beta-tester email — Fajr-hour "u up?" teaser to the waitlist
+// announcing that beta invites are coming soon. Reuses the cream + coral
+// palette and dark-mode lockout from contributor-email.ts.
+export function buildBetaTesterEmail() {
   const coral = "#EC6144";
   const coralSoft = "#FFE3D6";
   const coralDeep = "#C94A2E";
@@ -76,7 +76,7 @@ export function buildAlphaTesterEmail() {
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
 <div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  We&#39;ve been working on Dars &mdash; hard. The very first alpha build is ready for testers.
+  Well, you should be &mdash; it&#39;s Fajr in the UK. The Dars beta is nearly here either way.
 </div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
@@ -92,32 +92,23 @@ export function buildAlphaTesterEmail() {
           </td>
         </tr>
 
-        <!-- hero card -->
-        <tr>
-          <td class="dm-bg-coral-soft" style="background:${coralSoft}; border-radius:24px; padding:44px 36px;">
-            <p class="dm-text-coral" style="margin:0 0 14px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:${coral}; font-weight:600;">◆ Alpha testers wanted</p>
-            <h1 class="dm-text-ink" style="margin:0 0 18px; font-family:${sans}; font-size:42px; line-height:1.05; font-weight:500; letter-spacing:-0.02em; color:${ink};">
-              We&#39;ve been up. <span class="dm-text-coral" style="font-family:${serif}; font-style:italic; color:${coral}; font-weight:400;">For a while now.</span>
-            </h1>
-            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.65; color:${inkSoft};">
-              Assalamu alaikum. We&#39;ve been heads-down on Dars for months &mdash; long days, longer nights, a lot of du&#39;a. The very first alpha build is finally ready for testers.
-            </p>
-          </td>
-        </tr>
-
-        <tr><td style="height:24px; line-height:24px; font-size:0;">&nbsp;</td></tr>
-
         <!-- intro -->
         <tr>
           <td style="padding:0 4px 8px;">
             <p class="dm-text-ink-soft" style="margin:0 0 16px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Genuinely &mdash; we&#39;ve been working <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">hard</strong> on this. Building, breaking, rebuilding. Trying to make something that earns its place on your homescreen rather than another app you forget about by Wednesday.
+              Assalamu alaykum.
             </p>
             <p class="dm-text-ink-soft" style="margin:0 0 16px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Fair warning though: this is <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">alpha</strong>, not beta. Things will break. Buttons will do nothing. The AI tutor might confidently misattribute a hadith. Cards may save themselves to the void. The streak counter could decide you&#39;ve been studying for negative four days.
+              Well, you should be &mdash; it&#39;s Fajr time if you&#39;re in the UK. <br> Anyway, we&#39;ve been up for quite a while now.
             </p>
-            <p class="dm-text-ink" style="margin:0 0 22px; font-family:${sans}; font-size:15px; line-height:1.7; color:${ink}; font-weight:500;">
-              That&#39;s exactly why we need testers.
+            <p class="dm-text-coral" style="margin:0 0 22px; font-family:${serif}; font-style:italic; font-size:20px; line-height:1.3; color:${coral};">
+              Not just for Fajr.
+            </p>
+            <p class="dm-text-ink-soft" style="margin:0 0 16px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
+              Dars has been <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">quietly cooking</strong> in the background, and the beta is finally ready. You&#39;re on the waitlist &mdash; so consider this your invite to test the app before we open the doors properly.
+            </p>
+            <p class="dm-text-ink-soft" style="margin:0 0 22px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
+              If you&#39;re in: early access, the full revision features, <strike>ALL</strike> some of the content (we're still adding content), and a direct line to tell us what feels useful, what feels confusing, and what needs fixing.
             </p>
           </td>
         </tr>
@@ -127,25 +118,22 @@ export function buildAlphaTesterEmail() {
           <td class="dm-bg-coral" style="background:${coral}; border-radius:20px; padding:34px 32px; text-align:center;">
             <p class="dm-text-white" style="margin:0 0 8px; font-family:${sans}; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#ffffff; font-weight:600; opacity:0.85;">↳ How to apply</p>
             <p class="dm-text-white" style="margin:0 0 22px; font-family:${sans}; font-size:22px; line-height:1.3; font-weight:500; letter-spacing:-0.01em; color:#ffffff;">
-              Sign up for <span style="font-family:${serif}; font-style:italic; font-weight:400;">alpha access.</span>
+              Sign up for <span style="font-family:${serif}; font-style:italic; font-weight:400;">beta access.</span>
             </p>
             <a href="${ctaUrl}" class="dm-bg-card dm-text-coral" style="display:inline-block; text-decoration:none; background:${card}; color:${coral}; padding:14px 30px; border-radius:999px; font-family:${sans}; font-size:15px; font-weight:600;">
-              <span class="dm-text-coral" style="color:${coral};">Apply for alpha access &rarr;</span>
+              <span class="dm-text-coral" style="color:${coral};">Apply for beta access &rarr;</span>
             </a>
-            <p class="dm-text-white" style="margin:18px 0 0; font-family:${sans}; font-size:13.5px; line-height:1.55; color:#ffffff; opacity:0.85;">
-              Spots are limited &mdash; we want to actually read everyone&#39;s feedback properly. First serious replies get in.
-            </p>
           </td>
         </tr>
 
         <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
 
-        <!-- what you'd be doing -->
+        <!-- what to expect -->
         <tr>
           <td style="padding:0 4px 14px;">
-            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What you&#39;d actually be doing</p>
+            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">A small, honest warning</p>
             <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
-              Honestly &mdash; just using it.
+              The beta will not be perfect.
             </p>
           </td>
         </tr>
@@ -154,59 +142,32 @@ export function buildAlphaTesterEmail() {
           <td>
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
               ${bullet(
-                "Use the app like you normally would.",
-                "Revising, flicking through cards, trying the quizzes, poking the AI tutor.",
+                "There may be bugs.",
+                "Some we&#39;ve already found. Others still wandering free.",
               )}
               ${bullet(
-                "Tell us when something breaks.",
-                "Looks weird, doesn&#39;t make sense, or just feels off &mdash; we want to hear about it.",
+                "There may be rough edges.",
+                "Sharp enough that we&#39;d quite like you to find them before everyone else does.",
               )}
               ${bullet(
-                "Be patient when it does break.",
-                "Because it will. That&#39;s the whole point of an alpha.",
+                "There may be a button somewhere that needs sincere tawbah.",
+                "We won&#39;t name it. It knows.",
+              )}
+              ${bullet(
+                "There may be content that&#39;s not quite right.",
+                "A misattributed hadith, a dodgy translation, a tashkeel mark your ustadh would wince at. Flag it &mdash; we&#39;ll fix it.",
               )}
             </table>
           </td>
         </tr>
 
-        <tr><td style="height:18px; line-height:18px; font-size:0;">&nbsp;</td></tr>
-
-        <!-- what you get -->
-        <tr>
-          <td style="padding:0 4px 14px;">
-            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What you get out of it</p>
-            <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
-              More than you&#39;d expect.
-            </p>
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-              ${bullet(
-                "Genuine input on the app before launch.",
-                "Stuff you flag now actually shapes what ships.",
-              )}
-              ${bullet(
-                "First access, ahead of everyone else on the waitlist.",
-                "You&#39;ll be in long before we open the doors properly.",
-              )}
-              ${bullet(
-                "Our undying gratitude.",
-                "And likely a thank-you that I&#39;ll work out properly closer to launch.",
-              )}
-            </table>
-          </td>
-        </tr>
-
-        <tr><td style="height:14px; line-height:14px; font-size:0;">&nbsp;</td></tr>
+        <tr><td style="height:6px; line-height:6px; font-size:0;">&nbsp;</td></tr>
 
         <!-- closing -->
         <tr>
           <td style="padding:0 4px;">
             <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              You&#39;ll be asked three quick things on the form: what device you&#39;d test on, your year of study (or what you&#39;ve previously studied), and roughly how often you&#39;d be able to use it.
+              But that&#39;s exactly why we want <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">real Alimiyyah students</strong> testing it first &mdash; the people who&#39;d actually use it, and who&#39;d notice when something&#39;s off.
             </p>
           </td>
         </tr>
@@ -226,24 +187,11 @@ export function buildAlphaTesterEmail() {
 
         <tr><td style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
 
-        <!-- support heading -->
-        <tr>
-          <td style="padding:0 4px 14px;">
-            <p class="dm-text-ink-muted" style="margin:0 0 4px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">Other ways to help</p>
-            <p class="dm-text-ink" style="margin:0; font-family:${sans}; font-size:18px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.01em;">
-              Sharing counts. So does donating.
-            </p>
-          </td>
-        </tr>
-
         <!-- support body -->
         <tr>
           <td style="padding:0 4px 18px;">
-            <p class="dm-text-ink-soft" style="margin:0 0 14px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Honestly, the biggest thing right now is getting Dars in front of people who&#39;d actually use it. A forward to a friend, a screenshot in a group chat, a quick repost on your story &mdash; that helps as much as anything else. Free, takes ten seconds, makes a real difference.
-            </p>
-            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              And if you&#39;d rather chip something in: Dars is funded entirely out of our own pocket right now &mdash; AI credits, hosting, the lot. Anything you send goes straight back into keeping it running. Genuinely no pressure either way.
+            <p class="dm-text-ink-subtle" style="margin:0; font-family:${sans}; font-size:13.5px; line-height:1.65; color:${inkSubtle};">
+              Buttons below if you ever fancy sharing Dars or contributing toward the build &mdash; AI credits, hosting, the things that keep it being built. There if you want them, ignorable if you don&#39;t.
             </p>
           </td>
         </tr>
@@ -279,7 +227,7 @@ export function buildAlphaTesterEmail() {
               Whatever you go with &mdash; testing, sharing, chipping in, or just reading this far &mdash; jazakAllah khair. Genuinely. None of this works without you.
             </p>
             <p class="dm-text-ink-soft" style="margin:0; font-family:${serif}; font-style:italic; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Speak soon, inshaAllah.
+              C u later, Alligator.
             </p>
           </td>
         </tr>
@@ -293,10 +241,10 @@ export function buildAlphaTesterEmail() {
               <tr>
                 <td valign="top">
                   <p class="dm-text-ink" style="margin:0 0 2px; font-family:${sans}; font-size:14.5px; line-height:1.6; color:${ink}; font-weight:500;">
-                    Mohammed
+                    The Dars Team
                   </p>
                   <p class="dm-text-coral" style="margin:0; font-family:${serif}; font-style:italic; font-size:14px; line-height:1.6; color:${coral};">
-                    Founder, Dars · <a href="https://darsapp.com" class="dm-text-coral" style="color:${coral};">darsapp.com</a>
+                    <a href="https://darsapp.com" class="dm-text-coral" style="color:${coral};">darsapp.com</a>
                   </p>
                 </td>
                 <td valign="bottom" align="right" style="padding-bottom:2px;">

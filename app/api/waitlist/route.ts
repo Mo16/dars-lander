@@ -56,6 +56,17 @@ export async function POST(req: Request) {
 
   if (!isDuplicate) {
     const resend = new Resend(resendKey);
+
+    try {
+      await resend.contacts.create({
+        audienceId: "5b380013-7184-4351-97fe-b30d38202d1d",
+        email,
+        unsubscribed: false,
+      });
+    } catch (e) {
+      console.error("resend audience add failed", e);
+    }
+
     try {
       await resend.emails.send({
         from: process.env.RESEND_FROM ?? "Dars <onboarding@resend.dev>",

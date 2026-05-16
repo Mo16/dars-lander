@@ -328,19 +328,18 @@ export default function BetaAccessForm() {
               <span className="relative h-2 w-2 rounded-full bg-coral-500" />
             </span>
             <span className="text-[10.5px] tracking-[0.14em] uppercase font-semibold text-coral-600">
-              Alpha applications open
+              Beta applications open
             </span>
           </div>
           <h1 className="font-display text-[34px] sm:text-[44px] leading-[1.05] tracking-tight font-medium text-ink mb-3 text-balance">
             Apply for{" "}
             <em className="font-display italic text-coral-500 font-normal">
-              alpha access.
+              beta access.
             </em>
           </h1>
           <p className="text-[15px] sm:text-[16px] leading-[1.6] text-ink-soft text-pretty max-w-xl">
-            Two quick steps. Spots are limited so we can actually read
-            everyone&apos;s feedback properly &mdash; first serious replies get
-            in.
+            Two quick steps. We read every reply personally &mdash; no bots, no
+            auto-filter.
           </p>
         </div>
 
@@ -350,7 +349,7 @@ export default function BetaAccessForm() {
         </div>
 
         <p className="text-[12px] leading-[1.55] text-ink-subtle mt-10">
-          By applying you agree we can email and message you about Dars alpha.
+          By applying you agree we can email and message you about Dars beta.
         </p>
       </div>
 
@@ -383,7 +382,7 @@ export default function BetaAccessForm() {
                   Sending&hellip;
                 </span>
               ) : step === STEPS.length - 1 ? (
-                <ButtonContent label="Apply for alpha" />
+                <ButtonContent label="Apply for beta" />
               ) : (
                 <ButtonContent label="Continue" />
               )}
@@ -581,16 +580,10 @@ function StepAbout({ data, update, errors }: StepProps) {
         </p>
         <div className="relative space-y-3 text-[13.5px] leading-[1.6] text-ink-soft">
           <p>
-            <span className="font-semibold text-ink">This is alpha, not beta.</span>{" "}
+            <span className="font-semibold text-ink">This is beta, not v1.</span>{" "}
             Things will break. Buttons will do nothing. The AI tutor might
             confidently misattribute a hadith. That&apos;s the point &mdash; we
             want you to find it before everyone else does.
-          </p>
-          <p>
-            <span className="font-semibold text-ink">Spots are limited.</span>{" "}
-            We want to actually read everyone&apos;s feedback properly rather
-            than drowning in 500 bug reports on day one. First serious replies
-            get in.
           </p>
         </div>
       </div>
@@ -631,7 +624,7 @@ function StepAbout({ data, update, errors }: StepProps) {
               data.agreed ? "text-ink" : "text-ink-soft group-hover:text-ink"
             }`}
           >
-            I get that it&apos;s alpha, I&apos;m patient with the bugs, and
+            I get that it&apos;s beta, I&apos;m patient with the bugs, and
             I&apos;ll actually report them.
           </span>
         </button>
@@ -1135,10 +1128,32 @@ function CelebrationCard({
   device: string;
 }) {
   const confettiHostRef = useRef<HTMLDivElement>(null);
+  const [shareCopied, setShareCopied] = useState(false);
 
   useIsoLayoutEffect(() => {
     if (!prefersReducedMotion() && confettiHostRef.current) {
       spawnConfettiBurst(confettiHostRef.current);
+    }
+  }, []);
+
+  const handleShareDars = useCallback(async () => {
+    const shareData = {
+      title: "Dars",
+      text: "Came across Dars — a revision app for Alimiyyah students. Worth a look:",
+      url: "https://darsapp.com",
+    };
+    try {
+      if (typeof navigator !== "undefined" && navigator.share) {
+        await navigator.share(shareData);
+      } else if (typeof navigator !== "undefined" && navigator.clipboard) {
+        await navigator.clipboard.writeText(
+          `${shareData.text} ${shareData.url}`,
+        );
+        setShareCopied(true);
+        setTimeout(() => setShareCopied(false), 2000);
+      }
+    } catch {
+      // User cancelled or permission denied — silent.
     }
   }, []);
 
@@ -1152,7 +1167,7 @@ function CelebrationCard({
           : "your device";
 
   return (
-    <div className="relative flex-1 flex flex-col items-center justify-center px-5 sm:px-8 py-10 sm:py-16 overflow-hidden">
+    <div className="relative flex-1 flex flex-col items-center justify-start sm:justify-center px-5 sm:px-8 pt-6 sm:pt-16 pb-10 sm:pb-16 overflow-hidden">
       <div
         ref={confettiHostRef}
         aria-hidden
@@ -1170,8 +1185,8 @@ function CelebrationCard({
 
       <div className="relative w-full max-w-md text-center">
         {/* Medallion */}
-        <div className="relative inline-flex items-center justify-center w-28 h-28 mb-7 animate-success-pop">
-          <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-coral-400 to-coral-600 flex items-center justify-center shadow-coral animate-medallion-glow">
+        <div className="relative inline-flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 mb-4 sm:mb-7 animate-success-pop">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-coral-400 to-coral-600 flex items-center justify-center shadow-coral animate-medallion-glow">
             <svg
               width="40"
               height="40"
@@ -1208,7 +1223,7 @@ function CelebrationCard({
           </em>
         </h2>
         <p
-          className="animate-fade-up text-[15px] leading-[1.65] text-ink-soft max-w-md mx-auto mb-7"
+          className="animate-fade-up text-[14.5px] sm:text-[15px] leading-[1.6] text-ink-soft max-w-md mx-auto mb-5 sm:mb-7"
           style={{ animationDelay: "0.3s" }}
         >
           {firstName ? `JazakAllahu khayran, ${firstName}` : "JazakAllahu khayran"}.
@@ -1218,13 +1233,13 @@ function CelebrationCard({
 
         {/* What happens next — numbered steps */}
         <div
-          className="animate-fade-up text-left rounded-2xl bg-cream-50/80 border border-border/70 px-5 py-6"
+          className="animate-fade-up text-left rounded-2xl bg-cream-50/80 border border-border/70 px-4 py-4 sm:px-5 sm:py-6"
           style={{ animationDelay: "0.4s" }}
         >
-          <p className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-muted mb-5">
+          <p className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-ink-muted mb-4 sm:mb-5">
             What happens next
           </p>
-          <ul className="space-y-5">
+          <ul className="space-y-4 sm:space-y-5">
             <li className="flex items-start gap-3.5">
               <span className="flex-none w-7 h-7 rounded-full bg-coral-50 border border-coral-100 flex items-center justify-center text-[11px] font-mono font-semibold text-coral-600 tabular-nums">
                 01
@@ -1234,8 +1249,7 @@ function CelebrationCard({
                   We read every reply, personally.
                 </p>
                 <p className="text-[13.5px] leading-[1.55] text-ink-soft">
-                  No bots, no auto-filter. Every entry gets eyes on it &mdash;
-                  first serious applicants get in.
+                  No bots, no auto-filter. Every entry gets eyes on it.
                 </p>
               </div>
             </li>
@@ -1257,20 +1271,120 @@ function CelebrationCard({
           </ul>
         </div>
 
-        {/* While you wait — share prompt */}
+        {/* While you wait — share CTA + socials + build-contribution */}
         <div
-          className="animate-fade-up text-left rounded-2xl bg-coral-50/50 border border-coral-100/70 px-5 py-5 mt-3"
+          className="animate-fade-up text-left rounded-2xl bg-coral-50/50 border border-coral-100/70 px-4 py-4 sm:px-5 sm:py-5 mt-3"
           style={{ animationDelay: "0.5s" }}
         >
           <p className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-coral-600 mb-2">
             While you wait
           </p>
-          <p className="text-[13.5px] leading-[1.6] text-ink-soft">
-            If you know someone who&apos;d actually use this &mdash; a forward,
-            a screenshot in a group chat, a quick repost &mdash; that genuinely
-            helps as much as anything else. Free, takes ten seconds, makes a
-            real difference.
+          <p className="text-[13px] sm:text-[13.5px] leading-[1.55] text-ink-soft mb-3">
+            Knowing one person who&apos;d use this is the most useful thing you
+            can do.
           </p>
+
+          <button
+            type="button"
+            onClick={handleShareDars}
+            className="w-full inline-flex items-center justify-center gap-2 h-11 px-4 rounded-full bg-coral-500 hover:bg-coral-600 active:bg-coral-700 transition-colors text-white text-[14px] font-semibold shadow-coral"
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+            <span>{shareCopied ? "Link copied" : "Share Dars"}</span>
+          </button>
+
+          <div className="mt-4 pt-4 border-t border-coral-100/70">
+            <p className="text-[10.5px] uppercase tracking-[0.14em] font-semibold text-coral-600/80 mb-2.5">
+              Or, if you fancy
+            </p>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <a
+                href="https://instagram.com/getdars"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Dars on Instagram"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-coral-500 hover:bg-coral-600 transition-colors"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://cdn.simpleicons.org/instagram/FFFFFF"
+                  alt=""
+                  width={14}
+                  height={14}
+                  className="w-3.5 h-3.5"
+                />
+              </a>
+              <a
+                href="https://tiktok.com/@dars.app"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Dars on TikTok"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-coral-500 hover:bg-coral-600 transition-colors"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://cdn.simpleicons.org/tiktok/FFFFFF"
+                  alt=""
+                  width={14}
+                  height={14}
+                  className="w-3.5 h-3.5"
+                />
+              </a>
+              <span aria-hidden className="mx-0.5 h-4 w-px bg-coral-200" />
+              <a
+                href="https://buymeacoffee.com/daviral"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 pl-2.5 pr-3 h-8 rounded-full bg-coral-500 hover:bg-coral-600 transition-colors text-white text-[11.5px] font-medium"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://cdn.simpleicons.org/buymeacoffee/FFFFFF"
+                  alt=""
+                  width={12}
+                  height={12}
+                  className="w-3 h-3"
+                />
+                <span>Coffee</span>
+              </a>
+              <a
+                href="https://paypal.me/mocho13"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 pl-2.5 pr-3 h-8 rounded-full bg-coral-500 hover:bg-coral-600 transition-colors text-white text-[11.5px] font-medium"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://cdn.simpleicons.org/paypal/FFFFFF"
+                  alt=""
+                  width={12}
+                  height={12}
+                  className="w-3 h-3"
+                />
+                <span>PayPal</span>
+              </a>
+            </div>
+            <p className="text-[11.5px] leading-[1.5] text-ink-muted mt-2.5">
+              Follow along, or contribute toward the build &mdash; AI credits,
+              hosting, the things that keep it going.
+            </p>
+          </div>
         </div>
 
         <Link

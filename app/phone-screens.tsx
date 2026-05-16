@@ -255,7 +255,7 @@ export function ReviseScreen() {
 
       <div className="px-4 mt-4">
         <div className="text-[10px] font-semibold tracking-wider text-ink-muted flex items-center gap-1.5">
-          <span className="text-amber-500">★</span> STARRED
+          <span className="text-amber-500">🔖</span> BOOKMARKED
         </div>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div className="bg-card border border-border rounded-2xl p-3">
