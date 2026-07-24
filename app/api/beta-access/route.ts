@@ -7,6 +7,7 @@ type Body = {
   name?: unknown;
   email?: unknown;
   phone?: unknown;
+  institute?: unknown;
   device?: unknown;
   year?: unknown;
   yearOther?: unknown;
@@ -35,6 +36,7 @@ export async function POST(req: Request) {
   const phoneRaw = str(body.phone, 40);
   const phoneDigits = phoneRaw.replace(/\D/g, "");
   const phone = phoneDigits ? `+${phoneDigits}` : "";
+  const institute = str(body.institute, 200);
   const device = str(body.device, 30);
   const yearKey = str(body.year, 50);
   const yearOther = str(body.yearOther, 200);
@@ -51,6 +53,9 @@ export async function POST(req: Request) {
   }
   if (phoneDigits.length < 7) {
     return Response.json({ error: "Invalid phone" }, { status: 400 });
+  }
+  if (!institute) {
+    return Response.json({ error: "Institute required" }, { status: 400 });
   }
   if (!device || !["ios", "android", "both"].includes(device)) {
     return Response.json({ error: "Device required" }, { status: 400 });
@@ -78,6 +83,7 @@ export async function POST(req: Request) {
     name,
     email,
     phone,
+    institute,
     device,
     year,
     frequency,
@@ -130,6 +136,7 @@ export async function POST(req: Request) {
             name,
             email,
             phone,
+            institute,
             device,
             year,
             frequency,
@@ -163,6 +170,7 @@ function buildInternalNotification(d: {
   name: string;
   email: string;
   phone: string;
+  institute: string;
   device: string;
   year: string;
   frequency: string;
@@ -180,6 +188,7 @@ function buildInternalNotification(d: {
 ${row("Name", d.name)}
 ${row("Email", d.email)}
 ${row("Phone", d.phone)}
+${row("Institute", d.institute)}
 ${row("Device", d.device)}
 ${row("Year", d.year)}
 ${row("Frequency", d.frequency)}

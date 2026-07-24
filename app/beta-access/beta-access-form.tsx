@@ -32,6 +32,7 @@ type Data = {
   name: string;
   email: string;
   phone: string;
+  institute: string;
   device: string;
   year: string;
   yearOther: string;
@@ -76,6 +77,7 @@ const initialData: Data = {
   name: "",
   email: "",
   phone: "",
+  institute: "",
   device: "",
   year: "",
   yearOther: "",
@@ -184,6 +186,9 @@ export default function BetaAccessForm() {
       }
     }
     if (s === 1) {
+      if (!data.institute.trim()) {
+        e.institute = "Tell us where you study (or studied).";
+      }
       if (!data.device) e.device = "Pick the device you'd test on.";
       if (!data.year) e.year = "Pick the option that fits best.";
       if (data.year === "Other" && !data.yearOther.trim()) {
@@ -642,9 +647,29 @@ function StepDetails({ data, update, errors }: StepProps) {
           A few quick details.
         </p>
         <p className="text-[14.5px] leading-[1.6] text-ink-soft">
-          Three questions: what you&apos;d test on, where you&apos;re up to, and
-          how much you&apos;d actually use it.
+          Quick ones: where you study, what you&apos;d test on, where
+          you&apos;re up to, and how much you&apos;d actually use it.
         </p>
+      </div>
+
+      {/* Bento tile — institute */}
+      <div className="rounded-3xl bg-cream-200/45 border border-border/40 p-4 sm:p-5">
+        <p className="text-[10.5px] tracking-[0.14em] uppercase font-semibold text-ink-muted mb-3 px-1">
+          ◆ Institute you study (or studied) at
+        </p>
+        <input
+          type="text"
+          value={data.institute}
+          onChange={(e) => update("institute", e.target.value)}
+          placeholder="e.g. Darul Uloom Bury, Jamiah Al-Karam…"
+          autoComplete="organization"
+          className={`w-full px-4 py-3 rounded-2xl border bg-cream-50 text-[14.5px] text-ink placeholder:text-ink-subtle focus:outline-none focus:bg-white transition-colors ${
+            errors.institute
+              ? "border-coral-400"
+              : "border-border focus:border-coral-300"
+          }`}
+        />
+        <ErrorMsg message={errors.institute} />
       </div>
 
       {/* Bento tile — device */}
