@@ -1,44 +1,52 @@
 "use client";
 
 // Delete-account flow. Three stages:
-//   1. Sign in with Clerk (email-code or password) — same Clerk
-//      instance as the Expo app, so any account that exists in the
-//      app can sign in here.
+//   1. Sign in with Supabase Auth (email one-time code) — same
+//      Supabase project as the Expo app, so any account that exists
+//      in the app can sign in here.
 //   2. Confirm — user must type DELETE to enable the destroy button.
 //   3. Result — success or error.
 //
 // The actual destruction happens server-side in the Supabase edge
 // function `account-delete`, which cascades the wipe across Supabase
-// + Clerk Backend API. We proxy the call through /api/delete-account
-// so the browser never needs CORS access to *.functions.supabase.co.
+// auth + data. We proxy the call through /api/delete-account so the
+// browser never needs CORS access to *.functions.supabase.co.
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuth, useUser, useClerk } from "@clerk/nextjs";
-// Clerk v7 ships a new signals-based API by default; the legacy
-// resource API we want (signIn.create → resource with status /
-// createdSessionId) lives under /legacy.
-import { useSignIn } from "@clerk/nextjs/legacy";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
+import { createBrowserSupabase } from "@/lib/supabase/client";
 
 type Stage = "signin" | "confirm" | "done";
 type Mode = "code" | "password";
 type SignInStep = "identifier" | "code";
 
-// Extracts the user-friendly error from a Clerk error blob, falling
-// back to the raw message so the user always sees *something*.
-function clerkError(err: unknown): string {
-  const e = err as { errors?: { longMessage?: string; message?: string }[]; message?: string };
-  return (
-    e?.errors?.[0]?.longMessage ||
-    e?.errors?.[0]?.message ||
-    e?.message ||
-    "Something went wrong. Please try again."
-  );
-}
-
 export default function DeleteAccountFlow() {
-  const { isLoaded: authLoaded, isSignedIn } = useAuth();
+  // One client for the whole flow — a new one per render would drop the
+  // onAuthStateChange subscription on every re-render.
+  const supabase = useMemo(() => createBrowserSupabase(), []);
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoaded, setAuthLoaded] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!alive) return;
+      setUser(data.user ?? null);
+      setAuthLoaded(true);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null);
+      setAuthLoaded(true);
+    });
+    return () => {
+      alive = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  const isSignedIn = !!user;
 
   // The "done" screen has to outlive the sign-out that runs right
   // after a successful deletion — otherwise `isSignedIn` flips to
@@ -49,21 +57,22 @@ export default function DeleteAccountFlow() {
 
   if (done) return <Frame><DonePanel email={done.email} /></Frame>;
 
-  // Wait for Clerk to hydrate before deciding which stage to mount —
-  // otherwise the sign-in form flashes for already-signed-in users.
+  // Wait for the session to hydrate before deciding which stage to
+  // mount — otherwise the sign-in form flashes for already-signed-in
+  // users.
   if (!authLoaded) return <Frame><CenteredSpinner /></Frame>;
 
   if (!isSignedIn) {
     return (
       <Frame>
-        <SignInPanel />
+        <SignInPanel supabase={supabase} />
       </Frame>
     );
   }
 
   return (
     <Frame>
-      <ConfirmPanel onDone={(email) => setDone({ email })} />
+      <ConfirmPanel supabase={supabase} user={user} onDone={(email) => setDone({ email })} />
     </Frame>
   );
 }
@@ -165,9 +174,7 @@ function ErrorMsg({ message }: { message?: string | null }) {
 /* Stage 1 — sign in                                                          */
 /* -------------------------------------------------------------------------- */
 
-function SignInPanel() {
-  const { signIn, setActive, isLoaded } = useSignIn();
-
+function SignInPanel({ supabase }: { supabase: SupabaseClient }) {
   const [step, setStep] = useState<SignInStep>("identifier");
   const [mode, setMode] = useState<Mode>("code");
   const [email, setEmail] = useState("");
@@ -180,7 +187,7 @@ function SignInPanel() {
   const passwordReady = password.length >= 8;
 
   const submitIdentifier = async () => {
-    if (!isLoaded || !signIn || busy) return;
+    if (busy) return;
     if (!emailReady) return;
     if (mode === "password" && !passwordReady) {
       setError("Password must be at least 8 characters.");
@@ -190,55 +197,45 @@ function SignInPanel() {
     setError(null);
     try {
       if (mode === "code") {
-        const si = await signIn.create({ identifier: email.trim() });
-        const factor = si.supportedFirstFactors?.find(
-          (f) => f.strategy === "email_code",
-        ) as { strategy: "email_code"; emailAddressId: string } | undefined;
-        if (!factor) {
-          throw new Error(
-            "Email-code sign-in is not enabled for this account. Try the password option.",
-          );
-        }
-        await signIn.prepareFirstFactor({
-          strategy: "email_code",
-          emailAddressId: factor.emailAddressId,
+        // shouldCreateUser is explicitly false: this page only ever
+        // DELETES accounts, so a mistyped email must never silently
+        // create a brand-new account and email a code to it.
+        const { error } = await supabase.auth.signInWithOtp({
+          email: email.trim(),
+          options: { shouldCreateUser: false },
         });
+        if (error) throw error;
         setStep("code");
       } else {
-        const res = await signIn.create({
-          identifier: email.trim(),
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
           password,
         });
-        if (res.status === "complete" && res.createdSessionId) {
-          await setActive({ session: res.createdSessionId });
-          return;
-        }
-        throw new Error("Sign-in incomplete. Try again.");
+        if (error) throw error;
+        // onAuthStateChange in the parent picks up the new session and
+        // swaps this panel out for the confirm step.
       }
     } catch (err) {
-      setError(clerkError(err));
+      setError((err as Error)?.message ?? "Something went wrong.");
     } finally {
       setBusy(false);
     }
   };
 
   const submitCode = async () => {
-    if (!isLoaded || !signIn || busy) return;
+    if (busy) return;
     if (code.trim().length < 4) return;
     setBusy(true);
     setError(null);
     try {
-      const res = await signIn.attemptFirstFactor({
-        strategy: "email_code",
-        code: code.trim(),
+      const { error } = await supabase.auth.verifyOtp({
+        email: email.trim(),
+        token: code.trim(),
+        type: "email",
       });
-      if (res.status === "complete" && res.createdSessionId) {
-        await setActive({ session: res.createdSessionId });
-        return;
-      }
-      throw new Error("Verification incomplete. Try again.");
+      if (error) throw error;
     } catch (err) {
-      setError(clerkError(err));
+      setError((err as Error)?.message ?? "Something went wrong.");
     } finally {
       setBusy(false);
     }
@@ -447,34 +444,35 @@ function FootnoteCard() {
 /* Stage 2 — confirm                                                          */
 /* -------------------------------------------------------------------------- */
 
-function ConfirmPanel({ onDone }: { onDone: (email: string) => void }) {
-  const { user } = useUser();
-  const { getToken } = useAuth();
-  const { signOut } = useClerk();
-
+function ConfirmPanel({
+  supabase,
+  user,
+  onDone,
+}: {
+  supabase: SupabaseClient;
+  user: User | null;
+  onDone: (email: string) => void;
+}) {
   const [phrase, setPhrase] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const ready = phrase.trim().toUpperCase() === "DELETE";
 
-  const email =
-    user?.primaryEmailAddress?.emailAddress ||
-    user?.emailAddresses?.[0]?.emailAddress ||
-    "";
-  const displayName =
-    user?.fullName ||
-    user?.firstName ||
-    user?.username ||
-    email.split("@")[0] ||
-    "";
+  // Email is read straight off the top-level auth field, never metadata.
+  const email = user?.email || "";
+  // Cosmetic-only fallback for the display name — never used to determine
+  // *which* account this is, since user_metadata is client-writable.
+  const meta = (user?.user_metadata ?? {}) as { full_name?: string; name?: string };
+  const displayName = meta.full_name || meta.name || email.split("@")[0] || "";
 
   const submit = async () => {
     if (!ready || busy) return;
     setBusy(true);
     setError(null);
     try {
-      const token = await getToken();
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
       if (!token) throw new Error("Please sign in again.");
       const res = await fetch("/api/delete-account", {
         method: "POST",
@@ -492,7 +490,7 @@ function ConfirmPanel({ onDone }: { onDone: (email: string) => void }) {
       // otherwise the auth-state flip would unmount this tree before
       // the parent rerenders into the done view.
       onDone(email);
-      try { await signOut(); } catch { /* ignore */ }
+      try { await supabase.auth.signOut(); } catch { /* ignore */ }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not delete account.");
       setBusy(false);
@@ -593,7 +591,7 @@ function ConfirmPanel({ onDone }: { onDone: (email: string) => void }) {
           )}
         </button>
 
-        <CancelLink />
+        <CancelLink supabase={supabase} />
       </div>
     </div>
   );
@@ -611,8 +609,7 @@ function Bullet({ children }: { children: React.ReactNode }) {
   );
 }
 
-function CancelLink() {
-  const { signOut } = useClerk();
+function CancelLink({ supabase }: { supabase: SupabaseClient }) {
   const [busy, setBusy] = useState(false);
   return (
     <button
@@ -620,8 +617,8 @@ function CancelLink() {
       onClick={async () => {
         if (busy) return;
         setBusy(true);
-        try { await signOut({ redirectUrl: "/" }); } catch { /* ignore */ }
-        setBusy(false);
+        try { await supabase.auth.signOut(); } catch { /* ignore */ }
+        window.location.href = "/";
       }}
       className="block w-full text-center text-[13.5px] font-medium text-ink-muted hover:text-ink transition-colors py-2"
     >

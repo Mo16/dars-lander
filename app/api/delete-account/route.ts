@@ -1,11 +1,12 @@
-// Forwards the caller's Clerk JWT to the Supabase `account-delete`
-// edge function. We proxy rather than calling the function directly
-// from the browser because the function doesn't emit CORS headers
-// and we don't want darsapp.com origins baked into its config.
+// Forwards the caller's Supabase access token to the Supabase
+// `account-delete` edge function. We proxy rather than calling the
+// function directly from the browser because the function doesn't
+// emit CORS headers and we don't want darsapp.com origins baked into
+// its config.
 //
-// The browser is expected to pass the Clerk session token in the
-// Authorization header. The edge function verifies it against the
-// shared Clerk issuer and performs the cascading wipe.
+// The browser is expected to pass the Supabase session access token
+// in the Authorization header. The edge function verifies it against
+// the project JWT secret and performs the cascading wipe.
 
 export const runtime = "nodejs";
 
