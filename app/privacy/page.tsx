@@ -185,13 +185,10 @@ export default function PrivacyPage() {
           </p>
           <ul>
             <li>
-              <strong>Clerk</strong> — authentication (sign-up, sign-in,
-              password and OAuth handling).
-            </li>
-            <li>
-              <strong>Supabase</strong> — primary database and file storage
-              for your account, study state, notes, decks, and marketplace
-              uploads.
+              <strong>Supabase</strong> — authentication (sign-up, sign-in,
+              password and OAuth handling), primary database, and file
+              storage for your account, study state, notes, decks, and
+              marketplace uploads.
             </li>
             <li>
               <strong>RevenueCat</strong> — subscription management and
@@ -301,9 +298,10 @@ export default function PrivacyPage() {
           <p>
             All traffic between the app and our servers is encrypted in
             transit (HTTPS/TLS). Your account is protected by your sign-in
-            method (Apple, Google, or email + password handled by Clerk).
-            Database access is row-level-restricted so other users cannot
-            read your private data. No system is perfectly secure — if you
+            method (Apple, Google, email + 6-digit code, or email + password,
+            handled by Supabase). Database access is row-level-restricted so
+            other users cannot read your private data. No system is perfectly
+            secure — if you
             spot a vulnerability, please email{" "}
             <a href="mailto:support@darsapp.com">support@darsapp.com</a>.
           </p>
