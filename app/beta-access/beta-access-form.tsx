@@ -1218,10 +1218,6 @@ function CelebrationCard({
               <path d="M5 12.5l4.5 4.5L19 7.5" className="animate-check" />
             </svg>
           </div>
-          <span
-            aria-hidden
-            className="absolute top-1/2 left-1/2 -ml-2 -mt-2 w-4 h-4 rounded-full bg-amber-500 shadow-soft animate-badge-orbit"
-          />
         </div>
 
         <p

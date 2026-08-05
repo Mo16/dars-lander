@@ -370,14 +370,6 @@
   .animate-blob-b { animation: blob-drift-b 19s ease-in-out infinite; }
   .animate-blob-c { animation: blob-drift-c 22s ease-in-out infinite; }
 
-  @keyframes badge-orbit {
-    0%   { transform: rotate(0deg) translateY(-46px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateY(-46px) rotate(-360deg); }
-  }
-  .animate-badge-orbit {
-    animation: badge-orbit 8s linear infinite;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .animate-hero-phone-center {
       animation: none;
@@ -408,8 +400,7 @@
     .animate-medallion-glow,
     .animate-blob-a,
     .animate-blob-b,
-    .animate-blob-c,
-    .animate-badge-orbit {
+    .animate-blob-c {
       animation: none;
     }
   }
