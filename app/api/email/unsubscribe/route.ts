@@ -62,8 +62,14 @@ export async function POST(req: Request) {
   });
 }
 
+// The canonical origin, NOT req.url. Behind Netlify, req.url carries the
+// internal per-deploy hostname (…--warm-salmiakki-e3abbf.netlify.app), so
+// building the redirect from it sends people clicking an unsubscribe link in
+// their inbox to a deploy-specific URL that will rot.
+const SITE_ORIGIN = "https://darsapp.com";
+
 export async function GET(req: Request) {
   const token = new URL(req.url).searchParams.get("token") ?? "";
   const target = UUID.test(token) ? `/email/preferences/${token}` : "/email/preferences";
-  return Response.redirect(new URL(target, req.url), 302);
+  return Response.redirect(`${SITE_ORIGIN}${target}`, 302);
 }
