@@ -751,7 +751,7 @@ function StepDetails({ data, update, errors }: StepProps) {
         <textarea
           value={data.message}
           onChange={(e) => update("message", e.target.value)}
-          placeholder="Books you&rsquo;re studying, what you&rsquo;d most want to test, anything we should know."
+          placeholder="Books you&rsquo;re studying, what you&rsquo;d most want to test, or just any message you&rsquo;d like to give the Dars team."
           rows={4}
           className="w-full px-4 py-3 rounded-2xl border border-coral-100 bg-white text-[14.5px] leading-[1.6] text-ink placeholder:text-ink-subtle focus:outline-none focus:border-coral-300 transition-colors resize-none"
         />
