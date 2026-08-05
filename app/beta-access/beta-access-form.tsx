@@ -585,25 +585,6 @@ function StepAbout({ data, update, errors }: StepProps) {
         </div>
       </div>
 
-      {/* Bento tile — heads up (lavender) */}
-      <div className="relative rounded-3xl bg-gradient-to-br from-violet-200 to-violet-300/70 border border-violet-300/70 px-4 py-4 sm:px-5 sm:py-5 overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-violet-300/50 blur-2xl"
-        />
-        <p className="relative text-[10.5px] tracking-[0.14em] uppercase font-semibold text-violet-700 mb-3">
-          ◆ Heads up
-        </p>
-        <div className="relative space-y-3 text-[13.5px] leading-[1.6] text-ink-soft">
-          <p>
-            <span className="font-semibold text-ink">This is beta, not v1.</span>{" "}
-            Things will break. Buttons will do nothing. The AI tutor might
-            confidently misattribute a hadith. That&apos;s the point &mdash; we
-            want you to find it before everyone else does.
-          </p>
-        </div>
-      </div>
-
       {/* Bento tile — agreement; the whole tile is the click target */}
       <div>
         <button
