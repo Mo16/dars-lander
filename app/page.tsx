@@ -197,11 +197,11 @@ export default function HomePage() {
 
             <div className="flex items-center gap-2 shrink-0">
               <a
-                href="#waitlist"
+                href="/beta-access"
                 className="hidden md:inline-flex bg-ink text-cream-100 px-5 py-2.5 rounded-full text-[14px] font-medium items-center gap-2 hover:bg-ink-soft transition-colors shadow-soft"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
-                Join waitlist
+                Join the beta
               </a>
               <button
                 type="button"
@@ -263,13 +263,13 @@ export default function HomePage() {
                 </a>
               ))}
               <a
-                href="#waitlist"
+                href="/beta-access"
                 onClick={() => setMobileNavOpen(false)}
                 tabIndex={mobileNavOpen ? 0 : -1}
                 className="mt-2 flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-ink text-cream-100 text-[15px] font-medium hover:bg-ink-soft transition-colors shadow-soft"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_10px_theme(colors.coral.400)]" />
-                Join waitlist
+                Join the beta
               </a>
             </div>
           </div>
@@ -291,7 +291,7 @@ export default function HomePage() {
         <div className="relative  mx-auto px-6">
           <span className="inline-flex items-center gap-2 border border-border-strong bg-card px-4 py-1.5 rounded-full text-[12px] font-medium text-ink-soft shadow-soft">
             <span className="w-1.5 h-1.5 rounded-full bg-coral-500 animate-pulse-dot" />
-            Over 2,100+ students on the waitlist
+            Beta is open · 2,100+ students on the list
           </span>
 
           <h1 className="font-display font-light text-[51px] md:text-[72px] lg:text-[84px] leading-[1.02] tracking-tight mt-5 text-balance">
@@ -316,13 +316,15 @@ export default function HomePage() {
             <p
               className={`col-start-1 row-start-1 origin-center will-change-transform ${heroSignedUp ? "animate-tagline-out" : "opacity-100"}`}
             >
-              <strong className="text-ink font-semibold">2,100+ students</strong>{" "}
-              on the waitlist · Get early access and launch updates
+              Your email puts you on the list.{" "}
+              <strong className="text-ink font-semibold">
+                Beta places go out from there.
+              </strong>
             </p>
             <p
               className={`col-start-1 row-start-1 origin-center will-change-transform ${heroSignedUp ? "animate-tagline-in" : "opacity-0"}`}
             >
-              Follow our socials below to keep updated
+              Places are limited, and the application takes two minutes
             </p>
           </div>
 
@@ -820,15 +822,15 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
             <p className="font-display text-[18px] sm:text-[20px] md:text-[22px] text-ink leading-snug max-w-[34ch]">
               Bringing your halaqah or madrasah on board?{" "}
               <em className="italic text-coral-500 font-normal">
-                Get early access.
+                Get them into the beta.
               </em>
             </p>
             <a
-              href="#waitlist"
+              href="/beta-access"
               className="mt-5 bg-ink text-cream-100 px-6 py-3 rounded-full text-[14px] font-medium inline-flex items-center gap-2 hover:bg-ink-soft transition-colors shadow-card"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-coral-400 shadow-[0_0_8px_theme(colors.coral.400)]" />
-              Join waitlist
+              Join the beta
               <svg
                 width="14"
                 height="14"
@@ -842,7 +844,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               </svg>
             </a>
             <p className="mt-3 text-[12px] text-ink-muted">
-              Free during beta · No spam, just launch updates.
+              Free during beta · Email first, then a two-minute application.
             </p>
           </div>
         </div>
@@ -1008,7 +1010,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
             <div className="relative grid md:grid-cols-[1fr_1.05fr] gap-6 md:gap-8 items-center">
               <div>
                 <span className="text-[11px] sm:text-[12px] font-semibold tracking-wider text-coral-100 uppercase">
-                  ◆ Launching 2026
+                  ◆ Beta applications open
                 </span>
                 <h2 className="mt-3 font-display text-[34px] sm:text-[44px] md:text-[60px] leading-[1.02] tracking-tight text-balance">
                   Be first through{" "}
@@ -1017,8 +1019,9 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                   </em>
                 </h2>
                 <p className="mt-4 text-[14.5px] sm:text-[15px] text-white/85 leading-relaxed max-w-[44ch]">
-                  Early access, launch updates, and a direct line to
-                  shape the app. Join 2,100+ students already on the list.
+                  Leave your email, then apply for a beta place. Testers get the
+                  build first and a direct line to shape it. 2,100+ students
+                  already on the list.
                 </p>
 
                 <div className="mt-7">
@@ -1026,7 +1029,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
                 </div>
 
                 <p className="mt-4 text-[12px] text-white/65">
-                  Free during beta · No spam, just launch updates.
+                  Free during beta · No spam, just your invite.
                 </p>
               </div>
 
@@ -1137,7 +1140,7 @@ const FEATURE_SCREEN_LOOP = [
   "book revise page.png",     // sky hero (book context)
   "book read page.png",       // cream reading
   "ai.png",                   // cream chat
-  "marketplace.png",          // cream marketplace
+  "resources.png",          // cream resources
   "book exam.png",            // cream quiz transition
   "quiz.png",                 // sage in-session
   "flashcard.png",            // sage in-session
@@ -1394,12 +1397,12 @@ function FloatCardFlashcard() {
   );
 }
 
-/* Marketplace · amber deck card (from resources screen) */
+/* Resources · amber deck card (from resources screen) */
 function FloatCardQuiz() {
   return (
     <div className="bg-amber-500 text-white rounded-2xl p-3 md:p-3.5 shadow-card">
       <div className="text-[7.5px] md:text-[9px] font-semibold tracking-wider text-white/80 uppercase">
-        Marketplace
+        Resources
       </div>
       <div className="font-display text-[12px] md:text-[14px] leading-[1.1] mt-1 text-balance">
         Quduri Deck

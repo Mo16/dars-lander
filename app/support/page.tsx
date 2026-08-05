@@ -136,7 +136,7 @@ export default function SupportPage() {
           <p>
             Open the app, go to <strong>Profile → Delete account</strong>,
             and confirm. This permanently removes your profile, study
-            history, notes, decks, AI conversations, and any marketplace
+            history, notes, decks, AI conversations, and any resources
             listings you&apos;ve published. We can&apos;t undo it. If
             you&apos;d also like a copy of your data before you delete,
             email us first and we&apos;ll send an export.
@@ -146,7 +146,7 @@ export default function SupportPage() {
           <p>
             Email{" "}
             <a href="mailto:support@darsapp.com">support@darsapp.com</a>{" "}
-            with a screenshot, the book or marketplace listing name, and a
+            with a screenshot, the book or resources listing name, and a
             short note on what&apos;s wrong. For copyright concerns, please
             include a way for us to contact the rights holder. We act
             quickly.

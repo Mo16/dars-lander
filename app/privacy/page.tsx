@@ -107,7 +107,7 @@ export default function PrivacyPage() {
               Custom flashcard decks and study materials you create or import.
             </li>
             <li>
-              Marketplace listings you publish, including the title,
+              Resources listings you publish, including the title,
               description, and content of any deck or PDF you upload.
             </li>
           </ul>
@@ -188,7 +188,7 @@ export default function PrivacyPage() {
               <strong>Supabase</strong> — authentication (sign-up, sign-in,
               password and OAuth handling), primary database, and file
               storage for your account, study state, notes, decks, and
-              marketplace uploads.
+              resources uploads.
             </li>
             <li>
               <strong>RevenueCat</strong> — subscription management and
@@ -256,7 +256,7 @@ export default function PrivacyPage() {
               <strong>Delete your account</strong> — in the app, go to
               Profile → Delete account. This permanently erases your profile,
               study history, notes, decks, AI conversations, and any
-              marketplace listings you&apos;ve published.
+              resources listings you&apos;ve published.
             </li>
             <li>
               <strong>Get a copy of your data</strong> — email us at{" "}

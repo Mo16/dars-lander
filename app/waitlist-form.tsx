@@ -7,47 +7,55 @@ type Props = {
   onSuccess?: () => void;
 };
 
-const SHARE_URL = "https://darsapp.com";
-const SHARE_TITLE = "Dars";
-const SHARE_TEXT =
-  "Join me on the Dars waitlist — the revision app built for Alimiyyah students.";
-
 export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
   const [email, setEmail] = useState("");
+  const [joinedEmail, setJoinedEmail] = useState("");
   const [botcheck, setBotcheck] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [shareMode, setShareMode] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [betaMode, setBetaMode] = useState(false);
   const [errored, setErrored] = useState(false);
-  const shareTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const betaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const actionRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     return () => {
-      if (shareTimer.current) clearTimeout(shareTimer.current);
-      if (copyTimer.current) clearTimeout(copyTimer.current);
+      if (betaTimer.current) clearTimeout(betaTimer.current);
     };
   }, []);
 
-  const finishSuccess = () => {
+  // Submitting unmounts the button and mounts the link in its place, which
+  // dumps keyboard focus onto <body> halfway through the flow. Hand it to the
+  // link — but only if it was ours to hand over, so we never steal focus from
+  // someone who has already tabbed elsewhere.
+  useEffect(() => {
+    if (!success) return;
+    if (typeof document === "undefined") return;
+    const active = document.activeElement;
+    if (active && active !== document.body) return;
+    actionRef.current?.focus();
+  }, [success]);
+
+  const finishSuccess = (joined: string) => {
     setSuccess(true);
+    setJoinedEmail(joined);
     setEmail("");
     onSuccess?.();
-    shareTimer.current = setTimeout(() => setShareMode(true), 1100);
+    betaTimer.current = setTimeout(() => setBetaMode(true), 1100);
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (submitting || success) return;
 
+    const trimmed = email.trim();
     setErrored(false);
 
     if (process.env.NEXT_PUBLIC_WAITLIST_MOCK === "1") {
       setSubmitting(true);
       await new Promise((r) => setTimeout(r, 1200));
       setSubmitting(false);
-      finishSuccess();
+      finishSuccess(trimmed);
       return;
     }
 
@@ -56,11 +64,11 @@ export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, botcheck }),
+        body: JSON.stringify({ email: trimmed, botcheck }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.ok) throw new Error(data?.error ?? "Failed");
-      finishSuccess();
+      finishSuccess(trimmed);
     } catch {
       setErrored(true);
     } finally {
@@ -68,27 +76,11 @@ export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
     }
   };
 
-  const handleShare = async () => {
-    const payload = { title: SHARE_TITLE, text: SHARE_TEXT, url: SHARE_URL };
-    try {
-      if (typeof navigator !== "undefined" && "share" in navigator) {
-        await navigator.share(payload);
-        return;
-      }
-    } catch {
-      // user cancelled or share failed — fall through to copy
-    }
-    try {
-      await navigator.clipboard.writeText(`${SHARE_TEXT} ${SHARE_URL}`);
-      setCopied(true);
-      if (copyTimer.current) clearTimeout(copyTimer.current);
-      copyTimer.current = setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // no-op
-    }
-  };
-
   const isDark = variant === "dark";
+
+  const betaHref = joinedEmail
+    ? `/beta-access?email=${encodeURIComponent(joinedEmail)}`
+    : "/beta-access";
 
   const wrapBase =
     "relative flex p-1.5 rounded-full max-w-md w-full transition-all duration-500 ease-out";
@@ -96,8 +88,11 @@ export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
   const wrapDark =
     "bg-white border border-white/80 shadow-[0_10px_30px_-10px_rgba(26,24,20,0.45)]";
   const wrapGap = success ? "gap-0" : "gap-1.5";
+  // The sage ring marks the moment the email lands, then settles away once the
+  // action becomes the beta CTA — a green halo around an ink pill reads as a
+  // stray outline, not a confirmation.
   const wrapCls = `${wrapBase} ${wrapGap} ${isDark ? wrapDark : wrapLight} ${
-    success ? "ring-2 ring-sage-500/40" : ""
+    success && !betaMode ? "ring-2 ring-sage-500/40" : ""
   } ${errored ? "animate-shake" : ""}`;
 
   const inputBase =
@@ -110,27 +105,89 @@ export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
     : "flex-1 px-3 sm:px-4 opacity-100";
   const inputCls = `${inputBase} ${inputTheme} ${inputSize}`;
 
-  const btnBase =
+  const actionBase =
     "relative overflow-hidden py-2.5 sm:py-3 rounded-full text-[13px] sm:text-sm font-medium whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-500 ease-out disabled:cursor-not-allowed";
-  const btnTheme = shareMode
-    ? isDark
-      ? "bg-coral-500 hover:bg-coral-600 text-white"
-      : "bg-ink hover:bg-ink-soft text-white"
+  const actionTheme = betaMode
+    ? "bg-ink hover:bg-ink-soft text-white"
     : success
       ? "bg-sage-500 text-white"
       : isDark
         ? "bg-ink hover:bg-ink-soft text-white"
         : "bg-coral-500 hover:bg-coral-600 text-white";
-  const btnSize = success
+  const actionSize = success
     ? "flex-1 w-full px-4 sm:px-5"
     : "shrink-0 px-4 sm:px-5";
-  const btnCls = `${btnBase} ${btnTheme} ${btnSize} ${submitting ? "opacity-90" : ""}`;
+  const actionCls = `${actionBase} ${actionTheme} ${actionSize} ${
+    submitting ? "opacity-90" : ""
+  }`;
 
   const showIdle = !submitting && !success;
   const showLoading = submitting && !success;
-  const showSuccess = success && !shareMode;
-  const showShare = shareMode && !copied;
-  const showCopied = copied;
+  const showJoined = success && !betaMode;
+  const showBeta = betaMode;
+
+  // Once the email is in, the action stops being a submit and becomes the
+  // real next step — applying for a beta place. Both labels live inside the
+  // link so "You're in" cross-fades into "Join the beta" without a jump.
+  const joinedLabels = (
+    <>
+      <span
+        className={`inline-flex items-center gap-1.5 sm:gap-2 transition-opacity duration-300 ${
+          showJoined
+            ? "opacity-100 animate-success-pop"
+            : "opacity-0 scale-75 absolute pointer-events-none"
+        }`}
+      >
+        <span className="relative inline-flex items-center justify-center">
+          {showJoined && (
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full bg-white/40 animate-success-ring"
+            />
+          )}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12.5l4.5 4.5L19 7.5"
+              className={showJoined ? "animate-check" : ""}
+            />
+          </svg>
+        </span>
+        <span>You&apos;re on the list</span>
+      </span>
+
+      <span
+        className={`inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
+          showBeta
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-3 absolute pointer-events-none"
+        }`}
+      >
+        Join the beta
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 5l7 7-7 7" />
+        </svg>
+      </span>
+    </>
+  );
 
   return (
     <form onSubmit={onSubmit} className={wrapCls} noValidate aria-live="polite">
@@ -166,167 +223,82 @@ export default function WaitlistForm({ variant = "light", onSuccess }: Props) {
         className={inputCls}
       />
 
-      <button
-        type="submit"
-        disabled={submitting}
-        onClick={(e) => {
-          if (shareMode) {
-            e.preventDefault();
-            handleShare();
+      {success ? (
+        <a
+          ref={actionRef}
+          href={betaHref}
+          className={actionCls}
+          aria-label={
+            betaMode ? "Join the beta" : "You're on the list. Join the beta"
           }
-        }}
-        className={btnCls}
-        aria-label={
-          shareMode
-            ? "Share Dars with your classmates"
-            : success
-              ? "Signed up successfully"
-              : submitting
-                ? "Submitting"
-                : "Join waitlist"
-        }
-      >
-        {/* Idle */}
-        <span
-          className={`inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
-            showIdle
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-3 absolute pointer-events-none"
-          }`}
         >
-          Join waitlist
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          >
-            <path d="M5 12h14M13 5l7 7-7 7" />
-          </svg>
-        </span>
-
-        {/* Loading */}
-        <span
-          className={`inline-flex items-center gap-2 transition-all duration-300 ${
-            showLoading
-              ? "opacity-100 scale-100"
-              : "opacity-0 scale-75 absolute pointer-events-none"
-          }`}
+          {joinedLabels}
+        </a>
+      ) : (
+        <button
+          type="submit"
+          disabled={submitting}
+          className={actionCls}
+          aria-label={submitting ? "Joining" : "Join the waitlist"}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="animate-spinner"
-            aria-hidden="true"
+          {/* Idle */}
+          <span
+            className={`inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
+              showIdle
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-3 absolute pointer-events-none"
+            }`}
           >
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
+            Join waitlist
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
               stroke="currentColor"
-              strokeOpacity="0.25"
-              strokeWidth="3"
-            />
-            <path
-              d="M21 12a9 9 0 0 0-9-9"
-              stroke="currentColor"
-              strokeWidth="3"
+              strokeWidth="2.5"
               strokeLinecap="round"
-            />
-          </svg>
-          <span className="tracking-wide">Joining…</span>
-        </span>
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </span>
 
-        {/* Success */}
-        <span
-          className={`inline-flex items-center gap-1.5 sm:gap-2 transition-opacity duration-300 ${
-            showSuccess
-              ? "opacity-100 animate-success-pop"
-              : "opacity-0 scale-75 absolute pointer-events-none"
-          }`}
-        >
-          <span className="relative inline-flex items-center justify-center">
-            {showSuccess && (
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 rounded-full bg-white/40 animate-success-ring"
-              />
-            )}
+          {/* Loading */}
+          <span
+            className={`inline-flex items-center gap-2 transition-all duration-300 ${
+              showLoading
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-75 absolute pointer-events-none"
+            }`}
+          >
             <svg
               width="16"
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              className="animate-spinner"
               aria-hidden="true"
             >
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                strokeOpacity="0.25"
+                strokeWidth="3"
+              />
               <path
-                d="M5 12.5l4.5 4.5L19 7.5"
-                className={showSuccess ? "animate-check" : ""}
+                d="M21 12a9 9 0 0 0-9-9"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
               />
             </svg>
+            <span className="tracking-wide">Joining&hellip;</span>
           </span>
-          <span>You&apos;re in</span>
-        </span>
-
-        {/* Share */}
-        <span
-          className={`inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
-            showShare
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-3 absolute pointer-events-none"
-          }`}
-        >
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M12 3v13" />
-            <path d="M7 8l5-5 5 5" />
-            <path d="M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
-          </svg>
-          Share with classmates
-        </span>
-
-        {/* Copied */}
-        <span
-          className={`inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ${
-            showCopied
-              ? "opacity-100 scale-100"
-              : "opacity-0 scale-75 absolute pointer-events-none"
-          }`}
-        >
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M5 12.5l4.5 4.5L19 7.5" />
-          </svg>
-          Link copied
-        </span>
-      </button>
+        </button>
+      )}
     </form>
   );
 }

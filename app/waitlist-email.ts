@@ -4,7 +4,10 @@
 // mode via: color-scheme meta tags, a media-query style block with
 // !important overrides, and dm-force-* class anchors on every colored
 // element.
-export function buildConfirmationEmail() {
+export function buildConfirmationEmail(recipient?: string) {
+  const betaHref = recipient
+    ? `https://darsapp.com/beta-access?email=${encodeURIComponent(recipient)}`
+    : "https://darsapp.com/beta-access";
   const coral = "#EC6144";
   const coralSoft = "#FFE3D6";
   const cream = "#FFF7EC";
@@ -83,7 +86,7 @@ export function buildConfirmationEmail() {
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
 <div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  You're on the Dars waitlist — early access, launch updates.
+  You're on the Dars waitlist — beta applications are open.
 </div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
@@ -107,7 +110,7 @@ export function buildConfirmationEmail() {
               You&#39;re <span class="dm-text-coral" style="font-family:${serif}; font-style:italic; color:${coral}; font-weight:400;">in.</span>
             </h1>
             <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.6; color:${inkSoft};">
-              Assalamu alaikum — thanks for joining the Dars waitlist. We&#39;re building the revision app for Alimiyyah students, and you&#39;ll be first through the door when we open.
+              Assalamu alaikum — thanks for joining the Dars waitlist. We&#39;re building the revision app for Alimiyyah students, and the beta is open right now. Apply for a place and you&#39;ll be testing it before anyone else.
             </p>
           </td>
         </tr>
@@ -119,7 +122,7 @@ export function buildConfirmationEmail() {
           <td class="dm-bg-card dm-border" style="background:${card}; border:1px solid ${border}; border-radius:20px; padding:30px 32px 14px;">
             <p class="dm-text-ink-muted" style="margin:0 0 20px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${inkMuted};">What&#39;s next</p>
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-              ${step(1, "We&#39;ll email you at launch", "early access, launch updates.")}
+              ${step(1, "Apply for a beta place", `two minutes, and places are limited — <a href="${betaHref}" class="dm-text-coral" style="color:${coral}; font-weight:600; text-decoration:underline;">apply here</a>.`)}
               ${step(2, "Your feedback shapes the app", "reply to this email with anything you want to see.")}
               ${step(3, "Invite your halaqah", "the more classmates on board, the better the leaderboards.")}
             </table>

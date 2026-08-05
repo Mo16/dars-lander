@@ -61,7 +61,7 @@ export default function TermsPage() {
             Dars is a revision app for Alimiyyah students. It includes
             spaced-repetition flashcards, structured curriculum content,
             mock exams, an AI tutor (&ldquo;Abdullah&rdquo;), notes, study
-            groups (Halaqahs), and a marketplace for student-created study
+            groups (Halaqahs), and a resources for student-created study
             materials. We add and remove features over time. We may also
             change, suspend, or stop parts of the Service if we have to.
           </p>
@@ -167,7 +167,7 @@ export default function TermsPage() {
           <p>
             You may create notes, custom flashcard decks, and other
             material inside Dars. You may also publish material to the
-            community marketplace.
+            community resources.
           </p>
           <ul>
             <li>
@@ -178,14 +178,14 @@ export default function TermsPage() {
               <strong>Licence to us.</strong> So we can run the Service,
               you grant Dars a worldwide, non-exclusive, royalty-free
               licence to host, store, and display your content to you and
-              (if you publish to the marketplace) to the audience you
+              (if you publish to the resources) to the audience you
               choose. The licence ends when you delete the content,
               except where we need to keep a copy to comply with law or
               defend legal claims.
             </li>
             <li>
-              <strong>Marketplace.</strong> When you publish to the
-              marketplace, you also grant other Dars users a licence to
+              <strong>Resources.</strong> When you publish to the
+              resources, you also grant other Dars users a licence to
               download and use your content within the Service for their
               own study. They may not redistribute it outside Dars.
             </li>
@@ -196,7 +196,7 @@ export default function TermsPage() {
               the rules in the next section.
             </li>
             <li>
-              <strong>Moderation.</strong> Marketplace submissions are
+              <strong>Moderation.</strong> Resources submissions are
               reviewed before they go live. We may reject, hide, or
               remove content that breaks these terms.
             </li>
@@ -219,7 +219,7 @@ export default function TermsPage() {
             </li>
             <li>
               Harass, bully, or threaten other users, including in
-              Halaqahs, duels, or marketplace comments.
+              Halaqahs, duels, or resources comments.
             </li>
             <li>
               Reverse-engineer, scrape, or attempt to bypass usage limits

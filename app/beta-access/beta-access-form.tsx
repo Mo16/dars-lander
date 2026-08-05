@@ -101,6 +101,14 @@ export default function BetaAccessForm() {
   const headerRef = useRef<HTMLDivElement>(null);
   const stepBoxRef = useRef<HTMLDivElement>(null);
 
+  // Carry the email over from the lander's waitlist form (/beta-access?email=…)
+  // so nobody has to type it twice. Read after mount to keep SSR markup stable.
+  useEffect(() => {
+    const prefill = new URLSearchParams(window.location.search).get("email");
+    if (!prefill) return;
+    setData((d) => (d.email ? d : { ...d, email: prefill }));
+  }, []);
+
   // Mount animation — slide the whole experience in.
   useIsoLayoutEffect(() => {
     if (prefersReducedMotion()) return;
@@ -343,8 +351,7 @@ export default function BetaAccessForm() {
             </em>
           </h1>
           <p className="text-[15px] sm:text-[16px] leading-[1.6] text-ink-soft text-pretty max-w-xl">
-            Two quick steps. We read every reply personally 
-            auto-filter.
+            Two quick steps. We read every reply personally, no auto-filter.
           </p>
         </div>
 
@@ -547,29 +554,33 @@ function StepAbout({ data, update, errors }: StepProps) {
             autoComplete="name"
             error={errors.name}
           />
-          <FloatField
-            label="Email"
-            type="email"
-            value={data.email}
-            onChange={(v) => update("email", v)}
-            autoComplete="email"
-            error={errors.email}
-          />
+          <div>
+            <FloatField
+              label="Email"
+              type="email"
+              value={data.email}
+              onChange={(v) => update("email", v)}
+              autoComplete="email"
+              error={errors.email}
+            />
+            {!errors.email && (
+              <p className="text-[12.5px] leading-[1.55] text-ink-muted mt-2 px-1">
+                Use the email on your{" "}
+                <span className="text-ink font-semibold">
+                  App Store or Play Store
+                </span>{" "}
+                account. That&apos;s where the invite gets sent, so it has to
+                match.
+              </p>
+            )}
+          </div>
           <div>
             <PhoneField
               value={data.phone}
               onChange={(v) => update("phone", v)}
               error={errors.phone}
             />
-            {errors.phone ? (
-              <ErrorMsg message={errors.phone} />
-            ) : (
-              <p className="text-[12.5px] leading-[1.55] text-ink-muted mt-2 px-1">
-                Pick your country, then enter your number.{" "}
-                <span className="text-ink font-semibold">WhatsApp required</span>{" "}
-                &mdash; it&apos;s how we&apos;ll reach out if you&apos;re in.
-              </p>
-            )}
+            <ErrorMsg message={errors.phone} />
           </div>
         </div>
       </div>
@@ -914,7 +925,7 @@ function PhoneField({
             className="peer w-full bg-transparent px-4 pt-6 pb-2.5 text-[15px] text-ink placeholder:text-transparent focus:outline-none rounded-r-2xl"
           />
           <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[15px] text-ink-muted transition-all duration-200 peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-[10.5px] peer-focus:uppercase peer-focus:tracking-[0.12em] peer-focus:font-semibold peer-focus:text-coral-600 peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-[10.5px] peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.12em] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:text-coral-600">
-            Phone (WhatsApp)
+            Phone number
           </span>
         </div>
 
@@ -1253,7 +1264,7 @@ function CelebrationCard({
         >
           {firstName ? `JazakAllahu khayran, ${firstName}` : "JazakAllahu khayran"}.
           Application logged for {deviceLabel}. We&apos;ll go through every entry
-          personally and reach out by email and WhatsApp if you&apos;re in.
+          personally and email you if you&apos;re in.
         </p>
 
         {/* What happens next — numbered steps */}
@@ -1287,8 +1298,8 @@ function CelebrationCard({
                   If you&apos;re in, we&apos;ll reach out.
                 </p>
                 <p className="text-[13.5px] leading-[1.55] text-ink-soft">
-                  Email and WhatsApp, with the build link, install steps, and a
-                  quick walkthrough of what to poke at first on{" "}
+                  An email with the build link, install steps, and a quick
+                  walkthrough of what to poke at first on{" "}
                   {deviceLabel ?? "your device"}.
                 </p>
               </div>

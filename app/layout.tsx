@@ -25,7 +25,7 @@ const siteUrl = "https://darsapp.com";
 const siteName = "Dars";
 const title = "Dars — The revision app for Alimiyyah students";
 const description =
-  "Re-read your books. Drill flashcards. Compete with your halaqah. Sit mock exams. One app, mapped to your exact syllabus.";
+  "Re-read your books. Drill flashcards. Compete with your halaqah. Sit mock exams. One app, mapped to your exact syllabus. Beta applications are open.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

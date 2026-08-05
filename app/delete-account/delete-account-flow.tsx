@@ -544,7 +544,7 @@ function ConfirmPanel({
           <Bullet>Your profile, name, and email.</Bullet>
           <Bullet>All your flashcards, decks, and revision history.</Bullet>
           <Bullet>Your exam scores, streaks, and XP.</Bullet>
-          <Bullet>Any notes or files you uploaded to the marketplace.</Bullet>
+          <Bullet>Any notes or files you uploaded to the resources.</Bullet>
           <Bullet>Your sign-in identity in Supabase &mdash; you&apos;ll be signed out everywhere.</Bullet>
         </ul>
       </div>

@@ -71,8 +71,8 @@ export async function POST(req: Request) {
       await resend.emails.send({
         from: process.env.RESEND_FROM ?? "Dars <onboarding@resend.dev>",
         to: email,
-        subject: "You're on the Dars waitlist ✨",
-        html: buildConfirmationEmail(),
+        subject: "You're on the list. Now apply for the Dars beta ✨",
+        html: buildConfirmationEmail(email),
       });
     } catch (e) {
       // Don't fail the request — the signup is saved. Just log.

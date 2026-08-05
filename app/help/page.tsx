@@ -61,7 +61,7 @@ export default function HelpPage() {
           a: (
             <p>
               No. Once a book is downloaded, flashcards, notes, and revision
-              work offline. The AI tutor and content marketplace need an
+              work offline. The AI tutor and content resources need an
               internet connection.
             </p>
           ),
@@ -180,7 +180,7 @@ export default function HelpPage() {
               Open the app, go to{" "}
               <strong>Profile → Delete account</strong>, and confirm. This
               permanently removes your profile, study history, notes, decks,
-              AI conversations, and any marketplace listings you&apos;ve
+              AI conversations, and any resources listings you&apos;ve
               published — we can&apos;t undo it. If you&apos;d like a copy of
               your data first, email{" "}
               <a href="mailto:support@darsapp.com">support@darsapp.com</a> and
@@ -254,7 +254,7 @@ export default function HelpPage() {
             <p>
               Email{" "}
               <a href="mailto:support@darsapp.com">support@darsapp.com</a>{" "}
-              with a screenshot, the book or marketplace listing name, and a
+              with a screenshot, the book or resources listing name, and a
               short note on what&apos;s wrong. For copyright concerns, please
               include a way for us to contact the rights holder. We act
               quickly.
