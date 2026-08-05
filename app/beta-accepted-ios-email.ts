@@ -19,8 +19,9 @@ export function buildBetaAcceptedIosEmail() {
     "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 
   const base = "https://darsapp.com/assets/img";
-  // TODO: swap this for the real TestFlight public-link URL before sending.
-  const testFlightUrl = "https://testflight.apple.com/join/REPLACE_ME";
+  // The real TestFlight public link. Verified to resolve to the live
+  // "Join the Dars beta" page.
+  const testFlightUrl = "https://testflight.apple.com/join/kZkQ32UH";
   // Apple's App Store link to TestFlight itself — for testers who don't
   // have the runner app yet.
   const testFlightAppStoreUrl =
