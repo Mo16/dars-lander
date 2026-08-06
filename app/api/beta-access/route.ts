@@ -153,16 +153,39 @@ export async function POST(req: Request) {
 }
 
 function buildAcknowledgement(firstName: string) {
+  const sans =
+    "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif";
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:32px 16px;background:#FFF7EC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#1A1814;">
-<div style="max-width:520px;margin:0 auto;background:#FFFDF8;border:1px solid #EADFCB;border-radius:20px;padding:32px;">
-  <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#EC6144;font-weight:600;">◆ Application received</p>
-  <h1 style="margin:0 0 14px;font-size:28px;line-height:1.15;font-weight:500;letter-spacing:-0.02em;">Got it, ${firstName}.</h1>
-  <p style="margin:0 0 14px;font-size:15px;line-height:1.65;color:#3B372F;">Thanks for applying to test the Dars beta. We&#39;ll go through every application personally and email you once we&#39;ve had a proper look.</p>
-  <p style="margin:0;font-size:15px;line-height:1.65;color:#3B372F;">In the meantime, if you&#39;ve got anything to add, just reply to this email.</p>
-  <p style="margin:24px 0 0;font-size:14px;color:#1A1814;">Mohammed<br><span style="color:#EC6144;font-style:italic;">Founder, Dars</span></p>
-</div>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:32px 16px;background:#FFF7EC;font-family:${sans};color:#1A1814;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr><td align="center">
+<!--[if mso]><table role="presentation" width="520" cellspacing="0" cellpadding="0" border="0" align="center"><tr><td><![endif]-->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" align="center" style="max-width:520px;width:100%;">
+
+  <tr><td style="padding:0 0 18px;">
+    <img src="https://darsapp.com/assets/img/logo.png" width="30" height="30" alt="" style="display:inline-block;width:30px;height:30px;vertical-align:middle;border:0;outline:none;text-decoration:none;">
+    <span style="vertical-align:middle;margin-left:10px;font-family:${sans};font-size:18px;font-weight:600;letter-spacing:-0.01em;color:#1A1814;">Dars</span>
+  </td></tr>
+
+  <tr><td style="background:#FFFDF8;border:1px solid #EADFCB;border-radius:20px;padding:32px;">
+    <p style="margin:0 0 12px;font-family:${sans};font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#C94A2E;font-weight:600;">◆ Application received</p>
+    <h1 style="margin:0 0 14px;font-family:${sans};font-size:28px;line-height:1.15;font-weight:500;letter-spacing:-0.02em;color:#1A1814;">Got it, ${firstName}.</h1>
+    <p style="margin:0 0 14px;font-family:${sans};font-size:15px;line-height:1.65;color:#3B372F;">Thanks for applying to test the Dars beta. We&#39;ll go through every application personally and email you once we&#39;ve had a proper look.</p>
+    <p style="margin:0;font-family:${sans};font-size:15px;line-height:1.65;color:#3B372F;">In the meantime, if you&#39;ve got anything to add, just reply to this email.</p>
+    <p style="margin:24px 0 0;font-family:${sans};font-size:14px;line-height:1.6;color:#1A1814;">Mohammed<br><span style="font-family:Georgia,'Times New Roman',serif;font-style:italic;color:#C94A2E;">Founder, Dars</span></p>
+  </td></tr>
+
+  <tr><td style="height:20px;line-height:20px;font-size:0;">&nbsp;</td></tr>
+
+  <tr><td style="padding:0;">
+    <a href="https://darsapp.com" style="font-family:${sans};font-size:13px;line-height:19px;color:#6E6A5F;text-decoration:none;">darsapp.com</a><a href="https://instagram.com/getdars" style="text-decoration:none;margin-left:22px;"><img src="https://darsapp.com/assets/img/email/instagram.png" width="19" height="19" alt="Instagram" style="width:19px;height:19px;border:0;outline:none;vertical-align:-6px;"></a><a href="https://tiktok.com/@dars.app" style="text-decoration:none;margin-left:16px;"><img src="https://darsapp.com/assets/img/email/tiktok.png" width="19" height="19" alt="TikTok" style="width:19px;height:19px;border:0;outline:none;vertical-align:-6px;"></a>
+  </td></tr>
+
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr>
+</table>
 </body></html>`;
 }
 

@@ -79,6 +79,19 @@ export type EmailBlock =
       meta?: string;
       href?: string;
     }
+  /**
+   * Something the recipient themselves sent us, quoted back to them: a bug
+   * report, an application, a request. Unlike every other block, its `body`
+   * and `details` are THEIR words, so they are escaped verbatim — no inline
+   * markdown, no merge tags. A `**` in a bug report is two asterisks.
+   */
+  | {
+      type: "record_card";
+      meta?: string;
+      title?: string;
+      body?: string;
+      details?: { label: string; value: string }[];
+    }
   | { type: "quote"; text: string; attribution?: string }
   | { type: "list"; style?: "numbered" | "plain"; items: { title: string; body?: string }[] }
   | { type: "image"; src: string; alt: string; href?: string; width?: number }
@@ -170,6 +183,16 @@ function inline(raw: string, ctx: MergeContext, missing: Set<string>): string {
   out = out.replace(/(^|[\s(])_([^_]+)_(?=[\s.,!?)]|$)/g, `$1<em>$2</em>`);
   out = out.replace(/\n/g, "<br>");
   return out;
+}
+
+/**
+ * Someone else's words, reproduced exactly. Escaped, newlines preserved, and
+ * deliberately NOT run through `inline` or `applyTags`: text a user typed into
+ * the app is content, not template source, and letting it carry markup or
+ * resolve merge tags would be both wrong and a small injection surface.
+ */
+function verbatim(raw: string): string {
+  return escapeHtml(raw ?? "").replace(/\r?\n/g, "<br>");
 }
 
 // --- Layout helpers --------------------------------------------------------
@@ -317,6 +340,85 @@ function renderBookCard(
 
   return `<tr>
   <td class="dm-bg-card dm-border" style="background:${PALETTE.card}; border:1px solid ${PALETTE.border}; border-radius:20px; padding:26px 28px;">${body}</td>
+</tr>`;
+}
+
+/**
+ * The panel that quotes what someone sent us. Shares `book_card`'s frame
+ * exactly — same surface, border, radius and padding — so an email carrying
+ * both speaks one visual language instead of two.
+ *
+ * Three roles, three treatments: the meta line is a quiet tracked cap, the
+ * title is the serif, and the detail labels are sentence-case sans. Giving all
+ * three the same small-caps costume would read as a template.
+ */
+function renderRecordCard(
+  block: Extract<EmailBlock, { type: "record_card" }>,
+  ctx: MergeContext,
+  missing: Set<string>,
+): string {
+  const details = (block.details ?? [])
+    .filter((d) => d.value !== null && d.value !== undefined && String(d.value).trim() !== "")
+    .slice(0, 8);
+
+  if (!block.meta && !block.title && !block.body?.trim() && !details.length) return "";
+
+  const meta = block.meta
+    ? `<p class="dm-text-ink-muted" style="margin:0 0 10px; font-family:${SANS}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${PALETTE.inkMuted};">${inline(block.meta, ctx, missing)}</p>`
+    : "";
+
+  const title = block.title
+    ? `<p class="dm-text-ink" style="margin:0 0 ${block.body?.trim() ? "12px" : "0"}; font-family:${SERIF}; font-size:19px; line-height:1.35; color:${PALETTE.ink};">${inline(block.title, ctx, missing)}</p>`
+    : "";
+
+  // This is the ONE place in a Dars email where the text was typed by the
+  // recipient rather than written by us, and students here write in Arabic and
+  // Urdu constantly - usually a salam in Arabic followed by English.
+  //
+  // Hence one dir="auto" element PER LINE rather than one around the message.
+  // dir="auto" takes its base direction from the first strong character in the
+  // element, so wrapping the whole message in one would let an opening Arabic
+  // salam right-align every English line under it. Per line, the salam sits
+  // right and the English sits left, which is what the person actually wrote.
+  const lineStyle = `margin:0; font-family:${SANS}; font-size:14.5px; line-height:1.65; color:${PALETTE.inkSoft};`;
+  const body = block.body?.trim()
+    ? (block.body ?? "")
+        .split(/\r?\n/)
+        .map((line) =>
+          line.trim()
+            ? `<div dir="auto" class="dm-text-ink-soft" style="${lineStyle}">${escapeHtml(line)}</div>`
+            : `<div style="height:10px; line-height:10px; font-size:0;">&nbsp;</div>`,
+        )
+        .join("")
+    : "";
+
+  // Sits under a hairline inside the card: their message is the substance, the
+  // metadata is supporting evidence, and the rule marks that change of rank.
+  const rows = details
+    .map(
+      // A fixed label column, not an auto one. Letting the table share the
+      // width evenly strands each value halfway across the card, with a dead
+      // gulf between it and the label it belongs to. 120px holds the longest
+      // label we use and keeps each pair reading as one thing.
+      (detail, i) => `<tr>
+            <td width="120" valign="top" style="width:120px; padding:0 14px ${i === details.length - 1 ? 0 : 7}px 0; font-family:${SANS}; font-size:12px; line-height:1.5; color:${PALETTE.inkMuted};" class="dm-text-ink-muted">${verbatim(detail.label)}</td>
+            <td valign="top" style="padding:0 0 ${i === details.length - 1 ? 0 : 7}px; font-family:${SANS}; font-size:12.5px; line-height:1.5; color:${PALETTE.inkSoft};" class="dm-text-ink-soft">${verbatim(String(detail.value))}</td>
+          </tr>`,
+    )
+    .join("");
+
+  const detailBlock = details.length
+    ? `<div class="dm-border" style="margin-top:18px; padding-top:16px; border-top:1px solid ${PALETTE.border};">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        ${rows}
+      </table>
+    </div>`
+    : "";
+
+  return `<tr>
+  <td class="dm-bg-card dm-border" style="background:${PALETTE.card}; border:1px solid ${PALETTE.border}; border-radius:20px; padding:26px 28px;">
+    ${meta}${title}${body}${detailBlock}
+  </td>
 </tr>`;
 }
 
@@ -517,6 +619,21 @@ function toPlainText(blocks: EmailBlock[], ctx: MergeContext, missing: Set<strin
             .join("\n"),
         );
         break;
+      case "record_card": {
+        // The body is quoted verbatim in the HTML, so it is quoted verbatim
+        // here too — running `strip` over it would eat a user's asterisks.
+        const lines = [
+          block.meta ? strip(block.meta).toUpperCase() : "",
+          block.title ? strip(block.title) : "",
+          block.body?.trim() ?? "",
+          ...(block.details ?? [])
+            .filter((d) => String(d.value ?? "").trim())
+            .slice(0, 8)
+            .map((d) => `${d.label}: ${d.value}`),
+        ].filter(Boolean);
+        if (lines.length) parts.push(lines.join("\n"));
+        break;
+      }
       case "quote":
         parts.push(strip(block.text) + (block.attribution ? `\n— ${strip(block.attribution)}` : ""));
         break;
@@ -667,7 +784,11 @@ const GAP_PX = { sm: 12, md: 20, lg: 32 } as const;
  */
 function gapBetween(previous: EmailBlock, next: EmailBlock): number {
   const panel = (b: EmailBlock) =>
-    b.type === "hero" || b.type === "stat_row" || b.type === "book_card" || b.type === "list";
+    b.type === "hero" ||
+    b.type === "stat_row" ||
+    b.type === "book_card" ||
+    b.type === "record_card" ||
+    b.type === "list";
   if (previous.type === "spacer" || next.type === "spacer") return 0;
   if (panel(previous) || panel(next)) return 20;
   if (previous.type === "heading") return 12;
@@ -689,6 +810,8 @@ function renderBlock(block: EmailBlock, ctx: MergeContext, missing: Set<string>)
       return renderStatRow(block, ctx, missing);
     case "book_card":
       return renderBookCard(block, ctx, missing);
+    case "record_card":
+      return renderRecordCard(block, ctx, missing);
     case "quote":
       return renderQuote(block, ctx, missing);
     case "list":

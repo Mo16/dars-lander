@@ -199,7 +199,7 @@ export function buildBetaRoundTwoEmail() {
               <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">If you applied last time and never heard back:</strong> you&#39;re still in the pile, and this round is bigger. Apply again anyway. It tells us you&#39;re still interested.
             </p>
             <p class="dm-text-ink-soft" style="margin:0 0 22px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">If you&#39;re already testing:</strong> you&#39;re in, there&#39;s nothing to do. Go back to sleep.
+              <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">If you&#39;re already testing:</strong> you&#39;ll need to sign up again. We&#39;ve switched sign-in providers, so your old login won&#39;t get you back in. Open the app, create your account again, and carry on.
             </p>
             <p class="dm-text-ink-soft" style="margin:0 0 20px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
               The beta still won&#39;t be perfect. That is more or less the definition of a beta, and it&#39;s why we want <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">real Alimiyyah students</strong> in it: the people who&#39;d notice when something&#39;s off, and say so.
