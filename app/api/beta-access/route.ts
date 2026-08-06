@@ -12,12 +12,27 @@ type Body = {
   year?: unknown;
   yearOther?: unknown;
   frequency?: unknown;
+  heard?: unknown;
+  heardOther?: unknown;
   message?: unknown;
   botcheck?: unknown;
 };
 
 const str = (v: unknown, max = 500) =>
   typeof v === "string" ? v.trim().slice(0, max) : "";
+
+// Referral sources are posted as stable keys and stored as readable labels,
+// so the admin table and the CSV export need no lookup of their own.
+const HEARD_LABELS: Record<string, string> = {
+  tiktok: "TikTok",
+  instagram: "Instagram",
+  whatsapp: "WhatsApp",
+  friend: "A friend",
+  teacher: "My teacher",
+  institute: "My institute",
+  youtube: "YouTube",
+  search: "Google search",
+};
 
 export async function POST(req: Request) {
   let body: Body;
@@ -43,6 +58,17 @@ export async function POST(req: Request) {
   const year =
     yearKey === "Other" && yearOther ? `Other: ${yearOther}` : yearKey;
   const frequency = str(body.frequency, 30);
+  const heardKey = str(body.heard, 40);
+  const heardOther = str(body.heardOther, 200);
+  // Left null rather than rejected when it's missing or unrecognised: the
+  // field arrived after the form shipped, so an older cached bundle can still
+  // post a valid application without one.
+  const heardFrom =
+    heardKey === "other"
+      ? heardOther
+        ? `Other: ${heardOther}`
+        : "Other"
+      : (HEARD_LABELS[heardKey] ?? "");
   const message = str(body.message, 4000);
 
   if (!name) {
@@ -87,6 +113,7 @@ export async function POST(req: Request) {
     device,
     year,
     frequency,
+    heard_from: heardFrom || null,
     message: message || null,
   });
 
@@ -140,6 +167,7 @@ export async function POST(req: Request) {
             device,
             year,
             frequency,
+            heardFrom,
             message,
           }),
         });
@@ -197,6 +225,7 @@ function buildInternalNotification(d: {
   device: string;
   year: string;
   frequency: string;
+  heardFrom: string;
   message: string;
 }) {
   const row = (label: string, value: string) =>
@@ -215,6 +244,7 @@ ${row("Institute", d.institute)}
 ${row("Device", d.device)}
 ${row("Year", d.year)}
 ${row("Frequency", d.frequency)}
+${row("Heard about us", d.heardFrom)}
 ${row("Message", d.message)}
 </table>
 </div></body></html>`;

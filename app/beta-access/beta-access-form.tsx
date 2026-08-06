@@ -37,6 +37,8 @@ type Data = {
   year: string;
   yearOther: string;
   frequency: string;
+  heard: string;
+  heardOther: string;
   message: string;
   agreed: boolean;
   botcheck: boolean;
@@ -68,6 +70,20 @@ const FREQUENCY_OPTIONS = [
   { value: "occasionally", label: "Occasionally", desc: "When I get a window." },
 ];
 
+// Referral source. Values are stable keys — the API maps them to the labels
+// that get stored, so wording can change here without orphaning old rows.
+const HEARD_OPTIONS = [
+  { value: "tiktok", label: "TikTok" },
+  { value: "instagram", label: "Instagram" },
+  { value: "whatsapp", label: "WhatsApp" },
+  { value: "friend", label: "A friend" },
+  { value: "teacher", label: "My teacher" },
+  { value: "institute", label: "My institute" },
+  { value: "youtube", label: "YouTube" },
+  { value: "search", label: "Google search" },
+  { value: "other", label: "Somewhere else" },
+];
+
 const STEPS = [
   { key: "about", title: "About you" },
   { key: "details", title: "Your details" },
@@ -82,6 +98,8 @@ const initialData: Data = {
   year: "",
   yearOther: "",
   frequency: "",
+  heard: "",
+  heardOther: "",
   message: "",
   agreed: false,
   botcheck: false,
@@ -203,6 +221,10 @@ export default function BetaAccessForm() {
         e.yearOther = "Tell us roughly what you've studied.";
       }
       if (!data.frequency) e.frequency = "Pick how often you'd use it.";
+      if (!data.heard) e.heard = "Pick where you came across Dars.";
+      if (data.heard === "other" && !data.heardOther.trim()) {
+        e.heardOther = "Tell us where you came across Dars.";
+      }
     }
     return e;
   };
@@ -640,7 +662,8 @@ function StepDetails({ data, update, errors }: StepProps) {
         </p>
         <p className="text-[14.5px] leading-[1.6] text-ink-soft">
           Quick ones: where you study, what you&apos;d test on, where
-          you&apos;re up to, and how much you&apos;d actually use it.
+          you&apos;re up to, how much you&apos;d actually use it, and how you
+          found us.
         </p>
       </div>
 
@@ -722,6 +745,28 @@ function StepDetails({ data, update, errors }: StepProps) {
           ))}
         </div>
         <ErrorMsg message={errors.frequency} />
+      </div>
+
+      {/* Bento tile — how they found us */}
+      <div className="rounded-3xl bg-cream-200/45 border border-border/40 p-4 sm:p-5">
+        <p className="text-[10.5px] tracking-[0.14em] uppercase font-semibold text-ink-muted mb-3 px-1">
+          ◆ Where did you hear about Dars?
+        </p>
+        <ChipGroup
+          value={data.heard}
+          onChange={(v) => update("heard", v)}
+          options={HEARD_OPTIONS}
+        />
+        {data.heard === "other" && (
+          <input
+            type="text"
+            value={data.heardOther}
+            onChange={(e) => update("heardOther", e.target.value)}
+            placeholder="Where did you come across it?"
+            className="mt-3 w-full px-4 py-3 rounded-2xl border border-border bg-cream-50 text-[14.5px] text-ink placeholder:text-ink-subtle focus:outline-none focus:bg-white focus:border-coral-300 transition-colors"
+          />
+        )}
+        <ErrorMsg message={errors.heard || errors.heardOther} />
       </div>
 
       {/* Bento tile — message (warm coral, optional) */}
