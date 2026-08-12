@@ -122,6 +122,18 @@ export async function POST(req: Request) {
     return Response.json({ error: "Could not save application" }, { status: 500 });
   }
 
+  // Applying for the beta puts you on the waitlist too — it's the list every
+  // segment and campaign is built from, and a tester who isn't accepted should
+  // still hear about launch. 23505 just means they signed up there already.
+  const { error: waitlistError } = await supabase
+    .from("waitlist")
+    .insert({ email });
+
+  if (waitlistError && waitlistError.code !== "23505") {
+    // Never fail the application over this — the beta row is already saved.
+    console.error("waitlist insert failed", waitlistError);
+  }
+
   if (resendKey) {
     const resend = new Resend(resendKey);
     const nameParts = name.split(/\s+/);
@@ -139,6 +151,21 @@ export async function POST(req: Request) {
       });
     } catch (e) {
       console.error("resend audience add failed", e);
+    }
+
+    // Same reason as the waitlist row above. No waitlist confirmation email:
+    // that one tells you to go apply for the beta, which they just did — the
+    // acknowledgement below is the only mail this submission should send.
+    try {
+      await resend.contacts.create({
+        audienceId: "5b380013-7184-4351-97fe-b30d38202d1d",
+        email,
+        firstName: contactFirstName,
+        lastName: contactLastName,
+        unsubscribed: false,
+      });
+    } catch (e) {
+      console.error("resend waitlist audience add failed", e);
     }
 
     try {
