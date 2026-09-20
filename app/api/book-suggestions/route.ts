@@ -1,6 +1,5 @@
 import { createHash } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import { validSubjectId } from "../../suggest-a-book/subjects";
 
 export const runtime = "nodejs";
 
@@ -19,12 +18,12 @@ export const runtime = "nodejs";
 
 const MAX_BOOKS = 12;
 const TITLE_MAX = 200;
-const AUTHOR_MAX = 160;
+const VERSION_MAX = 160;
 const NOTE_MAX = 500;
 const NAME_MAX = 120;
 const EMAIL_MAX = 200;
 
-type BookInput = { title?: unknown; author?: unknown; subjectId?: unknown; note?: unknown };
+type BookInput = { title?: unknown; version?: unknown; note?: unknown };
 type Body = {
   books?: unknown;
   name?: unknown;
@@ -65,8 +64,7 @@ export async function POST(req: Request) {
       const b = (entry ?? {}) as BookInput;
       return {
         title: str(b.title, TITLE_MAX),
-        author: str(b.author, AUTHOR_MAX),
-        subjectId: validSubjectId(b.subjectId),
+        version: str(b.version, VERSION_MAX),
         note: str(b.note, NOTE_MAX),
       };
     })
@@ -109,8 +107,7 @@ export async function POST(req: Request) {
       submission_id: submissionId,
       position: i + 1,
       title: b.title,
-      author: b.author || null,
-      subject_id: b.subjectId,
+      version: b.version || null,
       note: b.note || null,
       submitter_name: name || null,
       submitter_email: email || null,

@@ -29,11 +29,6 @@ export default function SuggestABookPage() {
         </Link>
 
         <SuggestForm />
-
-        <p className="mt-14 max-w-xl text-[12.5px] leading-[1.6] text-ink-muted sm:mt-20">
-          Suggestions are read by the people building Dars. We can&apos;t promise every
-          book, and one that is still in copyright takes longer than one that is not.
-        </p>
       </div>
     </main>
   );

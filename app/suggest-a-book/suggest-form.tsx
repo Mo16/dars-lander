@@ -3,7 +3,6 @@
 import { useCallback, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { Shelf, type ShelfBook } from "./shelf";
-import { SUBJECTS } from "./subjects";
 
 /**
  * Suggest a book — the whole page body.
@@ -26,23 +25,27 @@ const MAX_BOOKS = 12;
 type Entry = {
   key: string;
   title: string;
-  author: string;
-  subjectId: string;
+  /**
+   * Which edition, volume or commentary. Not the author: nobody asking for
+   * Quduri is unsure who wrote it, and the answer that changes what we build
+   * is WHICH ONE.
+   */
+  version: string;
   note: string;
-  /** Whether the author / subject / reason fields are showing for this row. */
+  /** Whether the version and reason fields are showing for this row. */
   open: boolean;
 };
 
 let seq = 0;
 function blank(): Entry {
   seq += 1;
-  return { key: `e${seq}`, title: "", author: "", subjectId: "", note: "", open: false };
+  return { key: `e${seq}`, title: "", version: "", note: "", open: false };
 }
 
 function booksOnShelf(entries: Entry[]): ShelfBook[] {
   return entries
     .filter((e) => e.title.trim().length > 0)
-    .map((e) => ({ id: e.key, title: e.title.trim(), author: e.author.trim() || undefined }));
+    .map((e) => ({ id: e.key, title: e.title.trim(), version: e.version.trim() || undefined }));
 }
 
 function countLabel(n: number): string {
@@ -98,8 +101,7 @@ export default function SuggestForm() {
     const payload = entries
       .map((e) => ({
         title: e.title.trim(),
-        author: e.author.trim(),
-        subjectId: e.subjectId,
+        version: e.version.trim(),
         note: e.note.trim(),
       }))
       .filter((e) => e.title.length > 0);
@@ -160,7 +162,6 @@ export default function SuggestForm() {
             </>
           }
           books={sent.books}
-          emptyNote=""
           caption={countLabel(sent.books.length)}
         />
 
@@ -200,7 +201,6 @@ export default function SuggestForm() {
         }
         lead="Name the books you are actually studying, or the ones you wish were on your phone. A title on its own is enough."
         books={books}
-        emptyNote="Type a title and it goes up here."
         caption={countLabel(books.length)}
       />
 
@@ -264,20 +264,22 @@ export default function SuggestForm() {
 
       {/* Who sent them. Both optional, and the page says why you'd bother. */}
       <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2">
-        <Field label="Your name" value={name} onChange={setName} placeholder="Optional" autoComplete="name" />
         <Field
-          label="Email"
+          label="Your name (optional)"
+          value={name}
+          onChange={setName}
+          placeholder="Yusuf"
+          autoComplete="name"
+        />
+        <Field
+          label="Email (optional)"
           type="email"
           value={email}
           onChange={setEmail}
-          placeholder="Optional"
+          placeholder="you@example.com"
           autoComplete="email"
         />
       </div>
-      <p className="mt-3 max-w-xl text-[13px] leading-[1.6] text-ink-muted">
-        An email is the only way we can tell you when one of your books goes in. We
-        won&apos;t use it for anything else.
-      </p>
 
       {error && (
         <p
@@ -344,13 +346,11 @@ function Plate({
   heading,
   lead,
   books,
-  emptyNote,
   caption,
 }: {
   heading: React.ReactNode;
   lead: React.ReactNode;
   books: ShelfBook[];
-  emptyNote: string;
   caption: string;
 }) {
   return (
@@ -359,7 +359,7 @@ function Plate({
         {heading}
       </h1>
       <p className="mt-5 max-w-xl text-[15px] leading-[1.7] text-ink-soft sm:text-[16px]">{lead}</p>
-      <Shelf className="mt-9 sm:mt-11" books={books} emptyNote={emptyNote} caption={caption} />
+      <Shelf className="mt-9 sm:mt-11" books={books} caption={caption} />
     </header>
   );
 }
@@ -389,15 +389,15 @@ function EntryRow({
 }) {
   const fieldId = useId();
   const filled = entry.title.trim().length > 0;
-  const extras = [entry.author.trim(), entry.subjectId, entry.note.trim()].filter(Boolean).length;
+  const extras = [entry.version.trim(), entry.note.trim()].filter(Boolean).length;
 
   return (
     <li className="border-b border-border last:border-b-0">
       {/*
         One book, one line. The extra fields sit behind a control ON that line
-        rather than a sentence underneath it: twelve rows each carrying "Add
-        the author, subject or a reason" is the same string read twelve times
-        and a list twice as tall as the thing it lists.
+        rather than a sentence underneath it: twelve rows each carrying the
+        same invitation is one string read twelve times, and a list twice as
+        tall as the thing it lists.
       */}
       <div className="flex items-center gap-2 px-5 py-2.5 transition-colors focus-within:bg-cream-50 sm:gap-3 sm:px-8">
         <span
@@ -441,7 +441,7 @@ function EntryRow({
           type="button"
           onClick={() => onChange({ open: !entry.open })}
           aria-expanded={entry.open}
-          aria-label={`Author, subject and reason for book ${index + 1}`}
+          aria-label={`Version and reason for book ${index + 1}`}
           className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] transition-colors ${
             entry.open || extras > 0
               ? "text-coral-700 hover:bg-coral-50"
@@ -480,61 +480,24 @@ function EntryRow({
 
       {entry.open && (
         <div className="pb-4 pl-[48px] pr-5 sm:pl-[64px] sm:pr-8">
+          {/*
+            Two questions, and both are genuinely optional. We do not ask for
+            the author: whoever is asking for Quduri knows who wrote Quduri,
+            and the answer that changes what we build is WHICH ONE of it.
+          */}
           <div className="grid gap-3 sm:grid-cols-2">
             <Field
-              label="Author"
-              value={entry.author}
-              onChange={(v) => onChange({ author: v })}
-              placeholder="Optional"
+              label="Any specific version"
+              value={entry.version}
+              onChange={(v) => onChange({ version: v })}
+              placeholder="Volume One"
             />
-            <label className="block">
-              <span className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
-                Subject
-              </span>
-              {/*
-                A native select, because a hand-rolled dropdown is a worse
-                version of a control the browser already ships working — but
-                its own arrow is stripped, so it needs one drawn back on.
-                Without it the field looks like a text input that refuses to
-                take text, which is a control that appears to be broken.
-              */}
-              <span className="relative block">
-                <select
-                  value={entry.subjectId}
-                  onChange={(e) => onChange({ subjectId: e.target.value })}
-                  className="w-full appearance-none rounded-2xl border border-border bg-cream-50 py-3 pl-4 pr-10 text-[15px] text-ink transition-colors focus:border-coral-300 focus:bg-white focus:outline-none"
-                >
-                  <option value="">Not sure</option>
-                  {SUBJECTS.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.label}
-                    </option>
-                  ))}
-                </select>
-                <svg
-                  width="11"
-                  height="11"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                  className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-muted"
-                >
-                  <path d="M2 4l4 4 4-4" />
-                </svg>
-              </span>
-            </label>
-            <div className="sm:col-span-2">
-              <Field
-                label="Why this one"
-                value={entry.note}
-                onChange={(v) => onChange({ note: v })}
-                placeholder="Optional. We read these"
-              />
-            </div>
+            <Field
+              label="Why this one"
+              value={entry.note}
+              onChange={(v) => onChange({ note: v })}
+              placeholder="We start it next term"
+            />
           </div>
         </div>
       )}
