@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML contributor email — "I can't do this alone" call for help.
 // Reuses the cream + coral palette and dark-mode lockout from milestone-email.ts
 // but uses text-only requirement cards and pill-button support links.
@@ -208,33 +210,8 @@ export function buildContributorEmail() {
           </td>
         </tr>
 
-        <!-- support body -->
-        <tr>
-          <td style="padding:0 4px 18px;">
-            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Dars is being built entirely out of our own pocket right now &mdash; AI credits, hosting, design tools, all of it. Every contribution genuinely keeps the lights on.
-            </p>
-          </td>
-        </tr>
-
-        <!-- support pills -->
-        <tr>
-          <td style="padding:0 4px;">
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-              <tr>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://buymeacoffee.com/daviral" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/buymeacoffee/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">Buy me a coffee</span>
-                  </a>
-                </td>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://paypal.me/mocho13" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/paypal/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">PayPal</span>
-                  </a>
-                </td>
-              </tr>
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
             </table>
           </td>
         </tr>

@@ -66,6 +66,9 @@ const config: Config = {
         ],
         display: ["var(--font-geist)", "system-ui", "sans-serif"],
         arabic: ["var(--font-arabic)", "serif"],
+        // scoped to /lander-2 (loaded in its own layout)
+        archivo: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        gabarito: ["var(--font-gabarito)", "system-ui", "sans-serif"],
       },
       boxShadow: {
         soft: "0 1px 2px rgba(26, 24, 20, 0.06), 0 4px 16px -8px rgba(26, 24, 20, 0.08)",

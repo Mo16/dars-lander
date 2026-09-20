@@ -363,7 +363,7 @@ export function SocialScreen() {
         </div>
         <div className="space-y-1.5">
           {[
-            { r: 1, n: "Abdullah I.", p: "2,840", top: true },
+            { r: 1, n: "Ibrahim K.", p: "2,840", top: true },
             { r: 2, n: "Mohammed (you)", p: "2,615", top: true },
             { r: 3, n: "Ibrahim M.", p: "2,410", top: false },
             { r: 4, n: "Hamza S.", p: "2,180", top: false },

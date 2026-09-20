@@ -60,7 +60,7 @@ export default function TermsPage() {
           <p>
             Dars is a revision app for Alimiyyah students. It includes
             spaced-repetition flashcards, structured curriculum content,
-            mock exams, an AI tutor (&ldquo;Abdullah&rdquo;), notes, study
+            mock exams, an AI tutor, notes, study
             groups (Halaqahs), and a resources for student-created study
             materials. We add and remove features over time. We may also
             change, suspend, or stop parts of the Service if we have to.
@@ -130,7 +130,7 @@ export default function TermsPage() {
 
           <H2>4. The AI tutor</H2>
           <p>
-            The AI tutor (&ldquo;Abdullah&rdquo;) helps you understand and
+            The AI tutor helps you understand and
             revise the curriculum. It is a study aid, not a mufti and not a
             replacement for your teacher.
           </p>

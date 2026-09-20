@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML beta-tester email — Fajr-hour "u up?" teaser to the waitlist
 // announcing that beta invites are coming soon. Reuses the cream + coral
 // palette and dark-mode lockout from contributor-email.ts.
@@ -75,9 +77,6 @@ export function buildBetaTesterEmail() {
 </head>
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
-<div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  Well, you should be &mdash; it&#39;s Fajr in the UK. The Dars beta is nearly here either way.
-</div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
   <tr>
@@ -183,33 +182,8 @@ export function buildBetaTesterEmail() {
 
         <tr><td style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
 
-        <!-- support body -->
-        <tr>
-          <td style="padding:0 4px 18px;">
-            <p class="dm-text-ink-subtle" style="margin:0; font-family:${sans}; font-size:13.5px; line-height:1.65; color:${inkSubtle};">
-              Buttons below if you ever fancy sharing Dars or contributing toward the build &mdash; AI credits, hosting, the things that keep it being built. There if you want them, ignorable if you don&#39;t.
-            </p>
-          </td>
-        </tr>
-
-        <!-- support pills -->
-        <tr>
-          <td style="padding:0 4px;">
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-              <tr>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://buymeacoffee.com/daviral" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/buymeacoffee/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">Buy me a coffee</span>
-                  </a>
-                </td>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://paypal.me/mocho13" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/paypal/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">PayPal</span>
-                  </a>
-                </td>
-              </tr>
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
             </table>
           </td>
         </tr>

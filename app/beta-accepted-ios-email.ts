@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML beta-accepted email for iOS testers. Sent to applicants who got
 // in: TestFlight install instructions, what we're actually testing
 // (usability, not content), and a hard nudge to use the in-app "?" button
@@ -101,9 +103,6 @@ export function buildBetaAcceptedIosEmail() {
 </head>
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
-<div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  You&#39;re in. Install Dars via TestFlight and start breaking things &mdash; tap the &#39;?&#39; on any screen to report what&#39;s off.
-</div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
   <tr>
@@ -203,6 +202,21 @@ export function buildBetaAcceptedIosEmail() {
                 "Use the same email you applied with so we can match you to your tester profile.",
               )}
             </table>
+          </td>
+        </tr>
+
+        <tr><td style="height:14px; line-height:14px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- already made an account -->
+        <tr>
+          <td class="dm-bg-coral-soft dm-border" style="background:${coralSoft}; border:1px solid ${border}; border-radius:18px; padding:22px 24px;">
+            <p class="dm-text-coral" style="margin:0 0 6px; font-family:${sans}; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:${coralDeep};">Already made an account?</p>
+            <p class="dm-text-ink" style="margin:0 0 8px; font-family:${sans}; font-size:16px; line-height:1.4; font-weight:600; color:${ink}; letter-spacing:-0.005em;">
+              You&#39;ll need to sign up again.
+            </p>
+            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:14.5px; line-height:1.65; color:${inkSoft};">
+              If you were testing an earlier build, update Dars to the newest one in TestFlight first, or delete it and install it again from the invite above. Then open it and create your account again: we&#39;ve switched sign-in providers, so the login you made on an earlier build won&#39;t get you back in.
+            </p>
           </td>
         </tr>
 
@@ -312,6 +326,11 @@ export function buildBetaAcceptedIosEmail() {
         </tr>
 
         <tr><td style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
+
+        <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
 
         <!-- signature -->
         <tr>

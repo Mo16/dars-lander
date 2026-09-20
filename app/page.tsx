@@ -720,9 +720,9 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
               />
               <BentoCard
                 bg="bg-coral-100"
-                title="Ask Abdullah, your AI ustadh"
-                desc="Stuck on a masʾalah? Abdullah answers your fiqh and usul questions, quotes the daleel, and drops you straight to the exact chapter to revise."
-                visual={<AbdullahAskPreview />}
+                title="Ask Dars AI, your AI ustadh"
+                desc="Stuck on a masʾalah? Dars AI answers your fiqh and usul questions, quotes the daleel, and drops you straight to the exact chapter to revise."
+                visual={<AiAskPreview />}
               />
             </div>
           </div>
@@ -1086,6 +1086,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
           <div className="flex flex-wrap justify-center gap-x-9 gap-y-2 text-[15px] font-medium text-ink-soft">
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
             <a href="#how" className="hover:text-ink transition-colors">How it works</a>
+            <a href="/suggest-a-book" className="hover:text-ink transition-colors">Suggest a book</a>
             <a href="/support" className="hover:text-ink transition-colors">Support</a>
             <a href="/privacy" className="hover:text-ink transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-ink transition-colors">Terms</a>
@@ -1921,7 +1922,7 @@ function HalaqahPreview() {
   );
 }
 
-function AbdullahAskPreview() {
+function AiAskPreview() {
   const Sparkle = ({ className = "" }: { className?: string }) => (
     <svg
       width="10"
@@ -2015,7 +2016,7 @@ function AbdullahAskPreview() {
             <Sparkle />
           </span>
           <span className="text-[12.5px] font-semibold text-ink tracking-tight">
-            Abdullah
+            Dars AI
           </span>
         </div>
         <span className="inline-flex items-center gap-1 text-[9.5px] font-semibold px-2 py-0.5 rounded-full bg-cream-200 text-ink-muted">
@@ -2098,7 +2099,7 @@ function AbdullahAskPreview() {
               <span className="inline-block w-[1.5px] h-[11px] bg-ink ml-px align-[-1px] animate-caret" />
             </>
           ) : (
-            <span className="text-ink-muted">Ask Abdullah…</span>
+            <span className="text-ink-muted">Ask Dars AI…</span>
           )}
         </span>
         <span className="w-6 h-6 rounded-full bg-ink text-coral-400 grid place-items-center">

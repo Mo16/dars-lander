@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML milestone email — "1,000 signups" announcement.
 // Mirrors the styling of waitlist-email.ts (cream + coral palette, table-based,
 // inline styles, dark-mode lockout) but adds image-backed numbered sections.
@@ -226,6 +228,11 @@ export function buildMilestoneEmail() {
             </p>
           </td>
         </tr>
+
+        <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
 
         <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
 

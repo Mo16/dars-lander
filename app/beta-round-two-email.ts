@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML "round two" beta-access email - the second intake, sent to the whole
 // list (never-applied, applied-and-not-picked, and current testers alike).
 //
@@ -89,9 +91,6 @@ export function buildBetaRoundTwoEmail() {
 </head>
 <body class="dm-bg-cream dm-text-ink" style="margin:0; padding:0; background:${cream}; font-family:${sans}; color:${ink}; -webkit-font-smoothing:antialiased;">
 
-<div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-  Round two of the Dars beta is open. ${timingLine} Apply now.
-</div>
 
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="dm-bg-cream" style="background:${cream}; padding:40px 16px;">
   <tr>
@@ -199,7 +198,7 @@ export function buildBetaRoundTwoEmail() {
               <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">If you applied last time and never heard back:</strong> you&#39;re still in the pile, and this round is bigger. Apply again anyway. It tells us you&#39;re still interested.
             </p>
             <p class="dm-text-ink-soft" style="margin:0 0 22px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">If you&#39;re already testing:</strong> you&#39;ll need to sign up again. We&#39;ve switched sign-in providers, so your old login won&#39;t get you back in. Open the app, create your account again, and carry on.
+              <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">If you&#39;re already testing:</strong> update Dars first &mdash; grab the newest build from TestFlight or the Play Store, or delete the app and install it again. Then you&#39;ll need to sign up again: we&#39;ve switched sign-in providers, so your old login won&#39;t get you back in. Create your account again and carry on.
             </p>
             <p class="dm-text-ink-soft" style="margin:0 0 20px; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
               The beta still won&#39;t be perfect. That is more or less the definition of a beta, and it&#39;s why we want <strong class="dm-text-ink" style="color:${ink}; font-weight:600;">real Alimiyyah students</strong> in it: the people who&#39;d notice when something&#39;s off, and say so.
@@ -225,33 +224,8 @@ export function buildBetaRoundTwoEmail() {
 
         <tr><td style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
 
-        <!-- support body -->
-        <tr>
-          <td style="padding:0 4px 18px;">
-            <p class="dm-text-ink-muted" style="margin:0; font-family:${sans}; font-size:13.5px; line-height:1.65; color:${inkMuted};">
-              Buttons below if you ever fancy sharing Dars or contributing toward the build: AI credits, hosting, the things that keep it being built. There if you want them, ignorable if you don&#39;t.
-            </p>
-          </td>
-        </tr>
-
-        <!-- support pills -->
-        <tr>
-          <td style="padding:0 4px;">
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-              <tr>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://buymeacoffee.com/daviral" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/buymeacoffee/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">Buy me a coffee</span>
-                  </a>
-                </td>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://paypal.me/mocho13" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/paypal/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">PayPal</span>
-                  </a>
-                </td>
-              </tr>
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
             </table>
           </td>
         </tr>

@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML "we owe you a big update" email — the long-overdue update after a
 // quiet stretch. Honest note on why it's been silent (one-man job, client
 // work + driive.app + life), the big feature coming (live lesson recording
@@ -390,33 +392,10 @@ export function buildWeOweYouUpdateEmail() {
           </td>
         </tr>
 
-        <!-- support body -->
-        <tr>
-          <td style="padding:0 4px 18px;">
-            <p class="dm-text-ink-soft" style="margin:0; font-family:${sans}; font-size:15px; line-height:1.7; color:${inkSoft};">
-              Dars is still built out of my own pocket: AI credits, hosting, tools, all of it. Anything genuinely keeps things moving, and sharing it helps just as much.
-            </p>
-          </td>
-        </tr>
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
 
-        <!-- donate pills -->
-        <tr>
-          <td style="padding:0 4px 20px;">
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-              <tr>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://buymeacoffee.com/daviral" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/buymeacoffee/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">Buy me a coffee</span>
-                  </a>
-                </td>
-                <td style="padding:0 10px 10px 0;">
-                  <a href="https://paypal.me/mocho13" class="dm-bg-coral dm-text-white" style="display:inline-block; text-decoration:none; background:${coral}; color:#ffffff; padding:12px 20px 12px 16px; border-radius:999px; font-family:${sans}; font-size:14.5px; font-weight:500;">
-                    <img src="https://cdn.simpleicons.org/paypal/FFFFFF" width="16" height="16" alt="" style="vertical-align:-3px; margin-right:9px; border:0;" />
-                    <span class="dm-text-white" style="color:#ffffff; vertical-align:middle;">PayPal</span>
-                  </a>
-                </td>
-              </tr>
+        <tr><td style="height:20px; line-height:20px; font-size:0;">&nbsp;</td></tr>
             </table>
           </td>
         </tr>

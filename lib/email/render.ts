@@ -665,6 +665,7 @@ function darkModeOverrides(): string {
     [".dm-bg-coral-soft", `background-color: ${PALETTE.coralSoft}`],
     [".dm-bg-coral", `background-color: ${PALETTE.coral}`],
     [".dm-bg-card", `background-color: ${PALETTE.card}`],
+    [".dm-bg-ink", `background-color: ${PALETTE.ink}`],
     [".dm-border", `border-color: ${PALETTE.border}`],
     [".dm-text-ink", `color: ${PALETTE.ink}`],
     [".dm-text-ink-soft", `color: ${PALETTE.inkSoft}`],
@@ -678,15 +679,92 @@ function darkModeOverrides(): string {
   return `  @media (prefers-color-scheme: dark) {\n${media}\n  }\n${ogsc}`;
 }
 
-function footer(category: string, ctx: MergeContext, missing: Set<string>): string {
+// --- Community and support ------------------------------------------------
+
+/**
+ * The WhatsApp group and the two donation links. Every Dars email carries
+ * them: the block renderer appends them under the sign-off, and the hand-built
+ * dars-landing emails import `supportBlock` from the synced copy of this file,
+ * so there is one place to change a link.
+ */
+export const COMMUNITY_LINKS = {
+  whatsapp: "https://chat.whatsapp.com/GqYk6vKVVEl1dSKvkqwiXr",
+  buyMeACoffee: "https://buymeacoffee.com/daviral",
+  paypal: "https://paypal.me/mocho13",
+} as const;
+
+// PNGs, not SVGs: Gmail and Outlook drop SVG images. White marks only, which
+// is why the buttons sit on the ink fill rather than a pale one.
+const ICON_BASE = "https://kgvxwjsvfbdrcfgkyvwr.supabase.co/storage/v1/object/public/brand/email";
+
+export type SupportOptions = { whatsapp?: boolean; donate?: boolean };
+
+function supportButton(href: string, icon: string, label: string): string {
+  // Ink, not coral: the email's own call to action owns the coral fill, and a
+  // second coral button in the footer would compete with it. A 16px mark at
+  // -3px sits on the cap-height centre of 14.5px text on a 20px line.
+  return `<td class="dm-bg-ink" bgcolor="${PALETTE.ink}" style="background:${PALETTE.ink}; border-radius:12px;"><a href="${href}" class="dm-text-white" style="display:inline-block; padding:11px 18px 11px 15px; font-family:${SANS}; font-size:14.5px; font-weight:600; line-height:20px; color:${PALETTE.white}; text-decoration:none; border-radius:12px;"><img src="${ICON_BASE}/${icon}" width="16" height="16" alt="" style="width:16px; height:16px; border:0; outline:none; vertical-align:-3px; margin-right:9px;">${label}</a></td>`;
+}
+
+/**
+ * Table rows (`<tr>…</tr>`) for the 560px Dars shell. Pass `false` for a part
+ * the email already carries, so a link is never offered twice.
+ */
+export function supportBlock(options: SupportOptions = {}): string {
+  const showWhatsapp = options.whatsapp !== false;
+  const showDonate = options.donate !== false;
+  if (!showWhatsapp && !showDonate) return "";
+
+  const p = (text: string) =>
+    `<p class="dm-text-ink-soft" style="margin:0 0 12px; font-family:${SANS}; font-size:14.5px; line-height:1.6; color:${PALETTE.inkSoft};">${text}</p>`;
+
+  const whatsapp = showWhatsapp
+    ? `${p("If you&#39;d like to hear about updates as they happen, we share them in the Dars WhatsApp group.")}
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr>${supportButton(COMMUNITY_LINKS.whatsapp, "whatsapp-white-60.png", "Join the WhatsApp group")}</tr></table>`
+    : "";
+
+  const donate = showDonate
+    ? `${p("Dars is built independently. If you&#39;d ever like to support it, any amount is appreciated, and never expected.")}
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr>${supportButton(COMMUNITY_LINKS.buyMeACoffee, "buymeacoffee-white-60.png", "Buy me a coffee")}<td width="10" style="width:10px; font-size:0; line-height:0;">&nbsp;</td>${supportButton(COMMUNITY_LINKS.paypal, "paypal-white-60.png", "PayPal")}</tr></table>`
+    : "";
+
+  const between = showWhatsapp && showDonate ? `<div style="height:24px; line-height:24px; font-size:0;">&nbsp;</div>` : "";
+
+  return `<tr>
+  <td style="padding:0 4px;">
+    ${whatsapp}${between}
+    ${donate}
+  </td>
+</tr>`;
+}
+
+/** The same links for the text/plain part. */
+export function supportText(options: SupportOptions = {}): string {
+  const lines: string[] = [];
+  if (options.whatsapp !== false) lines.push(`Updates in the Dars WhatsApp group: ${COMMUNITY_LINKS.whatsapp}`);
+  if (options.donate !== false) {
+    lines.push(`If you'd like to support Dars: ${COMMUNITY_LINKS.buyMeACoffee} or ${COMMUNITY_LINKS.paypal}`);
+  }
+  return lines.join("\n");
+}
+
+function footer(
+  category: string,
+  ctx: MergeContext,
+  missing: Set<string>,
+  support: SupportOptions = {},
+): string {
   const signOff = `
     <p class="dm-text-ink" style="margin:0 0 6px; font-family:${SANS}; font-size:14.5px; line-height:1.6; color:${PALETTE.ink};">Barakallahu feekum,</p>
     <p class="dm-text-coral" style="margin:0 0 28px; font-family:${SERIF}; font-style:italic; font-size:15px; line-height:1.6; color:${PALETTE.coral};">The Dars team</p>`;
 
   // Transactional mail carries no unsubscribe: you cannot opt out of a
   // receipt or a password reset, and offering it there is misleading.
+  const supportRows = supportBlock(support);
+  const afterSignOff = supportRows ? `\n${supportRows}` : "";
+
   if (category === "transactional") {
-    return `<tr><td style="padding:0 4px;">${signOff}</td></tr>`;
+    return `<tr><td style="padding:0 4px;">${signOff}</td></tr>${afterSignOff}`;
   }
 
   const unsubscribe = applyTags("{{unsubscribe_url}}", ctx, missing) || `${SITE_URL}/email/preferences`;
@@ -707,6 +785,10 @@ function footer(category: string, ctx: MergeContext, missing: Set<string>): stri
   return `<tr>
   <td style="padding:0 4px;">
     ${signOff}
+  </td>
+</tr>${afterSignOff ? `${afterSignOff}\n${gap(28)}` : ""}
+<tr>
+  <td style="padding:0 4px;">
     <p class="dm-text-ink-muted" style="margin:0; font-family:${SANS}; font-size:12px; line-height:1.6; color:${PALETTE.inkMuted};">
       You're receiving this because you signed up to Dars.<br>
       <a href="${safeUrl(preferences)}" class="dm-text-ink-muted" style="color:${PALETTE.inkMuted}; text-decoration:underline;">Choose what we email you</a>
@@ -833,9 +915,50 @@ function renderBlock(block: EmailBlock, ctx: MergeContext, missing: Set<string>)
   }
 }
 
+
+export type RenderOptions = {
+  /**
+   * Turns an outbound URL into a tracked one. Optional, and only ever
+   * supplied by the sender — the composer preview renders the real hrefs so
+   * you can see and click where a link actually goes.
+   */
+  trackLink?: (url: string) => string;
+};
+
+// Links that must never be rewritten. Routing an unsubscribe through a click
+// tracker would make the one-click header depend on a second hop, and a
+// "view in browser" link that recorded a click would report engagement that
+// never happened.
+const UNTRACKABLE = /\/(email\/preferences|api\/email\/unsubscribe|email\/view)\b/i;
+
+/**
+ * Rewrite every outbound href in the finished HTML.
+ *
+ * Done here, once, rather than at each of the dozen places a link can be
+ * emitted: blocks, inline [markdown](links), markdown bodies and pasted HTML
+ * all pass through this, so no link type can be silently left untracked.
+ *
+ * The href in the document is already HTML-escaped, so it is unescaped for
+ * the callback and re-escaped afterwards.
+ */
+function applyLinkTracking(html: string, trackLink: (url: string) => string): string {
+  return html.replace(/href="([^"]*)"/gi, (whole, escaped: string) => {
+    const url = escaped
+      .replace(/&amp;/g, "&")
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
+    if (!/^https?:\/\//i.test(url)) return whole;
+    if (UNTRACKABLE.test(url)) return whole;
+    return `href="${escapeHtml(trackLink(url))}"`;
+  });
+}
+
 export function renderEmail(
   template: EmailTemplateInput,
   ctx: MergeContext = {},
+  options: RenderOptions = {},
 ): RenderResult {
   const missing = new Set<string>();
   const category = template.category ?? "marketing";
@@ -844,7 +967,8 @@ export function renderEmail(
   // Whole-template raw HTML: used verbatim, no shell, no footer injection.
   // This is how the nine hand-built dars-landing emails come across intact.
   if (template.bodyMode === "html") {
-    const html = applyTags(template.html ?? "", ctx, missing);
+    const raw = applyTags(template.html ?? "", ctx, missing);
+    const html = options.trackLink ? applyLinkTracking(raw, options.trackLink) : raw;
     return {
       subject,
       html,
@@ -867,15 +991,26 @@ export function renderEmail(
     pieces.push(renderBlock(block, ctx, missing));
   });
 
+  // A template that already offers the group or the donation links (the
+  // WhatsApp invite, say) keeps its own and doesn't get them twice.
+  const bodyHtml = pieces.join("\n");
+  const support: SupportOptions = {
+    whatsapp: !bodyHtml.includes("chat.whatsapp.com"),
+    donate: !bodyHtml.includes("paypal.me"),
+  };
+
   pieces.push(gap(28));
-  pieces.push(footer(category, ctx, missing));
+  pieces.push(footer(category, ctx, missing, support));
 
   const preheader = applyTags(template.preheader ?? "", ctx, missing);
-  const text = toPlainText(blocks, ctx, missing);
+  const supportPlain = supportText(support);
+  const text = [toPlainText(blocks, ctx, missing), supportPlain].filter(Boolean).join("\n\n");
+
+  const body = shell(pieces.join("\n"), preheader, subject);
 
   return {
     subject,
-    html: shell(pieces.join("\n"), preheader, subject),
+    html: options.trackLink ? applyLinkTracking(body, options.trackLink) : body,
     text: category === "transactional" ? text : `${text}\n\n—\nUnsubscribe: ${ctx.unsubscribe_url ?? ""}`,
     missingTags: [...missing],
   };

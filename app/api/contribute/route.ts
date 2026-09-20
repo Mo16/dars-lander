@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { supportBlock } from "@/lib/email/render";
 
 export const runtime = "nodejs";
 
@@ -192,7 +193,11 @@ function buildAcknowledgement(firstName: string) {
     <p style="margin:24px 0 0;font-family:${sans};font-size:14px;line-height:1.6;color:#1A1814;">Mohammed<br><span style="font-family:Georgia,'Times New Roman',serif;font-style:italic;color:#C94A2E;">Founder, Dars</span></p>
   </td></tr>
 
-  <tr><td style="height:20px;line-height:20px;font-size:0;">&nbsp;</td></tr>
+  <tr><td style="height:28px;line-height:28px;font-size:0;">&nbsp;</td></tr>
+
+  ${supportBlock()}
+
+  <tr><td style="height:28px;line-height:28px;font-size:0;">&nbsp;</td></tr>
 
   <tr><td style="padding:0;">
     <a href="https://darsapp.com" style="font-family:${sans};font-size:13px;line-height:19px;color:#6E6A5F;text-decoration:none;">darsapp.com</a><a href="https://instagram.com/getdars" style="text-decoration:none;margin-left:22px;"><img src="https://darsapp.com/assets/img/email/instagram.png" width="19" height="19" alt="Instagram" style="width:19px;height:19px;border:0;outline:none;vertical-align:-6px;"></a><a href="https://tiktok.com/@dars.app" style="text-decoration:none;margin-left:16px;"><img src="https://darsapp.com/assets/img/email/tiktok.png" width="19" height="19" alt="TikTok" style="width:19px;height:19px;border:0;outline:none;vertical-align:-6px;"></a>

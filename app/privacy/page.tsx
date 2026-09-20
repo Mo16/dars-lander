@@ -162,7 +162,7 @@ export default function PrivacyPage() {
 
           <H3>AI features</H3>
           <p>
-            Dars uses AI in three places: the &ldquo;Abdullah&rdquo; tutor, the
+            Dars uses AI in three places: the AI tutor, the
             AI deck builder, and lesson transcription and summarising. In each
             case your input — your message, your uploaded photo or PDF, or your
             lesson audio and transcript — is sent to the AI provider handling

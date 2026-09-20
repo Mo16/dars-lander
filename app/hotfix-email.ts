@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML hotfix email — "damn you guys really did break it" update to the
 // waitlist/beta testers. You lot hammered the app, it buckled, and we fixed it:
 // lag and slow loading gone, server instances upgraded, code optimised.
@@ -201,6 +203,11 @@ export function buildHotfixEmail() {
             </p>
           </td>
         </tr>
+
+        <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
 
         <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
 

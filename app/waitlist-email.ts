@@ -1,3 +1,5 @@
+import { supportBlock } from "../lib/email/render.ts";
+
 // HTML confirmation email styled to match the Dars landing page palette.
 // Uses tables + inline styles for Outlook / Gmail compatibility.
 // Locked to the light palette even when the recipient's client is in dark
@@ -128,6 +130,11 @@ export function buildConfirmationEmail(recipient?: string) {
             </table>
           </td>
         </tr>
+
+        <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- whatsapp group + donations (shared with every Dars email) -->
+        ${supportBlock()}
 
         <tr><td style="height:28px; line-height:28px; font-size:0;">&nbsp;</td></tr>
 
