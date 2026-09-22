@@ -108,6 +108,7 @@ export default function InstituteWaitlistForm({
           name: data.get("name"),
           town: data.get("town"),
           students: data.get("students"),
+          note: data.get("note"),
           botcheck: Boolean(data.get("botcheck")),
         }),
       });
@@ -219,6 +220,15 @@ export default function InstituteWaitlistForm({
               errors.email && setErrors((p) => ({ ...p, email: undefined }))
             }
           />
+
+          <div className="sm:col-span-2">
+            <TextAreaField
+              id={field("note")}
+              name="note"
+              label="Anything else we should know"
+              placeholder="Which books your students are on, when your term starts, anything that would help us set you up."
+            />
+          </div>
         </div>
 
         {/* The field no person fills. */}
@@ -326,6 +336,41 @@ function TextField({
           {error}
         </p>
       )}
+    </div>
+  );
+}
+
+/** Same outlined treatment as TextField, sized for a few lines of prose. A
+ *  textarea's resting label sits on its FIRST line, not the middle of the
+ *  box, so it cannot reuse TextField's top-1/2. */
+function TextAreaField({
+  id,
+  name,
+  label,
+  placeholder,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  placeholder?: string;
+}) {
+  return (
+    <div className="relative">
+      <textarea
+        id={id}
+        name={name}
+        rows={3}
+        maxLength={2000}
+        placeholder={placeholder ?? " "}
+        className="peer min-h-[104px] w-full resize-y rounded-lg border border-[#DADCE0] bg-white px-4 py-3.5 text-[16px] leading-[1.5] text-[#1C1B19] outline-none transition-[border-color,box-shadow] placeholder:text-transparent hover:border-[#6F6B61] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] focus:placeholder:text-[#6F6B61]"
+      />
+      <label
+        htmlFor={id}
+        className="pointer-events-none absolute left-3 top-[27px] -translate-y-1/2 bg-white px-1.5 text-[16px] leading-none text-[#5B584F] transition-all duration-150 peer-focus:top-0 peer-focus:text-[12px] peer-focus:text-[var(--accent-text)] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[12px]"
+      >
+        {label}
+        <span className="text-[#6F6B61]"> &middot; optional</span>
+      </label>
     </div>
   );
 }
