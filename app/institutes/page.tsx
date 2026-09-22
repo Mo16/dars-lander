@@ -268,14 +268,6 @@ export default function InstitutesPage() {
               </div>
             ))}
           </div>
-
-          {/* Exactly the institute ask, in the same form, because it is the
-              same ask: someone wants their class on Dars. Only the words
-              change, and the row is tagged kind='teacher' so the two never
-              get confused in the inbox. */}
-          <div id="teacher-waitlist" className="mt-12 max-w-[620px] scroll-mt-24">
-            <InstituteWaitlistForm variant="teacher" />
-          </div>
         </div>
       </section>
 
