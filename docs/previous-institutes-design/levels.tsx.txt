@@ -1,0 +1,422 @@
+"use client";
+
+import { useState } from "react";
+
+/* =========================================================================
+   THREE LEVELS — the same console, read at three depths.
+
+   The whole point of the institute layer is that one object (the class and
+   its sets) is legible from three heights: the trustee's, the teacher's and
+   the student's. So this is deliberately ONE panel with three readings,
+   not three feature cards.
+
+   Every control here does what it says: the tabs switch, and the join
+   requests genuinely approve and decline.
+   ========================================================================= */
+
+type Level = "institute" | "class" | "student";
+
+const LEVELS: { id: Level; label: string; sub: string }[] = [
+  { id: "institute", label: "The institute", sub: "Every class at once" },
+  { id: "class", label: "One class", sub: "What the teacher set" },
+  { id: "student", label: "One student", sub: "Where they actually are" },
+];
+
+export default function Levels() {
+  const [level, setLevel] = useState<Level>("institute");
+
+  return (
+    <div>
+      {/* --- Tabs --- */}
+      <div
+        role="tablist"
+        aria-label="Choose a level"
+        className="flex flex-col gap-1.5 sm:flex-row sm:gap-2"
+      >
+        {LEVELS.map((l) => {
+          const active = level === l.id;
+          return (
+            <button
+              key={l.id}
+              role="tab"
+              type="button"
+              aria-selected={active}
+              aria-controls="level-panel"
+              onClick={() => setLevel(l.id)}
+              className={`flex-1 rounded-2xl border px-4 py-3 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-5 sm:py-4 ${
+                active
+                  ? "border-ink bg-ink text-cream-100"
+                  : "border-border bg-card text-ink hover:border-border-strong"
+              }`}
+            >
+              <div className="font-display text-[16px] leading-none tracking-tight sm:text-[18px]">
+                {l.label}
+              </div>
+              <div
+                className={`mt-1.5 text-[12.5px] sm:text-[13px] ${
+                  active ? "text-cream-100/70" : "text-ink-muted"
+                }`}
+              >
+                {l.sub}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* --- Panel --- */}
+      <div
+        id="level-panel"
+        role="tabpanel"
+        className="animate-panel-settle mt-3 rounded-[20px] border border-border bg-card p-4 shadow-[0_4px_24px_-8px_rgba(26,24,20,0.12),0_2px_8px_rgba(26,24,20,0.04)] sm:mt-4 sm:rounded-[26px] sm:p-7"
+        key={level}
+      >
+        {level === "institute" && <InstituteView />}
+        {level === "class" && <ClassView />}
+        {level === "student" && <StudentView />}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- level 1 */
+
+const CLASSES = [
+  { name: "Year 3B", book: "Mishkat al-Masabih", teacher: "Ustadh Adam", students: 24, pct: 82 },
+  { name: "Year 3A", book: "Al-Ajrumiyyah", teacher: "Ustadh Kamal", students: 21, pct: 74 },
+  { name: "Year 2C", book: "Mukhtasar al-Quduri", teacher: "Ustadh Kamal", students: 18, pct: 48 },
+  { name: "Year 1A", book: "Nur al-Idah", teacher: "Ustadha Maryam", students: 9, pct: 91 },
+];
+
+const TOTALS = {
+  classes: CLASSES.length,
+  students: CLASSES.reduce((a, c) => a + c.students, 0),
+  teachers: new Set(CLASSES.map((c) => c.teacher)).size,
+};
+const WEIGHTED_PCT = Math.round(
+  CLASSES.reduce((a, c) => a + c.pct * c.students, 0) / TOTALS.students,
+);
+
+type RequestState = "waiting" | "approved" | "declined";
+
+function InstituteView() {
+  const [requests, setRequests] = useState<
+    { name: string; wants: string; state: RequestState }[]
+  >([
+    { name: "Talha Bhaiji", wants: "Year 3B", state: "waiting" },
+    { name: "Ammar Seedat", wants: "Year 2C", state: "waiting" },
+    { name: "Ustadh Ilyas", wants: "Teacher account", state: "waiting" },
+  ]);
+
+  const set = (i: number, state: RequestState) =>
+    setRequests((rs) => rs.map((r, n) => (n === i ? { ...r, state } : r)));
+
+  const waiting = requests.filter((r) => r.state === "waiting").length;
+
+  return (
+    <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-7">
+      {/* classes */}
+      <div>
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+          Classes this week
+        </div>
+        <div className="mt-3">
+          {CLASSES.map((c) => (
+            <div
+              key={c.name}
+              className="flex items-center gap-3 border-b border-border/60 py-3 last:border-b-0 sm:gap-5"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-[14.5px] font-semibold text-ink sm:text-[15.5px]">
+                  {c.name}
+                  <span className="ml-2 font-normal text-ink-muted">
+                    {c.book}
+                  </span>
+                </div>
+                <div className="mt-0.5 truncate text-[12.5px] text-ink-muted">
+                  {c.teacher} · {c.students} students
+                </div>
+              </div>
+
+              <div className="w-20 shrink-0 sm:w-28">
+                <div className="h-[7px] overflow-hidden rounded-full bg-cream-200">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${c.pct}%`,
+                      background: c.pct >= 70 ? "#7E9467" : "#D4A943",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="w-11 shrink-0 text-right text-[14px] font-semibold tabular-nums text-ink">
+                {c.pct}%
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* totals, so the pane carries its own bottom line rather than
+            trailing off into empty panel */}
+        <div className="mt-5 flex flex-wrap gap-x-8 gap-y-2 border-t border-border-strong/50 pt-4">
+          {[
+            { n: `${TOTALS.classes}`, l: "classes" },
+            { n: `${TOTALS.students}`, l: "students" },
+            { n: `${TOTALS.teachers}`, l: "teachers" },
+            { n: `${WEIGHTED_PCT}%`, l: "revised this week" },
+          ].map((t) => (
+            <div key={t.l} className="flex items-baseline gap-1.5">
+              <span className="font-display text-[18px] leading-none tabular-nums text-ink">
+                {t.n}
+              </span>
+              <span className="text-[13px] text-ink-muted">{t.l}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* join requests */}
+      <div className="rounded-2xl bg-cream-100 p-4 sm:p-5">
+        <div className="flex items-baseline justify-between gap-3">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+            Waiting to join
+          </div>
+          <div className="text-[13px] font-semibold tabular-nums text-ink">
+            {waiting}
+          </div>
+        </div>
+
+        <div className="mt-3 space-y-2">
+          {requests.map((r, i) => (
+            <div
+              key={r.name}
+              className="rounded-xl border border-border bg-card px-3 py-2.5"
+            >
+              <div className="text-[14px] font-semibold text-ink">{r.name}</div>
+              <div className="mt-0.5 text-[12.5px] text-ink-muted">
+                {r.wants}
+              </div>
+
+              {r.state === "waiting" ? (
+                <div className="mt-2.5 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => set(i, "approved")}
+                    className="rounded-full bg-ink px-3.5 py-1.5 text-[12.5px] font-medium text-cream-100 transition-colors hover:bg-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => set(i, "declined")}
+                    className="rounded-full px-3.5 py-1.5 text-[12.5px] font-medium text-ink-muted transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                  >
+                    Decline
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-2.5 flex items-center gap-2 text-[12.5px] font-medium text-ink-soft">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{
+                      background:
+                        r.state === "approved" ? "#7E9467" : "#9A9488",
+                    }}
+                  />
+                  {r.state === "approved"
+                    ? `Approved. ${r.name.split(" ")[0]} is in ${r.wants}.`
+                    : "Declined. Nothing was shared."}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-[12.5px] leading-relaxed text-ink-muted">
+          Until you approve someone they see nothing: not the class, not the
+          sets, not another student&apos;s name.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- level 2 */
+
+const SETS = [
+  {
+    name: "Taharah, week 3",
+    book: "Mukhtasar al-Quduri",
+    cards: 24,
+    due: "Due Thursday",
+    done: 18,
+    of: 24,
+  },
+  {
+    name: "Kitab al-Iman",
+    book: "Mishkat al-Masabih",
+    cards: 16,
+    due: "No deadline",
+    done: 11,
+    of: 24,
+  },
+  {
+    name: "Mubtada and khabar",
+    book: "Al-Ajrumiyyah",
+    cards: 30,
+    due: "Quiz · average 71%",
+    done: 22,
+    of: 24,
+  },
+];
+
+function ClassView() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-7">
+      <div>
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+          Sets in Year 3B
+        </div>
+        <div className="mt-3">
+          {SETS.map((s) => (
+            <div
+              key={s.name}
+              className="border-b border-border/60 py-3.5 last:border-b-0"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="truncate text-[14.5px] font-semibold text-ink sm:text-[15.5px]">
+                    {s.name}
+                  </div>
+                  <div className="mt-0.5 truncate text-[12.5px] text-ink-muted">
+                    {s.book} · {s.cards} cards · {s.due}
+                  </div>
+                </div>
+                <div className="shrink-0 text-[14px] font-semibold tabular-nums text-ink">
+                  {s.done}/{s.of}
+                </div>
+              </div>
+              <div className="mt-2.5 h-[7px] overflow-hidden rounded-full bg-cream-200">
+                <div
+                  className="h-full rounded-full"
+                  style={{
+                    width: `${Math.round((s.done / s.of) * 100)}%`,
+                    background: s.done / s.of >= 0.7 ? "#7E9467" : "#D4A943",
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-[12.5px] leading-relaxed text-ink-muted">
+          A set is cards from the syllabus, cards the teacher wrote, or both.
+          Give it a deadline and it becomes homework. Turn on quiz mode and it
+          is marked for you.
+        </p>
+      </div>
+
+      {/* most-missed card */}
+      <div className="rounded-2xl bg-cream-100 p-4 sm:p-5">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+          Most missed this week
+        </div>
+
+        <div className="mt-3 rounded-xl border border-border bg-card p-4">
+          <div className="text-[12px] text-ink-muted">
+            Al-Ajrumiyyah · card 7
+          </div>
+          <div
+            dir="rtl"
+            lang="ar"
+            className="mt-2 text-[22px] leading-snug text-ink"
+          >
+            الْمُبْتَدَأ
+          </div>
+          <div className="mt-1.5 text-[14px] text-ink-soft">
+            Which case is it in?
+          </div>
+          <div className="mt-3 border-t border-border pt-3 text-[13.5px] text-ink-muted">
+            Answer{" "}
+            <span dir="rtl" lang="ar" className="text-ink">
+              مَرْفُوع
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-baseline gap-2">
+          <span className="font-display text-[26px] leading-none tabular-nums text-ink">
+            14
+          </span>
+          <span className="text-[13px] text-ink-muted">
+            of 24 got it wrong
+          </span>
+        </div>
+
+        <p className="mt-3 text-[12.5px] leading-relaxed text-ink-muted">
+          Build next week&apos;s set from the cards the class keeps missing,
+          straight from this screen.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- level 3 */
+
+function StudentView() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-7">
+      <div>
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+          Suhayb Rahman · Year 3B
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+          {[
+            { n: "11%", l: "of this week's sets" },
+            { n: "12", l: "cards he keeps failing" },
+            { n: "6d", l: "since he last opened it" },
+          ].map((s) => (
+            <div
+              key={s.l}
+              className="rounded-2xl bg-cream-100 px-3 py-4 sm:px-4 sm:py-5"
+            >
+              <div className="font-display text-[24px] leading-none tabular-nums tracking-tight text-ink sm:text-[30px]">
+                {s.n}
+              </div>
+              <div className="mt-2 text-[12px] leading-snug text-ink-muted sm:text-[12.5px]">
+                {s.l}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-coral-200 bg-coral-50 p-4 sm:p-5">
+          <div className="text-[14.5px] font-semibold text-ink">
+            Suhayb is on track to forget 47 class cards in the next seven days.
+          </div>
+          <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+            His teacher sees this on the Monday, not in the mock. That is the
+            whole reason the institute layer exists.
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-ink p-4 text-cream-100 sm:p-5">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cream-100/60">
+          The line we do not cross
+        </div>
+        <p className="mt-3 text-[14.5px] leading-relaxed">
+          A teacher sees Suhayb&apos;s class work. They never see what he
+          revises on his own: his own decks, his own books, his own mistakes.
+        </p>
+        <p className="mt-3 text-[13px] leading-relaxed text-cream-100/70">
+          Dars was a student&apos;s app first. Handing a madrasah the keys to
+          it does not change whose app it is.
+        </p>
+      </div>
+    </div>
+  );
+}

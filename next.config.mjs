@@ -2,6 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // Lets a one-off verification build write somewhere other than .next, so a
+  // build never wipes the directory a running `npm run dev` is serving from
+  // (which shows up as ENOENT on .next/routes-manifest.json).
+  //   NEXT_DIST_DIR=.next-verify npm run build
+  // Unset, it behaves exactly as before.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
+
   async rewrites() {
     return [
       // /beta is the short link worth putting on a poster or in a message.

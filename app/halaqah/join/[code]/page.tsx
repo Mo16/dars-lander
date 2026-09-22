@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
 import SmartLink from "./smart-link";
+import { darsOpenGraphImages, darsTwitterImages } from "@/lib/og-image";
 
 // Halaqah-accent palette mirror of the in-app halaqahAccents map. The
 // preview RPC returns the stored hex (the saturated `color` field) so we
@@ -83,8 +84,25 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: { title, description, type: "website" },
-    twitter: { card: "summary", title, description },
+    // Declaring `openGraph` here replaces the root block wholesale, so the
+    // shared card has to be spread back in or the unfurl arrives imageless.
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      siteName: "Dars",
+      locale: "en_GB",
+      url: `/halaqah/join/${code}`,
+      images: darsOpenGraphImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: darsTwitterImages,
+      creator: "@dars_app",
+      site: "@dars_app",
+    },
   };
 }
 

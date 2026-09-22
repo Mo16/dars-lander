@@ -1,0 +1,569 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import Register from "./register";
+import Levels from "./levels";
+
+const pageTitle = "Dars for institutes";
+const pageDescription =
+  "Bring a whole madrasah into Dars. One register for every class, teacher and student: who revised, who did not, and who needs a word before the exam. Institute places are opening now.";
+const pageUrl = "/institutes";
+
+export const metadata: Metadata = {
+  title: { absolute: "Dars for institutes: one register for the whole madrasah" },
+  description: pageDescription,
+  keywords: [
+    "madrasah management",
+    "Darul Uloom software",
+    "Alimiyyah institute",
+    "Islamic school platform",
+    "class management",
+    "madrasah register",
+    "student progress tracking",
+    "Dars for institutes",
+    "Moodle alternative madrasah",
+  ],
+  alternates: { canonical: pageUrl },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    siteName: "Dars",
+    url: pageUrl,
+    title: pageTitle,
+    description: pageDescription,
+    images: [{ url: "/assets/img/logo.png", width: 500, height: 500, alt: "Dars" }],
+  },
+  twitter: {
+    card: "summary",
+    title: pageTitle,
+    description: pageDescription,
+    creator: "@dars_app",
+  },
+  category: "education",
+};
+
+const APPLY =
+  "mailto:support@darsapp.com" +
+  "?subject=Institute%20pilot" +
+  "&body=Madrasah%3A%0ATown%20or%20city%3A%0AClasses%3A%0AStudents%3A%0AYour%20role%3A%0A%0AAnything%20else%20we%20should%20know%3A%0A";
+
+export default function InstitutesPage() {
+  return (
+    <main className="min-h-screen overflow-x-clip bg-[#fffcf6] text-ink">
+      <SiteNav />
+
+      {/* ==================================================================
+          THE FOLD
+          The headline owns the full width; the register sits under it and
+          drops through the section seam into the band below, so the page
+          has a foreground and a midground rather than a stack of bands.
+          Nothing is cropped: the register keeps every column, because the
+          week figure on the right is the whole point of the sheet.
+          ================================================================== */}
+      <section className="relative z-10 px-5 pt-32 sm:px-8 sm:pt-36 lg:pt-40">
+        <div className="mx-auto max-w-7xl">
+          <h1 className="max-w-[17ch] font-display text-[42px] leading-[1.02] tracking-tight text-ink sm:text-[62px] lg:text-[76px]">
+            The madrasah register,{" "}
+            <em className="font-normal italic text-coral-500">made live.</em>
+          </h1>
+
+          <div className="mt-8 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,310px)_minmax(0,1fr)] lg:gap-14">
+            {/* left: what it is, and the one thing to do */}
+            <div className="lg:pt-6">
+              <p className="max-w-[44ch] text-[16.5px] leading-relaxed text-ink-soft sm:text-[18px]">
+                Every class, every teacher and every student under one roof.
+                You see who revised this week, who quietly stopped, and who
+                needs a word before the exam rather than after it.
+              </p>
+
+              <a
+                href={APPLY}
+                className="mt-7 inline-flex items-center gap-2.5 rounded-full bg-ink px-6 py-3.5 text-[15px] font-medium text-cream-100 shadow-[0_4px_24px_-8px_rgba(26,24,20,0.12),0_2px_8px_rgba(26,24,20,0.04)] transition-colors hover:bg-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-coral-400" />
+                Put your madrasah forward
+              </a>
+
+              <p className="mt-4 max-w-[38ch] text-[13px] leading-relaxed text-ink-muted">
+                Free while institutes are in beta. We check every madrasah by
+                hand before it goes live.
+              </p>
+            </div>
+
+            {/* right: the register, crossing the seam into the next band */}
+            <div
+              id="register"
+              className="relative z-10 -mx-2 scroll-mt-32 sm:mx-0 lg:mb-[-190px]"
+            >
+              <div className="lg:max-w-[760px]">
+                <Register />
+              </div>
+              <p className="mt-4 max-w-[62ch] px-2 text-[13px] leading-relaxed text-ink-muted sm:px-0 lg:mt-5 lg:max-w-[760px]">
+                Each column is one student&apos;s share of that day&apos;s
+                cards. Sunday is blank because nothing was set. This is one
+                class of four; the same sheet stacks up to the whole institute.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================================
+          GETTING SET UP — the code
+          ================================================================== */}
+      <section
+        id="setup"
+        className="relative scroll-mt-28 bg-cream-200 px-5 pb-20 pt-24 sm:px-8 sm:pb-24 lg:pb-24 lg:pt-[280px]"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-20">
+            <div>
+              <h2 className="max-w-[16ch] font-display text-[34px] leading-[1.06] tracking-tight text-ink sm:text-[46px] lg:text-[56px]">
+                It starts with a code on the noticeboard.
+              </h2>
+              <p className="mt-6 max-w-[54ch] text-[16px] leading-relaxed text-ink-soft sm:text-[17.5px]">
+                No spreadsheets to upload, no logins to hand out. Your
+                madrasah gets one code. Anyone who enters it lands in your
+                pending list and sees nothing at all until you approve them.
+              </p>
+              <p className="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-ink-soft sm:text-[17.5px]">
+                Rotate the code whenever you like and the old one stops
+                working that second. Issue a short-lived one for enrolment
+                week and let it expire on its own.
+              </p>
+
+              <dl className="mt-10 max-w-[52ch] divide-y divide-border-strong/50 border-t border-border-strong/50">
+                {[
+                  {
+                    t: "Teachers come in the same way",
+                    d: "They enter the code, you approve them, and they can open a class inside your madrasah. Teachers outside an institute are not verified, and we say so.",
+                  },
+                  {
+                    t: "One account, however many hats",
+                    d: "A teacher in your madrasah who also studies at another keeps one login. The menu switches between them; the data never mixes.",
+                  },
+                  {
+                    t: "A class can stand on its own",
+                    d: "An ustadh running a halaqah at home does not need an institute. Same classes, same sets, no madrasah above them.",
+                  },
+                ].map((r) => (
+                  <div key={r.t} className="py-5">
+                    <dt className="text-[15.5px] font-semibold text-ink">
+                      {r.t}
+                    </dt>
+                    <dd className="mt-1.5 text-[14.5px] leading-relaxed text-ink-muted">
+                      {r.d}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <CodeSlip />
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================================
+          THREE LEVELS
+          ================================================================== */}
+      <section
+        id="levels"
+        className="scroll-mt-28 px-5 py-20 sm:px-8 sm:py-24 lg:py-28"
+      >
+        <div className="mx-auto max-w-7xl">
+          <h2 className="max-w-[20ch] font-display text-[34px] leading-[1.06] tracking-tight text-ink sm:text-[46px] lg:text-[56px]">
+            The same week, read from three heights.
+          </h2>
+          <p className="mt-6 max-w-[60ch] text-[16px] leading-relaxed text-ink-soft sm:text-[17.5px]">
+            A trustee wants the shape of the term. An ustadh wants Thursday.
+            A student wants the twelve cards they keep failing. It is one
+            record underneath, so nobody is reconciling anybody.
+          </p>
+
+          <div className="mt-10 lg:mt-14">
+            <Levels />
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================================
+          WHO SEES WHAT
+          ================================================================== */}
+      <section
+        id="access"
+        className="scroll-mt-28 bg-cream-200 px-5 py-20 sm:px-8 sm:py-24 lg:py-28"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-14">
+            <div>
+              <h2 className="max-w-[14ch] font-display text-[34px] leading-[1.06] tracking-tight text-ink sm:text-[46px] lg:text-[52px]">
+                Who sees what, in full.
+              </h2>
+              <p className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-ink-soft sm:text-[17.5px]">
+                Every column here is a decision a principal will be asked
+                about, so none of it is buried in a settings page.
+              </p>
+              <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted">
+                The last column never changes. A student&apos;s own revision
+                is theirs, whoever is asking.
+              </p>
+            </div>
+
+            <AccessTable />
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================================
+          THE HONEST PART
+          ================================================================== */}
+      <section
+        id="safeguarding"
+        className="scroll-mt-28 px-5 py-20 sm:px-8 sm:py-24 lg:py-28"
+      >
+        <div className="mx-auto max-w-7xl">
+          <h2 className="max-w-[18ch] font-display text-[34px] leading-[1.06] tracking-tight text-ink sm:text-[46px] lg:text-[52px]">
+            The parts a principal asks about first.
+          </h2>
+
+          <div className="mt-10 grid gap-x-16 gap-y-9 sm:grid-cols-2 lg:mt-14">
+            {[
+              {
+                t: "It works when the wifi does not",
+                d: "Sets download when a student opens the class. Revision, quiz attempts and marking all queue on the device and sync when there is signal again. Live games are the one thing that needs a connection, and the app says so rather than failing quietly.",
+              },
+              {
+                t: "Under 16s",
+                d: "A parent can be linked to a child and see their class work, read only. Age rules and gender segregation are institute settings, not something a class can override.",
+              },
+              {
+                t: "Your data leaves when you do",
+                d: "Export every class, set and result to CSV for a governors' meeting or a parents' evening. Remove a student and their institute context is gone the next time they open the app.",
+              },
+              {
+                t: "What is not built yet",
+                d: "Institutes are in private beta and we are onboarding madrasahs one at a time so the first ones get a real say. Live class games, the parent portal and messaging come after the core. We would rather tell you the order than imply it all ships on day one.",
+              },
+            ].map((r) => (
+              <div key={r.t}>
+                <h3 className="font-display text-[20px] leading-snug tracking-tight text-ink sm:text-[22px]">
+                  {r.t}
+                </h3>
+                <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-ink-soft">
+                  {r.d}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================================
+          CLOSE
+          ================================================================== */}
+      <section className="px-5 pb-16 sm:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative overflow-hidden rounded-[28px] bg-ink px-6 py-14 text-cream-100 sm:rounded-[36px] sm:px-12 sm:py-20 lg:px-20">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-24 top-1/2 hidden h-[560px] w-[560px] -translate-y-1/2 md:block"
+            >
+              {[220, 330, 440, 550].map((s) => (
+                <div
+                  key={s}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream-100/[0.09]"
+                  style={{ width: s, height: s }}
+                />
+              ))}
+            </div>
+
+            <div className="relative max-w-[42ch]">
+              <h2 className="font-display text-[34px] leading-[1.04] tracking-tight sm:text-[48px] lg:text-[56px]">
+                Tell us about your madrasah.
+              </h2>
+              <p className="mt-6 text-[16px] leading-relaxed text-cream-100/80 sm:text-[17.5px]">
+                Send the name, the town and roughly how many classes you run.
+                We read every one, check the madrasah, and come back to you
+                with a date.
+              </p>
+
+              <a
+                href={APPLY}
+                className="mt-8 inline-flex items-center gap-2.5 rounded-full bg-cream-100 px-6 py-3.5 text-[15px] font-medium text-ink transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream-100"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-coral-500" />
+                Put your madrasah forward
+              </a>
+
+              <p className="mt-6 text-[14px] leading-relaxed text-cream-100/60">
+                Teaching a halaqah on your own?{" "}
+                <Link
+                  href="/beta-access"
+                  className="underline decoration-cream-100/40 underline-offset-4 transition-colors hover:text-cream-100 hover:decoration-cream-100"
+                >
+                  Apply for a teacher place
+                </Link>{" "}
+                instead. No institute needed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SiteFooter />
+    </main>
+  );
+}
+
+/* ======================================================================== */
+
+function SiteNav() {
+  return (
+    <nav className="pointer-events-none fixed inset-x-0 top-5 z-50 flex justify-center px-4">
+      <div className="pointer-events-auto flex w-full max-w-5xl items-center justify-between gap-4 rounded-full border border-border bg-card/90 py-2.5 pl-4 pr-2.5 shadow-[0_4px_24px_-8px_rgba(26,24,20,0.12),0_2px_8px_rgba(26,24,20,0.04)] backdrop-blur-xl sm:pl-5 sm:pr-3 sm:py-3">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+          <Image
+            src="/assets/img/logo.png"
+            alt="Dars"
+            width={40}
+            height={40}
+            priority
+            className="h-9 w-9 rounded-xl object-cover shadow-soft sm:h-10 sm:w-10"
+          />
+          <span className="font-display text-[19px] leading-none tracking-tight sm:text-[22px]">
+            Dars{" "}
+            <span className="font-sans text-[13px] font-medium text-ink-muted sm:text-[14px]">
+              for institutes
+            </span>
+          </span>
+        </Link>
+
+        <div className="hidden items-center gap-8 text-[15px] font-medium text-ink-soft lg:flex">
+          <a href="#register" className="transition-colors hover:text-ink">
+            The register
+          </a>
+          <a href="#setup" className="transition-colors hover:text-ink">
+            Setting up
+          </a>
+          <a href="#access" className="transition-colors hover:text-ink">
+            Who sees what
+          </a>
+        </div>
+
+        <a
+          href={APPLY}
+          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-[13.5px] font-medium text-cream-100 shadow-soft transition-colors hover:bg-ink-soft sm:px-5 sm:text-[14px]"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-coral-400" />
+          <span className="hidden sm:inline">Put your madrasah forward</span>
+          <span className="sm:hidden">Apply</span>
+        </a>
+      </div>
+    </nav>
+  );
+}
+
+/* ------------------------------------------------------------------------
+   The code slip: a noticeboard tear-off. The perforation and its notches
+   are the one bespoke silhouette on this page, and the three tabs carry a
+   sequence that really is a sequence.
+   ------------------------------------------------------------------------ */
+
+function CodeSlip() {
+  const steps = [
+    { n: "1", t: "Pin it up", d: "Or read it out in assembly." },
+    { n: "2", t: "They enter it", d: "Students and teachers both." },
+    { n: "3", t: "You approve", d: "One tap, or decline it." },
+  ];
+
+  return (
+    <div className="lg:pt-4">
+      <div className="relative rounded-[24px] border border-border bg-card shadow-[0_4px_24px_-8px_rgba(26,24,20,0.12),0_2px_8px_rgba(26,24,20,0.04)]">
+        <div className="px-6 pb-8 pt-8 sm:px-9 sm:pb-10 sm:pt-10">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted">
+            Darul Uloom, Bury
+          </div>
+
+          <div className="mt-5 font-display text-[34px] leading-none tracking-[0.12em] tabular-nums text-ink sm:text-[44px]">
+            DARS
+            <span className="mx-1 text-border-strong sm:mx-1.5">&middot;</span>
+            7K2M
+          </div>
+
+          <p className="mt-6 max-w-[34ch] text-[14.5px] leading-relaxed text-ink-soft">
+            One code for the whole madrasah. Nobody is inside until you say
+            so, and you can change it whenever you want.
+          </p>
+        </div>
+
+        {/* perforation */}
+        <div className="relative border-t border-dashed border-border-strong">
+          {[0, 33.3333, 66.6667, 100].map((left) => (
+            <span
+              key={left}
+              aria-hidden
+              className="absolute top-0 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream-200"
+              style={{ left: `${left}%` }}
+            />
+          ))}
+
+          <div className="grid grid-cols-3">
+            {steps.map((s, i) => (
+              <div
+                key={s.n}
+                className={`px-3 pb-6 pt-6 text-center sm:px-4 sm:pb-7 sm:pt-7 ${
+                  i > 0 ? "border-l border-dashed border-border-strong" : ""
+                }`}
+              >
+                <div className="font-display text-[15px] leading-none tabular-nums text-ink-muted">
+                  {s.n}
+                </div>
+                <div className="mt-2.5 text-[13.5px] font-semibold leading-snug text-ink sm:text-[14.5px]">
+                  {s.t}
+                </div>
+                <div className="mt-1.5 text-[12px] leading-snug text-ink-muted">
+                  {s.d}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------------ */
+
+const ACCESS_ROWS: { role: string; cells: string[]; note?: boolean }[] = [
+  {
+    role: "Institute admin",
+    cells: ["Everything", "Yes", "Yes", "No"],
+  },
+  {
+    role: "Trustee or head",
+    cells: ["Everything", "Read only", "No", "No"],
+  },
+  {
+    role: "Teacher",
+    cells: ["Classes they teach", "If switched on", "No", "No"],
+  },
+  {
+    role: "Student",
+    cells: ["Classes they joined", "No", "No", "Theirs alone"],
+  },
+  {
+    role: "Parent of an under 16",
+    cells: ["Their child's work", "No", "No", "No"],
+  },
+];
+
+function AccessTable() {
+  return (
+    <div className="overflow-hidden rounded-[20px] border border-border bg-card shadow-[0_4px_24px_-8px_rgba(26,24,20,0.12),0_2px_8px_rgba(26,24,20,0.04)] sm:rounded-[26px]">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[620px] border-collapse text-left">
+          <thead>
+            <tr className="border-b border-border">
+              <th
+                scope="col"
+                className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:px-6"
+              >
+                Role
+              </th>
+              {["Class work", "Whole institute", "Approve people", "Personal revision"].map(
+                (h) => (
+                  <th
+                    key={h}
+                    scope="col"
+                    className="px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted sm:px-5"
+                  >
+                    {h}
+                  </th>
+                ),
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {ACCESS_ROWS.map((r) => (
+              <tr key={r.role} className="border-b border-border/60 last:border-b-0">
+                <th
+                  scope="row"
+                  className="px-5 py-4 text-[14.5px] font-semibold text-ink sm:px-6"
+                >
+                  {r.role}
+                </th>
+                {r.cells.map((c, i) => (
+                  <td
+                    key={i}
+                    className={`px-4 py-4 text-[14px] sm:px-5 ${
+                      i === 3
+                        ? "font-medium text-ink"
+                        : c === "No"
+                          ? "text-ink-muted"
+                          : "text-ink-soft"
+                    }`}
+                  >
+                    {c}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="border-t border-border bg-cream-50 px-5 py-4 text-[13px] leading-relaxed text-ink-muted sm:px-6">
+        A madrasah chooses between whole school and class by class when it
+        signs up, and can change its mind later. Sets are always scoped to a
+        class either way.
+      </p>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------------ */
+
+function SiteFooter() {
+  return (
+    <footer className="px-4 py-10">
+      <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-5 rounded-3xl border border-border bg-card/90 px-6 py-7 text-center shadow-[0_4px_24px_-8px_rgba(26,24,20,0.12),0_2px_8px_rgba(26,24,20,0.04)] backdrop-blur-xl">
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image
+            src="/assets/img/logo.png"
+            alt="Dars"
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-xl object-cover shadow-soft"
+          />
+          <span className="font-display text-[22px] leading-none tracking-tight">
+            Dars
+          </span>
+        </Link>
+
+        <div className="flex flex-wrap justify-center gap-x-9 gap-y-2 text-[15px] font-medium text-ink-soft">
+          <Link href="/" className="transition-colors hover:text-ink">
+            For students
+          </Link>
+          <Link href="/suggest-a-book" className="transition-colors hover:text-ink">
+            Suggest a book
+          </Link>
+          <Link href="/support" className="transition-colors hover:text-ink">
+            Support
+          </Link>
+          <Link href="/privacy" className="transition-colors hover:text-ink">
+            Privacy
+          </Link>
+          <Link href="/terms" className="transition-colors hover:text-ink">
+            Terms
+          </Link>
+        </div>
+
+        <p className="text-[11.5px] text-ink-muted">
+          &copy; {new Date().getFullYear()} Dars. Built for Alimiyyah students
+          and the madrasahs that teach them.
+        </p>
+      </div>
+    </footer>
+  );
+}

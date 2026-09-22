@@ -1,0 +1,233 @@
+"use client";
+
+import { useState } from "react";
+
+/* =========================================================================
+   THE REGISTER — the signature artifact of this page.
+
+   A madrasah already keeps a register: names down the left, days across the
+   top, a mark in every cell. This is that same object, except each mark is
+   now the share of the day's set a student actually revised.
+
+   The mark itself is the app's own ProgressGauge: a column filled from the
+   bottom, never a disc (a circle reads as a checkbox).
+
+   Accessibility / robustness notes:
+   · Every cell is a real <button>, so the read-out works on hover, on tap
+     and on keyboard focus.
+   · The fill height is an inline style, so it is correct before any script
+     or animation runs. The entrance animation only scales that fill on the
+     Y axis - nothing on this panel is hidden waiting for a reveal.
+   ========================================================================= */
+
+const DAY_LETTERS = ["M", "T", "W", "T", "F", "S", "S"];
+const DAY_NAMES = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+/** Cards set for the class on each day. Sunday is a day off. */
+const DUE = [24, 24, 24, 30, 18, 12, 0];
+
+type Row = { name: string; done: number[] };
+
+const ROWS: Row[] = [
+  { name: "Yusuf Ahmed", done: [24, 24, 22, 30, 18, 9, 0] },
+  { name: "Bilal Patel", done: [24, 20, 24, 27, 18, 12, 0] },
+  { name: "Zakariya Hussain", done: [18, 0, 24, 11, 18, 0, 0] },
+  { name: "Ibrahim Mota", done: [24, 24, 24, 30, 16, 12, 0] },
+  { name: "Suhayb Rahman", done: [9, 0, 0, 6, 0, 0, 0] },
+  { name: "Hamza Desai", done: [24, 14, 24, 22, 18, 0, 0] },
+  { name: "Musa Vawda", done: [24, 24, 24, 30, 18, 12, 0] },
+  { name: "Anas Kola", done: [12, 24, 18, 30, 9, 6, 0] },
+];
+
+const TOTAL_DUE = DUE.reduce((a, b) => a + b, 0);
+
+const weekPct = (row: Row) =>
+  Math.round((row.done.reduce((a, b) => a + b, 0) / TOTAL_DUE) * 100);
+
+/** Shared column track, so the head row and every body row stay in step. */
+const GRID =
+  "grid-cols-[minmax(104px,1fr)_repeat(7,minmax(0,24px))_42px] sm:grid-cols-[minmax(150px,1fr)_repeat(7,minmax(0,56px))_70px]";
+
+export default function Register() {
+  const [focus, setFocus] = useState<{ row: number; day: number } | null>(null);
+
+  const readout = focus
+    ? {
+        title: ROWS[focus.row].name,
+        detail: `${DAY_NAMES[focus.day]} · ${ROWS[focus.row].done[focus.day]} of ${DUE[focus.day]} cards`,
+      }
+    : {
+        title: "Week 6",
+        detail: `${TOTAL_DUE} cards set · 8 of 24 students shown`,
+      };
+
+  return (
+    <div className="rounded-[20px] sm:rounded-[26px] border border-[#E8EAED] bg-white shadow-[0_1px_2px_rgba(60,64,67,0.10),0_4px_12px_-4px_rgba(60,64,67,0.14)] overflow-hidden">
+      {/* --- Panel head: class on the left, live read-out on the right --- */}
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-[#E8EAED] px-3 py-4 sm:px-7 sm:py-6">
+        <div>
+          <div className="font-sans font-bold text-[19px] sm:text-[24px] leading-none tracking-tight text-[#1C1B19]">
+            Year 3B
+          </div>
+          <div className="mt-1.5 text-[13px] sm:text-[14px] text-[#6F6B61]">
+            Mishkat al-Masabih · Ustadh Adam
+          </div>
+        </div>
+
+        <div className="min-w-[164px] text-left sm:text-right">
+          <div className="text-[13px] sm:text-[14px] font-semibold text-[#1C1B19] tabular-nums">
+            {readout.title}
+          </div>
+          <div className="mt-1 text-[12px] sm:text-[13px] text-[#6F6B61] tabular-nums">
+            {readout.detail}
+          </div>
+        </div>
+      </div>
+
+      {/* --- The grid --- */}
+      <div className="px-3 pb-3 pt-4 sm:px-7 sm:pb-5 sm:pt-6">
+        {/* Day letters */}
+        <div className={`grid ${GRID} items-center gap-x-[3px] sm:gap-x-2`}>
+          <div className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6F6B61]">
+            Student
+          </div>
+          {DAY_LETTERS.map((d, i) => (
+            <div
+              key={i}
+              className={`text-center text-[11px] sm:text-[12px] font-semibold tabular-nums ${
+                DUE[i] === 0 ? "text-[#9AA0A6]" : "text-[#5B584F]"
+              }`}
+            >
+              {d}
+            </div>
+          ))}
+          <div className="text-right text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6F6B61]">
+            Week
+          </div>
+        </div>
+
+        <div className="mt-2 h-px bg-[#E8EAED]" />
+
+        {/* Rows */}
+        <div className="mt-1">
+          {ROWS.map((row, r) => {
+            const pct = weekPct(row);
+            return (
+              <div
+                key={row.name}
+                className={`grid ${GRID} items-center gap-x-[3px] border-b border-[#F1F3F4] py-1.5 last:border-b-0 sm:gap-x-2 sm:py-2`}
+              >
+                <div className="truncate pr-1.5 text-[12px] text-[#5B584F] sm:pr-2 sm:text-[14.5px]">
+                  {row.name}
+                </div>
+
+                {row.done.map((done, d) => {
+                  const due = DUE[d];
+
+                  if (due === 0) {
+                    return (
+                      <div
+                        key={d}
+                        aria-hidden
+                        className="flex h-[38px] items-center justify-center sm:h-[34px]"
+                      >
+                        <span className="h-px w-2.5 rounded-full bg-[#DADCE0]" />
+                      </div>
+                    );
+                  }
+
+                  const share = Math.min(1, done / due);
+                  const isActive = focus?.row === r && focus?.day === d;
+
+                  return (
+                    <button
+                      key={d}
+                      type="button"
+                      onMouseEnter={() => setFocus({ row: r, day: d })}
+                      onMouseLeave={() => setFocus(null)}
+                      onFocus={() => setFocus({ row: r, day: d })}
+                      onBlur={() => setFocus(null)}
+                      onClick={() => setFocus({ row: r, day: d })}
+                      aria-label={`${row.name}, ${DAY_NAMES[d]}: ${done} of ${due} cards`}
+                      className="group mx-auto flex h-[38px] w-full items-end justify-center rounded-[5px] outline-none sm:h-[34px]"
+                    >
+                      <span
+                        className={`relative flex h-full w-[10px] items-end overflow-hidden rounded-[4px] border transition-colors sm:w-[13px] ${
+                          isActive
+                            ? "border-[#5B584F] bg-[#F1F3F4]"
+                            : "border-[#DADCE0] bg-[#F8F9FA]"
+                        } group-focus-visible:border-[#202124] group-focus-visible:ring-2 group-focus-visible:ring-[#D0451F]/25`}
+                      >
+                        <span
+                          className="animate-register-fill block w-full rounded-[3px]"
+                          style={{
+                            height: `${Math.round(share * 100)}%`,
+                            animationDelay: `${d * 55 + r * 22}ms`,
+                            background:
+                              share >= 0.85
+                                ? "#1E8E3E"
+                                : share >= 0.5
+                                  ? "#A8DAB5"
+                                  : "#F9AB00",
+                          }}
+                        />
+                      </span>
+                    </button>
+                  );
+                })}
+
+                <div
+                  className={`text-right text-[12px] font-semibold tabular-nums sm:text-[14px] ${
+                    pct < 45 ? "text-[#C5221F]" : "text-[#1C1B19]"
+                  }`}
+                >
+                  {pct}%
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* --- Legend --- */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[#E8EAED] bg-[#F8F9FA] px-3 py-3 text-[11.5px] text-[#6F6B61] sm:gap-x-5 sm:px-7 sm:text-[12.5px]">
+        <span className="flex items-center gap-2">
+          <Mark share={1} /> revised the day&apos;s set
+        </span>
+        <span className="flex items-center gap-2">
+          <Mark share={0.55} /> part of it
+        </span>
+        <span className="flex items-center gap-2">
+          <Mark share={0.15} /> barely opened it
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="h-px w-2.5 rounded-full bg-[#DADCE0]" /> nothing
+          set
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function Mark({ share }: { share: number }) {
+  return (
+    <span className="flex h-[17px] w-[9px] items-end overflow-hidden rounded-[3px] border border-[#DADCE0] bg-[#F8F9FA]">
+      <span
+        className="block w-full rounded-[2px]"
+        style={{
+          height: `${share * 100}%`,
+          background:
+            share >= 0.85 ? "#1E8E3E" : share >= 0.5 ? "#A8DAB5" : "#F9AB00",
+        }}
+      />
+    </span>
+  );
+}

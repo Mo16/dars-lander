@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { Figtree, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
+import { darsOpenGraphImages, darsTwitterImages } from "@/lib/og-image";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
@@ -79,21 +80,15 @@ export const metadata: Metadata = {
     siteName,
     title,
     description,
-    images: [
-      {
-        url: "/assets/img/logo.png",
-        width: 500,
-        height: 500,
-        alt: "Dars logo",
-      },
-    ],
+    images: darsOpenGraphImages,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
     description,
-    images: ["/assets/img/logo.png"],
+    images: darsTwitterImages,
     creator: "@dars_app",
+    site: "@dars_app",
   },
   robots: {
     index: true,

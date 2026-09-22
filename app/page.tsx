@@ -190,7 +190,7 @@ export default function HomePage() {
             <div className="hidden md:flex gap-9 items-center text-[15px] text-ink-soft font-medium">
               <a href="#about" className="hover:text-ink transition-colors">About</a>
               <a href="#features" className="hover:text-ink transition-colors">Features</a>
-              <a href="#institutes" className="hover:text-ink transition-colors">Institutes</a>
+              <a href="/institutes" className="hover:text-ink transition-colors">Institutes</a>
               <a href="#halaqas" className="hover:text-ink transition-colors">Halaqas</a>
               <a href="/contribute" className="hover:text-ink transition-colors">Contribute</a>
             </div>
@@ -248,7 +248,7 @@ export default function HomePage() {
               {[
                 { href: "#about", label: "About" },
                 { href: "#features", label: "Features" },
-                { href: "#institutes", label: "Institutes" },
+                { href: "/institutes", label: "Institutes" },
                 { href: "#halaqas", label: "Halaqas" },
                 { href: "/contribute", label: "Contribute" },
               ].map((item) => (
@@ -856,6 +856,14 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
             <p className="mt-3 text-[12px] text-ink-muted">
               Free during beta · Email first, then a two-minute application.
             </p>
+            <p className="mt-4 text-[13.5px] text-ink-soft">
+              <a
+                href="/institutes"
+                className="underline decoration-border-strong underline-offset-4 transition-colors hover:text-ink hover:decoration-ink"
+              >
+                See how a whole madrasah runs on Dars
+              </a>
+            </p>
           </div>
         </div>
       </section>
@@ -1086,6 +1094,7 @@ The first revision app built for the Alimiyyah syllabus. No more scattered noteb
           <div className="flex flex-wrap justify-center gap-x-9 gap-y-2 text-[15px] font-medium text-ink-soft">
             <a href="#features" className="hover:text-ink transition-colors">Features</a>
             <a href="#how" className="hover:text-ink transition-colors">How it works</a>
+            <a href="/institutes" className="hover:text-ink transition-colors">For institutes</a>
             <a href="/suggest-a-book" className="hover:text-ink transition-colors">Suggest a book</a>
             <a href="/support" className="hover:text-ink transition-colors">Support</a>
             <a href="/privacy" className="hover:text-ink transition-colors">Privacy</a>
