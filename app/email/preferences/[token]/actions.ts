@@ -46,6 +46,7 @@ export async function savePreferences(
   if (data !== true) return { ok: false, message: "This link has expired." };
 
   revalidatePath(`/email/preferences/${token}`);
+  revalidatePath(`/email/unsubscribe/${token}`);
   return { ok: true, message: "Saved." };
 }
 
@@ -68,6 +69,7 @@ export async function unsubscribeAll(token: string): Promise<SaveResult> {
   if (data !== true) return { ok: false, message: "This link has expired." };
 
   revalidatePath(`/email/preferences/${token}`);
+  revalidatePath(`/email/unsubscribe/${token}`);
   return { ok: true, message: "You've been unsubscribed." };
 }
 
@@ -90,5 +92,6 @@ export async function resubscribe(token: string): Promise<SaveResult> {
   if (data !== true) return { ok: false, message: "This link has expired." };
 
   revalidatePath(`/email/preferences/${token}`);
+  revalidatePath(`/email/unsubscribe/${token}`);
   return { ok: true, message: "You're back on the list." };
 }

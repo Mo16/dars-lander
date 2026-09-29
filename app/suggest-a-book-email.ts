@@ -94,6 +94,9 @@ export type SuggestABookEmailOptions = {
 export function buildSuggestABookEmail(options: SuggestABookEmailOptions = {}) {
   const href = "https://darsapp.com/suggest-a-book";
   const unsubscribeUrl = options.unsubscribeUrl ?? "https://darsapp.com/email/preferences";
+  // Tokenless is the only honest fallback here: with no token there is nobody
+  // to unsubscribe, so the preference page explains that rather than offering
+  // a button that cannot work.
   const preferencesUrl = options.preferencesUrl ?? "https://darsapp.com/email/preferences";
 
   /*

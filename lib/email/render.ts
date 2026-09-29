@@ -928,8 +928,10 @@ export type RenderOptions = {
 // Links that must never be rewritten. Routing an unsubscribe through a click
 // tracker would make the one-click header depend on a second hop, and a
 // "view in browser" link that recorded a click would report engagement that
-// never happened.
-const UNTRACKABLE = /\/(email\/preferences|api\/email\/unsubscribe|email\/view)\b/i;
+// never happened. `email/unsubscribe` covers both the confirm page the footer
+// links to and the `/api/email/unsubscribe` endpoint the List-Unsubscribe
+// header carries, because the second contains the first.
+const UNTRACKABLE = /\/(email\/preferences|email\/unsubscribe|email\/view)\b/i;
 
 /**
  * Rewrite every outbound href in the finished HTML.

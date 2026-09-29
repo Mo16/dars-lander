@@ -152,8 +152,7 @@ export default function InstituteWaitlistForm({
           {saved} is on the list
         </p>
         <p className="mx-auto mt-3 max-w-[48ch] text-[15px] leading-relaxed text-[#5B584F]">
-          We read every one by hand, so it is a person who replies rather than
-          an autoresponder. Expect to hear from us within a week.
+          A person will reply, not an autoresponder.
         </p>
       </div>
     );
@@ -225,7 +224,7 @@ export default function InstituteWaitlistForm({
             <TextAreaField
               id={field("note")}
               name="note"
-              label="Anything else we should know"
+              label="Anything to add"
               placeholder="Which books your students are on, when your term starts, anything that would help us set you up."
             />
           </div>

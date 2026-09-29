@@ -122,7 +122,7 @@ export default function PreferencesForm({
                 });
               })
             }
-            className="mt-3 inline-flex items-center rounded-xl bg-coral-500 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-coral-600 disabled:opacity-60"
+            className="mt-3 inline-flex items-center rounded-xl bg-coral-700 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-coral-800 disabled:opacity-60"
           >
             {pending ? "Just a moment…" : "Resubscribe"}
           </button>
@@ -176,7 +176,7 @@ export default function PreferencesForm({
           type="button"
           disabled={pending}
           onClick={() => run(() => savePreferences(token, prefs))}
-          className="inline-flex items-center rounded-xl bg-coral-500 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-coral-600 disabled:opacity-60"
+          className="inline-flex items-center rounded-xl bg-coral-700 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-coral-800 disabled:opacity-60"
         >
           {pending ? "Saving…" : "Save preferences"}
         </button>

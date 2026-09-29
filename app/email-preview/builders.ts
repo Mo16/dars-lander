@@ -14,6 +14,7 @@ import { buildBetaAcceptedAndroidEmail } from "../beta-accepted-android-email";
 import { buildHotfixEmail } from "../hotfix-email";
 import { buildWeOweYouUpdateEmail } from "../we-owe-you-update-email";
 import { buildSuggestABookEmail } from "../suggest-a-book-email";
+import { buildInstituteFeaturesEmail } from "../institute-features-email";
 
 export const BUILDERS: Record<string, () => string> = {
   waitlist: buildConfirmationEmail,
@@ -26,6 +27,7 @@ export const BUILDERS: Record<string, () => string> = {
   hotfix: buildHotfixEmail,
   update: buildWeOweYouUpdateEmail,
   "suggest-a-book": buildSuggestABookEmail,
+  "institute-features": buildInstituteFeaturesEmail,
 };
 
 // Display names for the picker, keyed the same way.
@@ -40,6 +42,7 @@ export const LABELS: Record<string, string> = {
   hotfix: "Hotfix",
   update: "We owe you an update",
   "suggest-a-book": "Suggest a book",
+  "institute-features": "Institute features ask",
 };
 
 export const PREVIEW_TYPES = Object.keys(BUILDERS);

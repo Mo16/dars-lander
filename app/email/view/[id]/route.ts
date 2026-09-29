@@ -101,7 +101,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 
   if (prefs?.token) {
     context.preferences_url = `https://darsapp.com/email/preferences/${prefs.token}`;
-    context.unsubscribe_url = context.preferences_url;
+    // The footer's two links are two different errands. Pointing both at the
+    // preference centre makes "Unsubscribe" a link that does not unsubscribe.
+    context.unsubscribe_url = `https://darsapp.com/email/unsubscribe/${prefs.token}`;
   }
 
   const rendered = renderEmail(

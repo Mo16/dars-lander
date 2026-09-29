@@ -18,7 +18,8 @@ export const runtime = "nodejs";
 // A GET on the same URL (some clients still probe it) is NOT treated as an
 // unsubscribe — link scanners in corporate mail gateways follow every URL in a
 // message, and honouring GET would silently unsubscribe people who never
-// clicked anything. GET redirects to the preference centre instead.
+// clicked anything. GET redirects to the unsubscribe confirm page instead,
+// where one press finishes the job the reader started.
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -70,6 +71,6 @@ const SITE_ORIGIN = "https://darsapp.com";
 
 export async function GET(req: Request) {
   const token = new URL(req.url).searchParams.get("token") ?? "";
-  const target = UUID.test(token) ? `/email/preferences/${token}` : "/email/preferences";
+  const target = UUID.test(token) ? `/email/unsubscribe/${token}` : "/email/preferences";
   return Response.redirect(`${SITE_ORIGIN}${target}`, 302);
 }
