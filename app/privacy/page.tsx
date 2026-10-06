@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/privacy" },
 };
 
-const lastUpdated = "16 August 2026";
+const lastUpdated = "4 October 2026";
 
 export default function PrivacyPage() {
   return (
@@ -71,6 +71,27 @@ export default function PrivacyPage() {
             are exhaustive — we don&apos;t collect anything else.
           </p>
 
+          <H3>How we collect it</H3>
+          <ul>
+            <li>
+              <strong>From you, directly:</strong> what you type, upload,
+              record or choose in the app: your account details, notes, decks,
+              messages to the AI tutor, photos and PDFs you scan, and lesson
+              audio you record with the microphone.
+            </li>
+            <li>
+              <strong>From the app, automatically:</strong> your study
+              activity as you use Dars, product analytics, crash reports and
+              basic device information, described under{" "}
+              <strong>Device, analytics and diagnostics</strong> below.
+            </li>
+            <li>
+              <strong>From other companies, when you use them:</strong> Apple
+              or Google when you sign in with them, and RevenueCat when you
+              subscribe.
+            </li>
+          </ul>
+
           <H3>Account and profile</H3>
           <ul>
             <li>
@@ -122,7 +143,8 @@ export default function PrivacyPage() {
             The AI deck builder lets you photograph a page of your notes, pick
             an image from your photo library, or attach a PDF, and turns it
             into flashcards. The file is uploaded to our private storage,
-            processed as described under <strong>AI features</strong> below,
+            processed as described under{" "}
+            <strong>AI features and third-party AI providers</strong> below,
             and kept against your deck until you delete it or your account. We
             only ever read the specific file you pick — we do not scan or index
             your photo library. A profile photo you upload is stored separately
@@ -154,27 +176,76 @@ export default function PrivacyPage() {
             </li>
           </ul>
           <p>
-            Audio is sent to our transcription and AI providers (listed under{" "}
-            <strong>Who we share it with</strong>) purely to produce the
-            transcript and summary. You are responsible for having permission
+            Audio is sent to our transcription and AI providers, only once you
+            have allowed it, purely to produce the transcript and summary (see{" "}
+            <strong>AI features and third-party AI providers</strong> below). You are responsible for having permission
             to record your class — please ask your teacher first.
           </p>
 
-          <H3>AI features</H3>
+          <H3 id="ai">AI features and third-party AI providers</H3>
           <p>
-            Dars uses AI in three places: the AI tutor, the
-            AI deck builder, and lesson transcription and summarising. In each
-            case your input — your message, your uploaded photo or PDF, or your
-            lesson audio and transcript — is sent to the AI provider handling
-            that feature, along with a small amount of relevant curriculum
-            context, and the result is stored on our servers so it persists
-            across your devices.
+            Dars uses AI in three places: lesson transcription and
+            write-up, the AI tutor, and the AI deck builder. Each one sends
+            your content to a third-party AI provider, named below, so it can
+            return a result to us. We store that result on our servers so it
+            persists across your devices.
           </p>
           <p>
-            Our AI providers are contractually bound to process your content
-            only to return a result to us. They do not use it to train their
-            models. Our current providers, and what each one receives, are
-            listed under <strong>Who we share it with</strong>.
+            <strong>We ask before anything is sent.</strong> The first time
+            you use an AI feature, Dars shows a screen that lists what is
+            sent and to whom, with <em>Allow</em> and <em>Don&apos;t
+            allow</em>. Nothing reaches an AI provider until you tap Allow.
+            If you don&apos;t, the AI features stay off and the rest of Dars
+            works normally. You can turn AI features on or off at any time in
+            Profile → AI features. Turning them off stops anything further
+            being sent; it does not recall what was already processed, which
+            each provider deletes on the schedule below.
+          </p>
+          <p>What each provider receives, and why:</p>
+          <ul>
+            <li>
+              <strong>Soniox:</strong> the audio of a lesson you record,
+              streamed while you record, to produce the live transcript.
+              Soniox does not store real-time audio or transcripts, and does
+              not use customer content to train or improve its models (
+              <a href="https://soniox.com/policies/privacy-policy" target="_blank" rel="noopener">privacy policy</a>,{" "}
+              <a href="https://soniox.com/docs/security-and-privacy" target="_blank" rel="noopener">security and privacy</a>).
+            </li>
+            <li>
+              <strong>Anthropic (Claude):</strong> the transcript of a lesson,
+              to write its title, summary, key points, translation and
+              flashcards; your messages to the AI tutor, with relevant
+              passages from your syllabus, to answer them; and the photos or
+              PDFs you give the AI deck builder, with any instructions you
+              type, to draft cards. Anthropic may not train models on this
+              content and deletes API inputs and outputs within 30 days (
+              <a href="https://www.anthropic.com/legal/data-processing-addendum" target="_blank" rel="noopener">data processing addendum</a>,{" "}
+              <a href="https://www.anthropic.com/legal/commercial-terms" target="_blank" rel="noopener">commercial terms</a>).
+            </li>
+            <li>
+              <strong>OpenAI:</strong> your messages to the AI tutor, turned
+              into search embeddings so the tutor can find the passages in
+              your syllabus they relate to; and lesson audio when OpenAI is the
+              backup transcriber. Data sent to the OpenAI API is not used to
+              train its models, and is kept for at most 30 days for abuse
+              monitoring (
+              <a href="https://openai.com/policies/data-processing-addendum/" target="_blank" rel="noopener">data processing addendum</a>).
+            </li>
+            <li>
+              <strong>Google (Gemini API):</strong> lesson audio when Gemini is
+              the backup transcriber. On the paid Gemini API, Google does not
+              use prompts or responses to improve its products, and keeps them
+              for up to 55 days only to detect misuse (
+              <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API terms</a>,{" "}
+              <a href="https://business.safety.google/processorterms/" target="_blank" rel="noopener">data processing terms</a>).
+            </li>
+          </ul>
+          <p>
+            Dars does not send your name or email address to any of them. Each
+            provider processes your content only to return a result to us,
+            under written terms that give it the same or equal protection to
+            this policy, and international transfers are covered as described
+            under <strong>International transfers</strong>.
           </p>
 
           <H3>Community features</H3>
@@ -309,6 +380,12 @@ export default function PrivacyPage() {
               <em>Legal basis: our legitimate interest in improving Dars.</em>
             </li>
             <li>
+              <strong>To run the AI features</strong> — send your lesson audio,
+              transcripts, tutor messages and scanned notes to the AI providers
+              named above. <em>Legal basis: your consent, which you can
+              withdraw in Profile → AI features.</em>
+            </li>
+            <li>
               <strong>To send study reminders and notifications</strong> you
               have opted into. <em>Legal basis: your consent.</em>
             </li>
@@ -342,26 +419,10 @@ export default function PrivacyPage() {
               receipt validation.
             </li>
             <li>
-              <strong>Anthropic</strong> — generates AI tutor replies, and
-              reads the photo or PDF you submit to the AI deck builder in order
-              to produce flashcards.
-            </li>
-            <li>
-              <strong>Soniox</strong> — transcribes lesson audio. Your
-              recording is streamed to Soniox as you record, so the live
-              transcript appears word by word, and the completed audio is sent
-              for a final pass.
-            </li>
-            <li>
-              <strong>Google (Gemini API)</strong> — turns a finished lesson
-              transcript into a title, summary, key points and flashcards.
-              Receives the transcript text, not your identity.
-            </li>
-            <li>
-              <strong>OpenAI</strong> — generates the search embeddings that
-              let the AI tutor find relevant passages in your syllabus, and
-              acts as our fallback transcription provider if Soniox is
-              unavailable.
+              <strong>Soniox, Anthropic, OpenAI and Google (Gemini API)</strong>{" "}
+              — our AI providers, and only once you have allowed AI features.
+              What each one receives is listed under{" "}
+              <a href="#ai">AI features and third-party AI providers</a>.
             </li>
             <li>
               <strong>PostHog</strong> — product analytics, hosted in the EU.
@@ -495,9 +556,10 @@ export default function PrivacyPage() {
               there, email us.
             </li>
             <li>
-              <strong>Withdraw consent</strong> — turn off notifications, or
-              revoke the microphone, camera or photo permissions, in your
-              device settings at any time.
+              <strong>Withdraw consent</strong> — turn off AI features in
+              Profile → AI features, turn off notifications, or revoke the
+              microphone, camera or photo permissions in your device settings,
+              at any time.
             </li>
           </ul>
           <p>
@@ -626,9 +688,9 @@ function H2({ children }: { children: React.ReactNode }) {
   );
 }
 
-function H3({ children }: { children: React.ReactNode }) {
+function H3({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <h3 className="font-display text-[17px] sm:text-[18px] font-semibold tracking-tight text-ink mt-7 mb-3">
+    <h3 id={id} className="font-display text-[17px] sm:text-[18px] font-semibold tracking-tight text-ink mt-7 mb-3">
       {children}
     </h3>
   );
